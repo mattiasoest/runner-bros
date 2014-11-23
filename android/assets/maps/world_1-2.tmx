@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="200" height="20" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="runner-bros" tilewidth="32" tileheight="32">
+  <image source="tiles2.png" width="224" height="128"/>
+  <tile id="0">
+   <properties>
+    <property name="blocked" value=""/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="spikes" value=""/>
+   </properties>
+  </tile>
+  <tile id="11">
+   <properties>
+    <property name="blocked" value=""/>
+   </properties>
+  </tile>
+  <tile id="18">
+   <properties>
+    <property name="blocked" value=""/>
+   </properties>
+  </tile>
+  <tile id="23">
+   <properties>
+    <property name="blocked" value=""/>
+   </properties>
+  </tile>
+  <tile id="26">
+   <properties>
+    <property name="spikes" value=""/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Tile Layer 1" width="200" height="20">
+  <data encoding="base64" compression="zlib">
+   eJztmtEOgjAMRUnkEV8kJAT9/+9UIiZzrqNou7XunqSxwWW0o3cbYUPXHkPtAIALhq7NWmkxZ3Ac6OOTeTMAvOkjF+uRPKi2c2QUnDbAPx710T/sGv32XTl9xG1S7TyNKaDxqI+cSfUjYcA/Fp5lfP/a8QDwwoo+wr2SRDyYz4EEFmoHtQysUroeoQHgCdQqADTS+vD2TaDEejZuBp5Yn5OnwJeOFe8S74yRARvcMv8tgY8a1iPWBjRiB61vWVgbeFDa2NPISci3gESNaO3VuXFROUyJa4DHnjZyGlmEfE3Oga85T3LPwuX2ShS/6iM11t/E8U9w8udqg9LIRcCXWt+pfjR0WPosz1F94EzRPtrntTQsPL+Z8sNrsXmpgzUeKodcbty+oQ0etWvdkllCMweP41GL2jVpyVphzfUOV6Uanw==
+  </data>
+ </layer>
+ <objectgroup name="objects" width="200" height="20">
+  <object name="spawnpoint" x="83" y="497" width="21" height="36"/>
+  <object name="goal" x="6289" y="-3" width="80" height="437"/>
+ </objectgroup>
+</map>

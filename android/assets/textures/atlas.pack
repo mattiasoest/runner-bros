@@ -1,0 +1,89 @@
+
+atlas.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+btn_copterCap
+  rotate: false
+  xy: 1, 163
+  size: 90, 79
+  orig: 90, 79
+  offset: 0, 0
+  index: -1
+btn_copterCap_pressed
+  rotate: false
+  xy: 1, 82
+  size: 90, 79
+  orig: 90, 79
+  offset: 0, 0
+  index: -1
+btn_doublejump
+  rotate: false
+  xy: 93, 163
+  size: 90, 79
+  orig: 90, 79
+  offset: 0, 0
+  index: -1
+btn_doublejump_pressed
+  rotate: false
+  xy: 1, 1
+  size: 90, 79
+  orig: 90, 79
+  offset: 0, 0
+  index: -1
+btn_fast
+  rotate: false
+  xy: 93, 82
+  size: 90, 79
+  orig: 90, 79
+  offset: 0, 0
+  index: -1
+btn_fast_pressed
+  rotate: false
+  xy: 185, 163
+  size: 90, 79
+  orig: 90, 79
+  offset: 0, 0
+  index: -1
+btn_jump
+  rotate: false
+  xy: 93, 1
+  size: 90, 79
+  orig: 90, 79
+  offset: 0, 0
+  index: -1
+btn_jump_pressed
+  rotate: false
+  xy: 185, 82
+  size: 90, 79
+  orig: 90, 79
+  offset: 0, 0
+  index: -1
+btn_left
+  rotate: false
+  xy: 277, 163
+  size: 90, 79
+  orig: 90, 79
+  offset: 0, 0
+  index: -1
+btn_left_pressed
+  rotate: false
+  xy: 185, 1
+  size: 90, 79
+  orig: 90, 79
+  offset: 0, 0
+  index: -1
+btn_right
+  rotate: false
+  xy: 277, 82
+  size: 90, 79
+  orig: 90, 79
+  offset: 0, 0
+  index: -1
+btn_right_pressed
+  rotate: false
+  xy: 369, 163
+  size: 90, 79
+  orig: 90, 79
+  offset: 0, 0
+  index: -1
