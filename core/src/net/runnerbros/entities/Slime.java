@@ -3,7 +3,7 @@ package net.runnerbros.entities;
 public class Slime extends MoveableEntity {
 
 	public static enum Type {
-		GREY, RED, BLUE, YELLOW
+		GREY, RED, BLUE, YELLOW, PINK,
 	}
 	
 	private final Type type;

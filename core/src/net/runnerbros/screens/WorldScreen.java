@@ -208,7 +208,7 @@ public class WorldScreen implements Screen {
             String worldIndex = event.getListenerActor().getName();
             System.out.println("Clicked world number: " + worldIndex);
             //TODO: Fix worlds
-            if (Integer.valueOf(worldIndex) > 1) {
+            if (Integer.valueOf(worldIndex) > 2) {
                 if (!Gdx.app.getType().equals(Application.ApplicationType.Desktop)) {
                     if (game.actionResolver.getSignedInGPGS()) {
                         game.actionResolver.getLeaderboardGPGS("CgkIj7LCjKMNEAIQAQ");

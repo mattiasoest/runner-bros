@@ -75,7 +75,7 @@ public class Player extends MoveableEntity {
 	}
 	
 	public void hit(){
-		if(healthPoints <= 0)
+		if (healthPoints <= 0)
 			healthPoints = 0;
 		else
 			this.healthPoints -= 100;

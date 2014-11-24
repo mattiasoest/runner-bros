@@ -13,7 +13,7 @@ public class PlayerAnimation {
     private final float SPEEDRUN_FRAME_DURATION = 0.05f;
     private final float JUMP_FALL_DURATION      = 0.1f;
     private final float HALT_DURATION           = 0.2f;
-    private final float IDLE_FRAME_DURATION     = 0.6f;
+    private final float IDLE_FRAME_DURATION     = 0.7f;
 
     private Animation flyRightAnimation;
     private Animation flyLeftAnimation;

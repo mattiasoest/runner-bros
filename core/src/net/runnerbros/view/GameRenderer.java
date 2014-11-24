@@ -27,6 +27,7 @@ import net.runnerbros.controller.GameController;
 import net.runnerbros.controller.Level;
 import net.runnerbros.entities.Player;
 import net.runnerbros.entities.Slime;
+import net.runnerbros.entities.Snowman;
 import net.runnerbros.entities.Trampoline;
 
 public class GameRenderer {
@@ -50,10 +51,11 @@ public class GameRenderer {
     private boolean isRunningLeft      = false;
 
 
-    private final float SLIME_FRAME_DURATION      = 0.25f;
+    private final float SLIME_FRAME_DURATION      = 0.2f;
     private final float TRAMPOLINE_FRAME_DURATION = 0.09f;
     private final float SMOKE_HALT_DURATION       = 0.12f;
     private final float SMOKE_TURN_DURATION       = 0.1f;
+    private final float SNOWMAN_IDLE_DURATION     = 0.3f;
 
     private TextureAtlas objectAtlas;
     private TextureAtlas atlas;
@@ -80,12 +82,15 @@ public class GameRenderer {
     private Texture        skystaticFog;
     private Texture        skystatic;
     private Texture        coin;
-    private TextureRegion  playerFrame;
 
     private TextureRegion smokeHaltFrame;
     private TextureRegion smokeTurnFrame;
     private TextureRegion smokeJumpLeftFrame;
     private TextureRegion smokeJumpRightFrame;
+    private TextureRegion slimeFrame;
+    private TextureRegion trampFrame;
+    private TextureRegion playerFrame;
+    private TextureRegion snowmanFrame;
 
     private Animation smokeHaltRightAnimation;
     private Animation smokeTurnRightAnimation;
@@ -95,11 +100,11 @@ public class GameRenderer {
     private Animation smokeJumpRightAnimation;
 
 
-    private TextureRegion slimeFrame;
-    private TextureRegion trampFrame;
 
     private Animation slimeBlueRightAnimation;
     private Animation slimeBlueLeftAnimation;
+    private Animation slimePinkLeftAnimation;
+    private Animation slimePinkRightAnimation;
     private Animation slimeGreyLeftAnimation;
     private Animation slimeGreyRightAnimation;
     private Animation slimeRedLeftAnimation;
@@ -107,6 +112,7 @@ public class GameRenderer {
     private Animation slimeYellowLeftAnimation;
     private Animation slimeYellowRightAnimation;
     private Animation trampolineAnimation;
+    private Animation snowmanLeftAnimation;
 
     private TextureRegion buttonLeft;
     private TextureRegion buttonRight;
@@ -115,7 +121,7 @@ public class GameRenderer {
     private TextureRegion buttonToggle;
     private TextureRegion buttonPause;
 
-    private BitmapFont    font;
+    private BitmapFont font;
 
     //Debugging
     private ShapeRenderer sr;
@@ -191,6 +197,7 @@ public class GameRenderer {
         //TODO: Remove layers and just user render() ??
         renderer.render(layers);
         batch.begin();
+        drawSnowmen();
         drawSlimes();
         drawTampolines(delta);
         drawPlayer();
@@ -338,33 +345,37 @@ public class GameRenderer {
         }
     }
 
+    private void drawSnowmen() {
+        for (Snowman man : gc.getSnowmen()) {
+            snowmanFrame = snowmanLeftAnimation.getKeyFrame(man.getStateTime(), true);
+            batch.draw(snowmanFrame, man.getBounds().x, man.getBounds().y - 1f, man.getWidth(), man.getHeight());
+        }
+    }
+
     private void drawSlimes() {
         for (Slime s : gc.getSlimes()) {
             if (s.getType().equals(Slime.Type.BLUE)) {
-                if (s.isAlive()) {
+//                if (s.isAlive()) {
                     slimeFrame = s.isFacingLeft() ? slimeBlueLeftAnimation.getKeyFrame(s.getStateTime(), true) : slimeBlueRightAnimation.getKeyFrame(s.getStateTime(), true);
-                }
-                else { slimeFrame = objectAtlas.findRegion("slime-blue-smashed"); }
+//                }
+//                else { slimeFrame = objectAtlas.findRegion("slime-blue-smashed"); }
             }
-            else if (s.getType().equals(Slime.Type.GREY)) {
-                if (s.isAlive()) {
-                    slimeFrame = s.isFacingLeft() ? slimeGreyLeftAnimation.getKeyFrame(s.getStateTime(), true) : slimeGreyRightAnimation.getKeyFrame(s.getStateTime(), true);
-                }
-                else { slimeFrame = objectAtlas.findRegion("slime-grey-smashed"); }
+            else if (s.getType().equals(Slime.Type.PINK)) {
+//                if (s.isAlive()) {
+                    slimeFrame = s.isFacingLeft() ? slimePinkLeftAnimation.getKeyFrame(s.getStateTime(), true) : slimePinkRightAnimation.getKeyFrame(s.getStateTime(), true);
+//                }
+//                else { slimeFrame = objectAtlas.findRegion("slime-grey-smashed"); }
             }
-            else if (s.getType().equals(Slime.Type.RED)) {
-                if (s.isAlive()) {
-                    slimeFrame = s.isFacingLeft() ? slimeRedLeftAnimation.getKeyFrame(s.getStateTime(), true) : slimeRedRightAnimation.getKeyFrame(s.getStateTime(), true);
-                }
-                else { slimeFrame = objectAtlas.findRegion("slime-red-smashed"); }
+
+            float renderExtaWidth = 4;
+            float renderExtaHeight = 8;
+            float slimeHeight = s.getHeight();
+            if (!s.isAlive()) {
+                slimeHeight = s.getHeight() / 3f;
+
             }
-            else if (s.getType().equals(Slime.Type.YELLOW)) {
-                if (s.isAlive()) {
-                    slimeFrame = s.isFacingLeft() ? slimeYellowLeftAnimation.getKeyFrame(s.getStateTime(), true) : slimeYellowRightAnimation.getKeyFrame(s.getStateTime(), true);
-                }
-                else { slimeFrame = objectAtlas.findRegion("slime-yellow-smashed"); }
-            }
-            batch.draw(slimeFrame, s.getBounds().x, s.getBounds().y, s.getWidth(), s.getHeight());
+
+            batch.draw(slimeFrame, s.getBounds().x - (renderExtaWidth / 2), s.getBounds().y - 2.2f, s.getWidth() + renderExtaWidth, slimeHeight + renderExtaHeight);
         }
     }
 
@@ -542,41 +553,19 @@ public class GameRenderer {
 
 
         //Slime animations
-        //Only 2 frames animations
-        TextureRegion[] slimeBlueLeftFrames = { objectAtlas.findRegion("slime-blue1"), objectAtlas.findRegion("slime-blue2") };
-        TextureRegion[] slimeBlueRightFrames = new TextureRegion[2];
+        //Only 3 frames animations
+        TextureRegion[] slimePinkLeftFrames = { objectAtlas.findRegion("slime_pink1"), objectAtlas.findRegion("slime_pink2"), objectAtlas.findRegion("slime_pink3") };
+        TextureRegion[] slimePinkRightFrames = new TextureRegion[3];
 
-        TextureRegion[] slimeGreyLeftFrames = { objectAtlas.findRegion("slime-grey1"), objectAtlas.findRegion("slime-grey2") };
-        TextureRegion[] slimeGreyRightFrames = new TextureRegion[2];
+        slimePinkLeftAnimation = new Animation(SLIME_FRAME_DURATION, slimePinkLeftFrames);
+        slimePinkLeftAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+        for (int i = 0; i < 3; i++) {
+            slimePinkRightFrames[i] = new TextureRegion(slimePinkLeftFrames[i]);
+            slimePinkRightFrames[i].flip(true, false);
 
-        TextureRegion[] slimeRedLeftFrames = { objectAtlas.findRegion("slime-red1"), objectAtlas.findRegion("slime-red2") };
-        TextureRegion[] slimeRedRightFrames = new TextureRegion[2];
-
-        TextureRegion[] slimeYellowLeftFrames = { objectAtlas.findRegion("slime-yellow1"), objectAtlas.findRegion("slime-yellow2") };
-        TextureRegion[] slimeYellowRightFrames = new TextureRegion[2];
-
-        slimeGreyLeftAnimation = new Animation(SLIME_FRAME_DURATION, slimeGreyLeftFrames);
-        slimeBlueLeftAnimation = new Animation(SLIME_FRAME_DURATION, slimeBlueLeftFrames);
-        slimeRedLeftAnimation = new Animation(SLIME_FRAME_DURATION, slimeRedLeftFrames);
-        slimeYellowLeftAnimation = new Animation(SLIME_FRAME_DURATION, slimeYellowLeftFrames);
-        for (int i = 0; i < 2; i++) {
-            slimeBlueRightFrames[i] = new TextureRegion(slimeBlueLeftFrames[i]);
-            slimeBlueRightFrames[i].flip(true, false);
-
-            slimeGreyRightFrames[i] = new TextureRegion(slimeGreyLeftFrames[i]);
-            slimeGreyRightFrames[i].flip(true, false);
-
-            slimeRedRightFrames[i] = new TextureRegion(slimeRedLeftFrames[i]);
-            slimeRedRightFrames[i].flip(true, false);
-
-            slimeYellowRightFrames[i] = new TextureRegion(slimeYellowLeftFrames[i]);
-            slimeYellowRightFrames[i].flip(true, false);
         }
-        slimeGreyRightAnimation = new Animation(SLIME_FRAME_DURATION, slimeGreyRightFrames);
-        slimeBlueRightAnimation = new Animation(SLIME_FRAME_DURATION, slimeBlueRightFrames);
-        slimeRedRightAnimation = new Animation(SLIME_FRAME_DURATION, slimeRedRightFrames);
-        slimeYellowRightAnimation = new Animation(SLIME_FRAME_DURATION, slimeYellowRightFrames);
-
+        slimePinkRightAnimation = new Animation(SLIME_FRAME_DURATION, slimePinkRightFrames);
+        slimePinkRightAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 
         //Trampoline animations 3 frames
         TextureRegion[] trampolineFrames = { objectAtlas.findRegion("trampoline1"), objectAtlas.findRegion("trampoline2"),
@@ -584,6 +573,14 @@ public class GameRenderer {
         };
         trampolineAnimation = new Animation(TRAMPOLINE_FRAME_DURATION, trampolineFrames);
 
+
+        //SNOWMAN
+        TextureRegion[] snowmanLeftFrames = new TextureRegion[3];
+        for (int i = 0; i < snowmanLeftFrames.length; i++) {
+            snowmanLeftFrames[i] = objectAtlas.findRegion("snowman-" + (i + 1));
+        }
+        snowmanLeftAnimation = new Animation(SNOWMAN_IDLE_DURATION, snowmanLeftFrames);
+        snowmanLeftAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 
         //SMOKE
         TextureRegion[] smokeRightFrames = new TextureRegion[5];

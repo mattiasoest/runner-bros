@@ -5,491 +5,407 @@ filter: Nearest,Nearest
 repeat: none
 coptercap1
   rotate: false
-  xy: 1, 186
+  xy: 1, 183
   size: 64, 80
   orig: 64, 80
   offset: 0, 0
   index: -1
 coptercap2
   rotate: false
-  xy: 1, 104
+  xy: 1, 101
   size: 64, 80
   orig: 64, 80
   offset: 0, 0
   index: -1
 lenny_coptercap1
   rotate: false
-  xy: 67, 186
+  xy: 67, 183
   size: 64, 80
   orig: 64, 80
   offset: 0, 0
   index: -1
 lenny_coptercap2
   rotate: false
-  xy: 1, 22
+  xy: 1, 19
   size: 64, 80
   orig: 64, 80
   offset: 0, 0
   index: -1
 falling1
   rotate: false
-  xy: 67, 120
+  xy: 67, 117
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 falling2
   rotate: false
-  xy: 133, 202
+  xy: 133, 199
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 falling3
   rotate: false
-  xy: 67, 54
+  xy: 67, 51
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 falling4
   rotate: false
-  xy: 133, 136
+  xy: 133, 133
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 halt1
   rotate: false
-  xy: 199, 202
+  xy: 199, 199
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 halt2
   rotate: false
-  xy: 133, 70
+  xy: 133, 67
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 halt3
   rotate: false
-  xy: 199, 136
+  xy: 199, 133
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 idle_breath_blink1
   rotate: false
-  xy: 265, 202
+  xy: 265, 199
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 idle_breath_blink2
   rotate: false
-  xy: 199, 70
+  xy: 199, 67
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 idle_breath_blink3
   rotate: false
-  xy: 265, 136
+  xy: 265, 133
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 jumping1
   rotate: false
-  xy: 331, 202
+  xy: 331, 199
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 jumping2
   rotate: false
-  xy: 265, 70
+  xy: 265, 67
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 lenny_falling1
   rotate: false
-  xy: 331, 136
+  xy: 331, 133
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 lenny_falling2
   rotate: false
-  xy: 397, 202
+  xy: 397, 199
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 lenny_falling3
   rotate: false
-  xy: 331, 70
+  xy: 331, 67
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 lenny_falling4
   rotate: false
-  xy: 397, 136
+  xy: 397, 133
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 lenny_halt1
   rotate: false
-  xy: 463, 202
+  xy: 463, 199
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 lenny_halt2
   rotate: false
-  xy: 397, 70
+  xy: 397, 67
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 lenny_halt3
   rotate: false
-  xy: 463, 136
+  xy: 463, 133
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 lenny_idle_breath_blink1
   rotate: false
-  xy: 529, 202
+  xy: 529, 199
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 lenny_idle_breath_blink2
   rotate: false
-  xy: 463, 70
+  xy: 463, 67
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 lenny_idle_breath_blink3
   rotate: false
-  xy: 529, 136
+  xy: 529, 133
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 lenny_jumping1
   rotate: false
-  xy: 595, 202
+  xy: 595, 199
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 lenny_jumping2
   rotate: false
-  xy: 529, 70
+  xy: 529, 67
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 lenny_shoes1
   rotate: false
-  xy: 595, 136
+  xy: 595, 133
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 lenny_shoes2
   rotate: false
-  xy: 661, 202
+  xy: 661, 199
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 lenny_shoes3
   rotate: false
-  xy: 595, 70
+  xy: 595, 67
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 lenny_shoes4
   rotate: false
-  xy: 661, 136
+  xy: 661, 133
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 lenny_shoes5
   rotate: false
-  xy: 727, 202
+  xy: 727, 199
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 lenny_shoes6
   rotate: false
-  xy: 661, 70
+  xy: 661, 67
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 lenny_shoes7
   rotate: false
-  xy: 727, 136
+  xy: 727, 133
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 lenny_shoes8
   rotate: false
-  xy: 793, 202
+  xy: 793, 199
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 shoes1
   rotate: false
-  xy: 727, 70
+  xy: 727, 67
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 shoes2
   rotate: false
-  xy: 793, 136
+  xy: 793, 133
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 shoes3
   rotate: false
-  xy: 793, 70
+  xy: 793, 67
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-snowman
+snowman-1
   rotate: false
-  xy: 859, 202
+  xy: 859, 199
   size: 32, 64
   orig: 32, 64
   offset: 0, 0
-  index: 1
-snowman
+  index: -1
+snowman-2
   rotate: false
-  xy: 859, 136
+  xy: 859, 133
   size: 32, 64
   orig: 32, 64
   offset: 0, 0
-  index: 2
-snowman
+  index: -1
+snowman-3
   rotate: false
-  xy: 859, 70
+  xy: 859, 67
   size: 32, 64
   orig: 32, 64
   offset: 0, 0
-  index: 3
+  index: -1
 shoes4
   rotate: false
-  xy: 133, 4
+  xy: 133, 1
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 shoes5
   rotate: false
-  xy: 199, 4
+  xy: 199, 1
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 shoes6
   rotate: false
-  xy: 265, 4
+  xy: 265, 1
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 shoes7
   rotate: false
-  xy: 331, 4
+  xy: 331, 1
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 shoes8
   rotate: false
-  xy: 397, 4
+  xy: 397, 1
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 smoke1
   rotate: false
-  xy: 463, 4
+  xy: 463, 1
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 smoke2
   rotate: false
-  xy: 529, 4
+  xy: 529, 1
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 smoke3
   rotate: false
-  xy: 595, 4
+  xy: 595, 1
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 smoke4
   rotate: false
-  xy: 661, 4
+  xy: 661, 1
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 smoke5
   rotate: false
-  xy: 727, 4
+  xy: 727, 1
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 slime_pink1
   rotate: false
-  xy: 793, 36
+  xy: 793, 33
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 slime_pink2
   rotate: false
-  xy: 827, 36
+  xy: 827, 33
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 slime_pink3
   rotate: false
-  xy: 67, 20
+  xy: 67, 17
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 trampoline3
   rotate: false
-  xy: 793, 18
+  xy: 793, 15
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 trampoline2
   rotate: false
-  xy: 861, 56
+  xy: 861, 53
   size: 16, 12
   orig: 16, 12
   offset: 0, 0
   index: -1
-slime-grey2
-  rotate: false
-  xy: 1, 13
-  size: 17, 7
-  orig: 17, 7
-  offset: 0, 0
-  index: -1
 trampoline1
   rotate: false
-  xy: 101, 44
+  xy: 1, 9
   size: 16, 8
   orig: 16, 8
-  offset: 0, 0
-  index: -1
-slime-blue1
-  rotate: false
-  xy: 793, 8
-  size: 15, 8
-  orig: 15, 8
-  offset: 0, 0
-  index: -1
-slime-blue2
-  rotate: false
-  xy: 811, 27
-  size: 16, 7
-  orig: 16, 7
-  offset: 0, 0
-  index: -1
-slime-grey1
-  rotate: false
-  xy: 861, 46
-  size: 15, 8
-  orig: 15, 8
-  offset: 0, 0
-  index: -1
-slime-red1
-  rotate: false
-  xy: 1, 3
-  size: 15, 8
-  orig: 15, 8
-  offset: 0, 0
-  index: -1
-slime-red2
-  rotate: false
-  xy: 20, 13
-  size: 16, 7
-  orig: 16, 7
-  offset: 0, 0
-  index: -1
-slime-yellow1
-  rotate: false
-  xy: 101, 34
-  size: 15, 8
-  orig: 15, 8
-  offset: 0, 0
-  index: -1
-slime-yellow2
-  rotate: false
-  xy: 811, 18
-  size: 16, 7
-  orig: 16, 7
-  offset: 0, 0
-  index: -1
-slime-blue-smashed
-  rotate: false
-  xy: 810, 12
-  size: 16, 4
-  orig: 16, 4
-  offset: 0, 0
-  index: -1
-slime-grey-smashed
-  rotate: false
-  xy: 829, 30
-  size: 16, 4
-  orig: 16, 4
-  offset: 0, 0
-  index: -1
-slime-red-smashed
-  rotate: false
-  xy: 18, 7
-  size: 16, 4
-  orig: 16, 4
-  offset: 0, 0
-  index: -1
-slime-yellow-smashed
-  rotate: false
-  xy: 18, 1
-  size: 16, 4
-  orig: 16, 4
   offset: 0, 0
   index: -1

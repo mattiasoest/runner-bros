@@ -38,6 +38,7 @@ import net.runnerbros.entities.MoveableEntity;
 import net.runnerbros.entities.Player;
 import net.runnerbros.entities.Player.State;
 import net.runnerbros.entities.Slime;
+import net.runnerbros.entities.Snowman;
 import net.runnerbros.entities.Trampoline;
 
 public class GameController implements InputProcessor {
@@ -51,7 +52,7 @@ public class GameController implements InputProcessor {
     private static final float MAX_FALL_SPEED_ORG    = 12.5f;
     private static final float JUMP_FORCE            = 5f;
     private static final float JUMP_FORCE_CONTINOUS  = 31f;
-    private static final float BOUNCE_FORCE          = 2.5f;
+    private static final float BOUNCE_FORCE          = 5f;
     private static final float DEAD_BOUNCE_FORCE     = 6f;
     private static final float TRAMPOLINE_FORCE      = 14f;
     private static final float ENEMY_COLLISION_FORCE = 18f;
@@ -109,6 +110,7 @@ public class GameController implements InputProcessor {
 
     private Array<Coin>       coins;
     private Array<Slime>      slimes;
+    private Array<Snowman>    snowmen;
     private Array<Trampoline> trampolines;
     private Array<ItemBox>    boxes;
 
@@ -136,6 +138,7 @@ public class GameController implements InputProcessor {
         this.mapScores = Gdx.app.getPreferences("runner_bros_12FG93F5GAJB529");
         this.coins = new Array<Coin>();
         this.slimes = new Array<Slime>();
+        this.snowmen = new Array<Snowman>();
         this.trampolines = new Array<Trampoline>();
         this.boxes = new Array<ItemBox>();
         this.rand = new Random();
@@ -171,8 +174,8 @@ public class GameController implements InputProcessor {
             }
             updateTimer(delta);
             updateKenny(delta);
-
-            //            updateSlimes(delta);
+            updateSnowmen(delta);
+            updateSlimes(delta);
         }
     }
 
@@ -226,6 +229,10 @@ public class GameController implements InputProcessor {
 
     public Array<Slime> getSlimes() {
         return slimes;
+    }
+
+    public Array<Snowman> getSnowmen() {
+        return snowmen;
     }
 
     public Array<Trampoline> getTrampolines() {
@@ -314,11 +321,11 @@ public class GameController implements InputProcessor {
                     coins.add(new Coin(coinPos.x, coinPos.y, 10f, 10f, up));
                     up = !up;
                 }
-//                else if (ob.getName().equals("Slime")) {
-//                    if (ob.getProperties().containsKey("blue")) {
-//                        Rectangle slimePos = ((RectangleMapObject) ob).getRectangle();
-//                        slimes.add(new Slime(slimePos.x, slimePos.y, 14f, 8f, Slime.Type.BLUE));
-//                    }
+                else if (ob.getName().equals("slime")) {
+                    if (ob.getProperties().containsKey("pink")) {
+                        Rectangle slimePos = ((RectangleMapObject) ob).getRectangle();
+                        slimes.add(new Slime(slimePos.x, slimePos.y, 36f, 24f, Slime.Type.PINK));
+                    }
 //                    else if (ob.getProperties().containsKey("grey")) {
 //                        Rectangle slimePos = ((RectangleMapObject) ob).getRectangle();
 //                        slimes.add(new Slime(slimePos.x, slimePos.y, 14f, 8f, Slime.Type.GREY));
@@ -331,7 +338,13 @@ public class GameController implements InputProcessor {
 //                        Rectangle slimePos = ((RectangleMapObject) ob).getRectangle();
 //                        slimes.add(new Slime(slimePos.x, slimePos.y, 14f, 8f, Slime.Type.RED));
 //                    }
-//                }
+                }
+                else if (ob.getName().equals("snowman")) {
+                    Rectangle snowmanPos = ((RectangleMapObject) ob).getRectangle();
+                    snowmen.add(new Snowman(snowmanPos.x, snowmanPos.y, 32f, 64f, true));
+                }
+
+
 //                else if (ob.getName().equals("Trampoline")) {
 //                    Rectangle trampPos = ((RectangleMapObject) ob).getRectangle();
 //                    trampolines.add(new Trampoline(trampPos.x, trampPos.y, 15f, 6f, TRAMPOLINE_FORCE));
@@ -346,8 +359,19 @@ public class GameController implements InputProcessor {
                 //						 Rectangle boxPos = ((RectangleMapObject) ob).getRectangle();
                 //						 boxes.add(new ItemBox(boxPos.x, boxPos.y, 16f, 16f, ItemBox.Type.GREY));
                 //					 }
-                //				 }
+//                				 }
             }
+        }
+    }
+
+    private void updateSnowmen(float delta) {
+        float oldY;
+        for (Snowman man : snowmen) {
+            oldY = man.getBounds().y;
+            man.getVelocity().y -= GRAVITY * delta;
+            man.updateState(delta);
+            man.getBounds().y += man.getVelocity().y;
+            checkCollisionsY(man, oldY);
         }
     }
 
@@ -381,26 +405,27 @@ public class GameController implements InputProcessor {
             if (s.getBounds().y < -50) { slimes.removeValue(s, true); }
 
             if (player.getBounds().overlaps(s.getBounds()) && s.isAlive() && player.isAlive()) {
-                player.hit();
-                hit.play(0.85f);
+//                player.hit();
+//                hit.play(0.85f);
+                killPlayer();
                 //    			player.setImmune(true);
-                if (Math.abs(player.getVelocity().x) < 0.1f) {
-                    player.getVelocity().x = s.getVelocity().x * ENEMY_COLLISION_FORCE;
-                }
-                else {
-                    player.getVelocity().x *= -3f;
-                }
+//                if (Math.abs(player.getVelocity().x) < 0.1f) {
+//                    player.getVelocity().x = s.getVelocity().x * ENEMY_COLLISION_FORCE;
+//                }
+//                else {
+//                    player.getVelocity().x *= -3f;
+//                }
             }
         }
     }
 
-    public void updateTimer(float delta) {
+    private void updateTimer(float delta) {
         if (isTimerOn) {
             timer += delta;
         }
     }
 
-    public void updateKenny(float delta) {
+    private void updateKenny(float delta) {
         float oldX = player.getBounds().x;
         float oldY = player.getBounds().y;
 
@@ -754,7 +779,7 @@ public class GameController implements InputProcessor {
         MAX_FALL_SPEED = MAX_FALL_SPEED_ORG;
         player.setAlive(false);
         player.getAcceleration().x = 0;
-        player.getVelocity().x = 0;
+        player.getVelocity().x *= 0.01;
         player.getVelocity().y = DEAD_BOUNCE_FORCE;
         died.play(0.3f);
     }

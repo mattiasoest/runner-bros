@@ -13,7 +13,7 @@ public class Assets {
     private static BitmapFont rockwellFont = new BitmapFont(Gdx.files.internal("fonts/rockwell.fnt"), false);
 
     //GENERAL
-    public static final String OBJECT_ATLAS = "textures/objectAtlas.atlas";
+    public static final String OBJECT_ATLAS = "textures/objectAtlas.pack";
     public static final String BUTTON_ATLAS = "textures/atlas.pack";
 
     //CITY WORLD

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="200" height="20" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="tiles" tilewidth="32" tileheight="32">
+  <image source="tiles2.png" width="224" height="128"/>
+  <tile id="0">
+   <properties>
+    <property name="blocked" value=""/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="blocked" value=""/>
+   </properties>
+  </tile>
+  <tile id="11">
+   <properties>
+    <property name="blocked" value=""/>
+   </properties>
+  </tile>
+  <tile id="21">
+   <properties>
+    <property name="blocked" value=""/>
+   </properties>
+  </tile>
+  <tile id="22">
+   <properties>
+    <property name="blocked" value=""/>
+   </properties>
+  </tile>
+  <tile id="23">
+   <properties>
+    <property name="blocked" value=""/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="29" name="winter_tiles" tilewidth="32" tileheight="32">
+  <image source="winter_tiles.png" width="128" height="32"/>
+ </tileset>
+ <layer name="blocks" width="200" height="20">
+  <data encoding="base64" compression="zlib">
+   eJzt01ELgjAYheGkq8CrQCfR//+dFXgxxs7H9jnR5fvAgWQYQXvDDUDO/F04+kcAJ0UfgEYfgEYfgEYfgEYfgEYfgEYfgEYfgEYfgEYfgEYfgEYfKDVX7h/s1cfdeLbOcE61bfTcyRR9Vn1MyfOwrtTLeLbOWlvWwW9LGz02Et9H1Ud6Z4fMQrTU03hWZ9b3eSzJWno7z/bS4g6z/AJzLVX7vvo/RmMPsaPvUG8rRR/0cbXVoA/6uMo8fu99AIzvP4s=
+  </data>
+ </layer>
+ <layer name="snow" width="200" height="20">
+  <data encoding="base64" compression="zlib">
+   eJzt1lsOgyAQAEAvQrn/LduPkhCyCLG10TKTEBVxeSpuGwAAAAAAAAAAAAD83uOV8vtYUmqu6wSrOLLeV3pPynfibu7a7iv5dPxWGv/e/voNZ8SLzv9RPSftHM38C+09e2b7Uid/NuUgzqj8qGzdjmJUT5Qf9X+mv22svBOvV/fMeLRm1kIvf2bdjOYtipGCe2nnfttv+yMAXNMTyUsXUQ==
+  </data>
+ </layer>
+ <objectgroup name="objects" width="200" height="20">
+  <object name="spawnpoint" x="106" y="491" width="25" height="37"/>
+  <object name="slime" x="765" y="502" width="43" height="28">
+   <properties>
+    <property name="pink" value=""/>
+   </properties>
+  </object>
+  <object name="slime" x="1224" y="498" width="43" height="28">
+   <properties>
+    <property name="pink" value=""/>
+   </properties>
+  </object>
+  <object name="snowman" x="2141" y="494" width="24" height="42"/>
+  <object name="goal" x="6274" y="-8" width="74" height="754"/>
+  <object name="snowman" x="1773" y="429" width="24" height="42"/>
+  <object name="snowman" x="1773" y="429" width="24" height="42"/>
+  <object name="snowman" x="468" y="420" width="24" height="42"/>
+ </objectgroup>
+</map>
