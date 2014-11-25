@@ -157,10 +157,18 @@ public class GameController implements InputProcessor {
         this.collisionLayer = currentLevel.getCollisionLayer();
         this.TILEWIDTH = currentLevel.getTileWidth();
         this.TILEHEIGHT = currentLevel.getTileHeight();
-        parseMapObjects();
+        clearObjects();
         player.resetPlayer();
+        parseMapObjects();
         player.randomizeBrother();
         player.setPos(spawnPoint.x, spawnPoint.y);
+    }
+
+    private void clearObjects() {
+        // Reset level objects
+        snowmen.clear();
+        trampolines.clear();
+        slimes.clear();
     }
 
     public void update(float delta) {
@@ -779,6 +787,7 @@ public class GameController implements InputProcessor {
         MAX_FALL_SPEED = MAX_FALL_SPEED_ORG;
         player.setAlive(false);
         player.getAcceleration().x = 0;
+        // This just to keep the direction of the player.
         player.getVelocity().x *= 0.01;
         player.getVelocity().y = DEAD_BOUNCE_FORCE;
         died.play(0.3f);

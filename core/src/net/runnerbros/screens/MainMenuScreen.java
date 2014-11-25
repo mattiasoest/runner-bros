@@ -90,10 +90,7 @@ public class MainMenuScreen implements Screen {
         stage.addActor(header);
         stage.addActor(playButton);
         stage.addActor(exitButton);
-
-
     }
-
 
     @Override
     public void render(float delta) {
@@ -118,10 +115,9 @@ public class MainMenuScreen implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
         if (!Gdx.app.getType().equals(Application.ApplicationType.Desktop)) {
-            //TODO: ADD GPGS!!!!!!!!
-//            if (!game.actionResolver.getSignedInGPGS()) {
-//                game.actionResolver.loginGPGS();
-//            }
+            if (!game.actionResolver.getSignedInGPGS()) {
+                game.actionResolver.loginGPGS();
+            }
         }
     }
 
