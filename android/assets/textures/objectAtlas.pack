@@ -367,41 +367,41 @@ snowman-3
   orig: 32, 64
   offset: 0, 0
   index: -1
-benny_happy
+benny_happy1
   rotate: false
   xy: 697, 19
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
-  index: 1
-benny_happy
+  index: -1
+benny_happy2
   rotate: false
   xy: 731, 19
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
-  index: 2
-benny_happy
+  index: -1
+benny_happy3
   rotate: false
   xy: 765, 19
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
-  index: 3
-benny_idle
+  index: -1
+benny_idle1
   rotate: false
   xy: 799, 19
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
-  index: 1
-benny_idle
+  index: -1
+benny_idle2
   rotate: false
   xy: 833, 19
   size: 32, 48
   orig: 32, 48
   offset: 0, 0
-  index: 2
+  index: -1
 slime_pink1
   rotate: false
   xy: 867, 35

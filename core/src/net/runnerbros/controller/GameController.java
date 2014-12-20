@@ -191,9 +191,21 @@ public class GameController implements InputProcessor {
             }
             updateTimer(delta);
             updateKenny(delta);
+            updateBenny(delta);
             updateSnowmen(delta);
             updateSlimes(delta);
         }
+    }
+
+    private void updateBenny(float delta) {
+        float oldY;
+        benny.updateState(delta);
+
+        oldY = benny.getBounds().y;
+        benny.getVelocity().y -= GRAVITY * delta;
+        benny.updateState(delta);
+        benny.getBounds().y += benny.getVelocity().y;
+        checkCollisionsY(benny, oldY);
     }
 
     public void startTimer() {
@@ -242,6 +254,10 @@ public class GameController implements InputProcessor {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public Benny getBenny() {
+        return benny;
     }
 
     public Array<Slime> getSlimes() {
@@ -362,7 +378,7 @@ public class GameController implements InputProcessor {
                     Rectangle snowmanPos = ((RectangleMapObject) ob).getRectangle();
                     snowmen.add(new Snowman(snowmanPos.x, snowmanPos.y, 32f, 64f));
                 }
-                else if (ob.getName().equals("Benny")) {
+                else if (ob.getName().equals("benny")) {
                     final Rectangle bennyPos = ((RectangleMapObject) ob).getRectangle();
                     benny = new Benny(bennyPos.x, bennyPos.y, 32f, 48f, true);
                 }
@@ -566,6 +582,7 @@ public class GameController implements InputProcessor {
 
     private void levelFinishedCheck() {
         if (player.getBounds().overlaps(levelGoal)) {
+            benny.setHappy();
             stopTimer();
             if (mapScores.contains(Base64Coder.encodeString(currentLevel.getKey()))) {
 //            if (mapScores.contains(currentLevel.getKey())) {

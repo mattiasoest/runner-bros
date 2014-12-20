@@ -41,5 +41,6 @@
  <objectgroup name="objects" width="200" height="20">
   <object name="spawnpoint" x="83" y="497" width="21" height="36"/>
   <object name="goal" x="6289" y="-3" width="80" height="437"/>
+  <object name="benny" x="6315" y="341" width="27" height="52"/>
  </objectgroup>
 </map>

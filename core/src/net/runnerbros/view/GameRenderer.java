@@ -25,6 +25,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import net.runnerbros.controller.Assets;
 import net.runnerbros.controller.GameController;
 import net.runnerbros.controller.Level;
+import net.runnerbros.entities.Benny;
 import net.runnerbros.entities.Player;
 import net.runnerbros.entities.Slime;
 import net.runnerbros.entities.Snowman;
@@ -56,6 +57,8 @@ public class GameRenderer {
     private final float SMOKE_HALT_DURATION       = 0.12f;
     private final float SMOKE_TURN_DURATION       = 0.1f;
     private final float SNOWMAN_IDLE_DURATION     = 0.3f;
+    private final float BENNY_IDLE_DURATION       = 1f;
+    private final float BENNY_HAPPY_DURATION       = 0.6f;
 
     private TextureAtlas objectAtlas;
     private TextureAtlas atlas;
@@ -91,6 +94,7 @@ public class GameRenderer {
     private TextureRegion trampFrame;
     private TextureRegion playerFrame;
     private TextureRegion snowmanFrame;
+    private TextureRegion bennyFrame;
 
     private Animation smokeHaltRightAnimation;
     private Animation smokeTurnRightAnimation;
@@ -113,6 +117,8 @@ public class GameRenderer {
     private Animation slimeYellowRightAnimation;
     private Animation trampolineAnimation;
     private Animation snowmanLeftAnimation;
+    private Animation bennyIdleAnimation;
+    private Animation bennyHappyAnimation;
 
     private TextureRegion buttonLeft;
     private TextureRegion buttonRight;
@@ -200,6 +206,7 @@ public class GameRenderer {
         drawSnowmen();
         drawSlimes();
         drawTampolines(delta);
+        drawBenny();
         drawPlayer();
         drawTimer();
         //        drawGameStats();
@@ -209,22 +216,21 @@ public class GameRenderer {
         }
         batch.end();
         if (gc.isGamePaused()) {
+            //DRAW PAUSE MENU
             gc.getPausedStage().act(delta);
             gc.getPausedStage().draw();
-            //DRAW PAUSE MENU
         }
         updateCameraPosition();
     }
 
+
     public Batch getSpriteBatch() {
         return batch;
     }
-
     private void drawTimer() {
         float time = gc.getTimer();
         font.draw(batch, decimalFormat.format(time), camera.position.x - camera.viewportWidth / 2.25f, camera.position.y + camera.viewportHeight * 0.475f);
     }
-
 
     public void dispose() {
         if (currentLevel != null) {
@@ -236,6 +242,7 @@ public class GameRenderer {
         //Assets dispoe this
 //        font.dispose();
     }
+
 
     public void resize(int width, int height) {
         //        float aspectRatio = (float) width / (float) height;
@@ -377,6 +384,24 @@ public class GameRenderer {
 
             batch.draw(slimeFrame, s.getBounds().x - (renderExtaWidth / 2), s.getBounds().y - 2.2f, s.getWidth() + renderExtaWidth, slimeHeight + renderExtaHeight);
         }
+    }
+
+    private void drawBenny() {
+        final Benny benny = gc.getBenny();
+        float groundOffset= -3f;
+
+        if (benny.isHappy()) {
+            bennyFrame = bennyHappyAnimation.getKeyFrame(benny.getStateTime(), true);
+            if (bennyHappyAnimation.getKeyFrameIndex(benny.getStateTime()) != 1) {
+                // Middle index
+                groundOffset = -1f;
+            }
+        }
+        else {
+            bennyFrame = bennyIdleAnimation.getKeyFrame(benny.getStateTime(), true);
+            System.out.println(bennyFrame);
+        }
+        batch.draw(bennyFrame, benny.getBounds().x, benny.getBounds().y + groundOffset, benny.getWidth(), benny.getHeight());
     }
 
     private void drawPlayer() {
@@ -582,6 +607,7 @@ public class GameRenderer {
         snowmanLeftAnimation = new Animation(SNOWMAN_IDLE_DURATION, snowmanLeftFrames);
         snowmanLeftAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 
+
         //SMOKE
         TextureRegion[] smokeRightFrames = new TextureRegion[5];
         for (int i = 0; i < 5; i++) {
@@ -607,6 +633,23 @@ public class GameRenderer {
         smokeJumpLeftAnimation.setPlayMode(Animation.PlayMode.NORMAL);
         smokeHaltLeftAnimation.setPlayMode(Animation.PlayMode.NORMAL);
         smokeTurnLeftAnimation.setPlayMode(Animation.PlayMode.NORMAL);
+
+
+        // BENNY (level finnish brother)
+        TextureRegion[] bennyIdleFrames = new TextureRegion[2];
+        for (int i = 0; i < 2; i++) {
+            bennyIdleFrames[i] = objectAtlas.findRegion("benny_idle" + (i + 1));
+        }
+
+        bennyIdleAnimation = new Animation(BENNY_IDLE_DURATION, bennyIdleFrames);
+        bennyIdleAnimation.setPlayMode(Animation.PlayMode.LOOP);
+
+        TextureRegion[] bennyHappyFrames = new TextureRegion[3];
+        for (int i = 0; i < 3; i++) {
+            bennyHappyFrames[i] = objectAtlas.findRegion("benny_happy" + (i + 1));
+        }
+        bennyHappyAnimation = new Animation(BENNY_IDLE_DURATION, bennyHappyFrames);
+        bennyHappyAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
     }
 
     private void setButtonLeft(boolean pressed) {
