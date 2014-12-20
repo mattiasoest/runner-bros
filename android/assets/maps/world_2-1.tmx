@@ -61,7 +61,6 @@
   <object name="snowman" x="2141" y="494" width="24" height="42"/>
   <object name="goal" x="6274" y="-8" width="74" height="754"/>
   <object name="snowman" x="1773" y="429" width="24" height="42"/>
-  <object name="snowman" x="1773" y="429" width="24" height="42"/>
   <object name="snowman" x="468" y="420" width="24" height="42"/>
  </objectgroup>
 </map>
