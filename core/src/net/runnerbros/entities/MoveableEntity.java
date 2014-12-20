@@ -10,6 +10,7 @@ public abstract class MoveableEntity extends Entity {
     private int     previousTilePositionY;
     private boolean isAlive;
     private float   mass;
+    private Vector2 startPosition;
 
     public MoveableEntity(float x, float y, float width, float height, boolean facingLeft) {
         this(x, y, width, height, facingLeft, 1);
@@ -21,6 +22,7 @@ public abstract class MoveableEntity extends Entity {
         this.setVelocity(new Vector2(0, 0));
         this.setAlive(true);
         this.mass = mass;
+        this.startPosition = new Vector2(x,y);
     }
 	
 	public boolean isFacingLeft() {
@@ -47,6 +49,10 @@ public abstract class MoveableEntity extends Entity {
 	public void setAlive(boolean isAlive) {
 		this.isAlive = isAlive;
 	}
+
+    public Vector2 getStartPosition() {
+        return startPosition;
+    }
 
     public float getMass() {
         return mass;

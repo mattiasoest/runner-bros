@@ -2,6 +2,8 @@ package net.runnerbros.entities;
 
 public class Slime extends MoveableEntity {
 
+
+
 	public static enum Type {
 		GREY, RED, BLUE, YELLOW, PINK,
 	}
@@ -15,5 +17,9 @@ public class Slime extends MoveableEntity {
 	
 	public Type getType(){
 		return type;
+	}
+
+	public Slime copy() {
+		return new Slime(getBounds().x, getBounds().y, width, height, type);
 	}
 }

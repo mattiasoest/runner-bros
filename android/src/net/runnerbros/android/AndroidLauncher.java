@@ -22,7 +22,7 @@ import net.runnerbros.controller.ActionResolver;
 
 public class AndroidLauncher extends AndroidApplication implements GameHelper.GameHelperListener, ActionResolver {
 
-	GameHelper gameHelper;
+	public GameHelper gameHelper;
 
 	@Override
 	public void onStart() {

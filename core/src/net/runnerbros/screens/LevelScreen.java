@@ -214,6 +214,7 @@ public class LevelScreen implements Screen {
 
             //TODO: LEVEL NAME
             game.getGameController().loadLevel(event.getListenerActor().getName(), "FUNNY STUFF");
+            // May remove this.
             game.getGameController().resetCurrentGame();
             game.getRenderer().initRenderer();
             game.setScreen(game.getPlayscreen());

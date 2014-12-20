@@ -5,7 +5,7 @@ package net.runnerbros.entities;
  */
 public class Snowman extends MoveableEntity {
 
-    public Snowman(float x, float y, float width, float height, boolean facingLeft) {
-        super(x, y, width, height, facingLeft);
+    public Snowman(float x, float y, float width, float height) {
+        super(x, y, width, height, true);
     }
 }

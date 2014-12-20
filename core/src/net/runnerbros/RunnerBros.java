@@ -52,11 +52,11 @@ public class RunnerBros extends Game {
 
 		Assets.load();
 
-		while (!Assets.manager.update()) {
-			System.out.println(Assets.manager.getProgress() * 100 + "%");
-		}
+//		while (!Assets.manager.update()) {
+//			System.out.println(Assets.manager.getProgress() * 100 + "%");
+//		}
 
-		//        Assets.manager.finishLoading();
+		Assets.manager.finishLoading();
 		gameController = new GameController(this);
 		renderer = new GameRenderer(gameController);
 		playscreen = new PlayScreen(this);

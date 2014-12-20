@@ -32,6 +32,7 @@ import com.badlogic.gdx.utils.Base64Coder;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import net.runnerbros.RunnerBros;
+import net.runnerbros.entities.Benny;
 import net.runnerbros.entities.Coin;
 import net.runnerbros.entities.ItemBox;
 import net.runnerbros.entities.MoveableEntity;
@@ -110,6 +111,7 @@ public class GameController implements InputProcessor {
 
     private Array<Coin>       coins;
     private Array<Slime>      slimes;
+    private Array<MoveableEntity> enemyStartpositions;
     private Array<Snowman>    snowmen;
     private Array<Trampoline> trampolines;
     private Array<ItemBox>    boxes;
@@ -129,6 +131,7 @@ public class GameController implements InputProcessor {
     private Level     currentLevel;
     private Rectangle levelGoal;
     private Music     cityWorldMusic;
+    private Benny     benny;
 
     public GameController(RunnerBros game) {
 
@@ -140,6 +143,7 @@ public class GameController implements InputProcessor {
         this.slimes = new Array<Slime>();
         this.snowmen = new Array<Snowman>();
         this.trampolines = new Array<Trampoline>();
+        this.enemyStartpositions = new Array<MoveableEntity>();
         this.boxes = new Array<ItemBox>();
         this.rand = new Random();
 
@@ -166,8 +170,13 @@ public class GameController implements InputProcessor {
 
     private void clearObjects() {
         // Reset level objects
+        enemyStartpositions.clear();
         snowmen.clear();
         trampolines.clear();
+        clearEnemies();
+    }
+
+    private void clearEnemies() {
         slimes.clear();
     }
 
@@ -332,7 +341,9 @@ public class GameController implements InputProcessor {
                 else if (ob.getName().equals("slime")) {
                     if (ob.getProperties().containsKey("pink")) {
                         Rectangle slimePos = ((RectangleMapObject) ob).getRectangle();
-                        slimes.add(new Slime(slimePos.x, slimePos.y, 36f, 24f, Slime.Type.PINK));
+                        final Slime slime = new Slime(slimePos.x, slimePos.y, 36f, 24f, Slime.Type.PINK);
+                        slimes.add(slime);
+                        enemyStartpositions.add(slime.copy());
                     }
 //                    else if (ob.getProperties().containsKey("grey")) {
 //                        Rectangle slimePos = ((RectangleMapObject) ob).getRectangle();
@@ -349,7 +360,11 @@ public class GameController implements InputProcessor {
                 }
                 else if (ob.getName().equals("snowman")) {
                     Rectangle snowmanPos = ((RectangleMapObject) ob).getRectangle();
-                    snowmen.add(new Snowman(snowmanPos.x, snowmanPos.y, 32f, 64f, true));
+                    snowmen.add(new Snowman(snowmanPos.x, snowmanPos.y, 32f, 64f));
+                }
+                else if (ob.getName().equals("Benny")) {
+                    final Rectangle bennyPos = ((RectangleMapObject) ob).getRectangle();
+                    benny = new Benny(bennyPos.x, bennyPos.y, 32f, 48f, true);
                 }
 
 
@@ -370,6 +385,12 @@ public class GameController implements InputProcessor {
 //                				 }
             }
         }
+
+        // TODO: Other enemies!
+        // Get the start positions of the enemies.
+//        for (Slime slime : slimes) {
+//            enemyStartpositions.add(new Slime(slime.getBounds().x, slime.getBounds().y, slime.getWidth(), slime.getHeight(), slime.getType()));
+//        }
     }
 
     private void updateSnowmen(float delta) {
@@ -919,11 +940,27 @@ public class GameController implements InputProcessor {
     public void resetCurrentGame() {
         //TODO: Use the same sound for all buttons here??
         //        retrySound.play(0.35f);
+        resetStartPositions();
         resetStatesAndButtons();
         respawnPlayer();
         resetTimer();
         startTimer();
         pauseGame(false);
+    }
+
+    private void resetStartPositions() {
+        clearEnemies();
+        for (MoveableEntity mov :  enemyStartpositions) {
+            if (mov instanceof Slime) {
+                System.out.println("slime start pos added.");
+                slimes.add(((Slime) mov).copy());
+            }
+//            else if (mov instanceof Snowman) {
+//                System.out.println("snoman new addd.");
+//                snowmen.add((Snowman) mov);
+//            }
+            // TODO: Other enemies.
+        }
     }
 
     public void setupPauseMenu(FitViewport view, Batch batch) {
