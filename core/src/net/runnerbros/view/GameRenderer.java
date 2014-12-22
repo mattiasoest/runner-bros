@@ -58,7 +58,7 @@ public class GameRenderer {
     private final float SMOKE_TURN_DURATION       = 0.1f;
     private final float SNOWMAN_IDLE_DURATION     = 0.3f;
     private final float BENNY_IDLE_DURATION       = 1f;
-    private final float BENNY_HAPPY_DURATION       = 0.6f;
+    private final float BENNY_HAPPY_DURATION       = 0.75f;
 
     private TextureAtlas objectAtlas;
     private TextureAtlas atlas;
@@ -399,7 +399,6 @@ public class GameRenderer {
         }
         else {
             bennyFrame = bennyIdleAnimation.getKeyFrame(benny.getStateTime(), true);
-            System.out.println(bennyFrame);
         }
         batch.draw(bennyFrame, benny.getBounds().x, benny.getBounds().y + groundOffset, benny.getWidth(), benny.getHeight());
     }
@@ -648,7 +647,7 @@ public class GameRenderer {
         for (int i = 0; i < 3; i++) {
             bennyHappyFrames[i] = objectAtlas.findRegion("benny_happy" + (i + 1));
         }
-        bennyHappyAnimation = new Animation(BENNY_IDLE_DURATION, bennyHappyFrames);
+        bennyHappyAnimation = new Animation(BENNY_HAPPY_DURATION, bennyHappyFrames);
         bennyHappyAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
     }
 
