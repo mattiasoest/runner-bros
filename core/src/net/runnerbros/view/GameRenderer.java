@@ -362,10 +362,7 @@ public class GameRenderer {
     private void drawSlimes() {
         for (Slime s : gc.getSlimes()) {
             if (s.getType().equals(Slime.Type.BLUE)) {
-//                if (s.isAlive()) {
                     slimeFrame = s.isFacingLeft() ? slimeBlueLeftAnimation.getKeyFrame(s.getStateTime(), true) : slimeBlueRightAnimation.getKeyFrame(s.getStateTime(), true);
-//                }
-//                else { slimeFrame = objectAtlas.findRegion("slime-blue-smashed"); }
             }
             else if (s.getType().equals(Slime.Type.PINK)) {
 //                if (s.isAlive()) {
