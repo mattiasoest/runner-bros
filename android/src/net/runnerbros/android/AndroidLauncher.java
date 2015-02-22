@@ -91,17 +91,21 @@ public class AndroidLauncher extends AndroidApplication implements GameHelper.Ga
 		gameHelper = new GameHelper(this, GameHelper.CLIENT_GAMES);
 		gameHelper.enableDebugLog(true);
 		gameHelper.setup(this);
+
+		if (!gameHelper.isSignedIn()) {
+			System.out.println("TRYING TO LOGIN!!!!!!");
+			loginGPGS();
+		}
 	}
 
 	@Override
 	public void onSignInFailed() {
-
+		System.out.println("Sign in failed.");
 	}
 
 	@Override
 	public void onSignInSucceeded() {
-
-
+		System.out.println("Sign in succeeded.");
 	}
 
 	@Override

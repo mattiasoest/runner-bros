@@ -1,17 +1,18 @@
 package net.runnerbros.screens;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.ScaleToAction;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -47,20 +48,25 @@ public class MainMenuScreen implements Screen {
         this.stage = new Stage(view, game.getSpriteBatch());
 
 
-        Label.LabelStyle lStyle = new Label.LabelStyle(Assets.getRockwellFont(), Color.WHITE);
-        Label header = new Label("Runner Bros", lStyle);
-
-        header.setPosition(GameController.VIRTUAL_WIDTH / 2 - header.getWidth() / 2, GameController.VIRTUAL_HEIGHT * 0.7f);
+//        Label.LabelStyle lStyle = new Label.LabelStyle(Assets.getRockwellFont(), Color.WHITE);
+//        Label header = new Label("Runner Bros", lStyle);
+//
+//        header.setPosition(GameController.VIRTUAL_WIDTH / 2 - header.getWidth() / 2, GameController.VIRTUAL_HEIGHT * 0.7f);
 
         ImageButton.ImageButtonStyle playStyle = new ImageButton.ImageButtonStyle();
         ImageButton.ImageButtonStyle exitStyle = new ImageButton.ImageButtonStyle();
 
-        Skin buttonSkin = new Skin(Assets.manager.get(Assets.BUTTON_ATLAS, TextureAtlas.class));
+        TextureAtlas generalAtlas = Assets.manager.get(Assets.BUTTON_ATLAS, TextureAtlas.class);
 
-        playStyle.up = buttonSkin.getDrawable("btn_right");
-        playStyle.down = buttonSkin.getDrawable("btn_right_pressed");
-        exitStyle.up = buttonSkin.getDrawable("btn_fast");
-        exitStyle.down = buttonSkin.getDrawable("btn_fast_pressed");
+        Skin generalSkin = new Skin(generalAtlas);
+
+        Image titleImage = setupHeader(generalAtlas);
+
+
+        playStyle.up = generalSkin.getDrawable("btn_right");
+        playStyle.down = generalSkin.getDrawable("btn_right_pressed");
+        exitStyle.up = generalSkin.getDrawable("btn_fast");
+        exitStyle.down = generalSkin.getDrawable("btn_fast_pressed");
 
         ImageButton playButton = new ImageButton(playStyle);
         ImageButton exitButton = new ImageButton(exitStyle);
@@ -87,9 +93,29 @@ public class MainMenuScreen implements Screen {
             }
         });
 
-        stage.addActor(header);
+        stage.addActor(titleImage);
         stage.addActor(playButton);
         stage.addActor(exitButton);
+    }
+
+    private Image setupHeader(TextureAtlas generalAtlas) {
+        TextureRegion title = generalAtlas.findRegion("runner-bros-title");
+        Image titleImage = new Image(title);
+        titleImage.setOrigin(titleImage.getWidth() / 2, titleImage.getHeight() / 2f);
+        titleImage.setPosition(GameController.VIRTUAL_WIDTH / 2 - titleImage.getWidth() / 2, GameController.VIRTUAL_HEIGHT * 0.75f);
+
+        ScaleToAction scaleToActionIncrease = new ScaleToAction();
+        scaleToActionIncrease.setDuration(1.1f);
+        scaleToActionIncrease.setScale(1.03f);
+
+
+        ScaleToAction scaleToActionDecrease = new ScaleToAction();
+        scaleToActionDecrease.setDuration(1.1f);
+        scaleToActionDecrease.setScale(0.97f);
+
+//        Actions.forever(Actions.sequence(scaleToActionIncrease, scaleToActionDecrease));
+        titleImage.addAction(Actions.forever(Actions.sequence(scaleToActionIncrease, scaleToActionDecrease)));
+        return titleImage;
     }
 
     @Override
@@ -114,11 +140,11 @@ public class MainMenuScreen implements Screen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
-        if (!Gdx.app.getType().equals(Application.ApplicationType.Desktop)) {
-            if (!game.actionResolver.getSignedInGPGS()) {
-                game.actionResolver.loginGPGS();
-            }
-        }
+//        if (!Gdx.app.getType().equals(Application.ApplicationType.Desktop)) {
+//            if (!game.actionResolver.getSignedInGPGS()) {
+//                game.actionResolver.loginGPGS();
+//            }
+//        }
     }
 
     @Override

@@ -23,6 +23,7 @@ public class Assets {
     public static final String BG_CITY_SUN         = "textures/bg_city_1024_512.png";
     public static final String BG_CITY_GROUND      = "textures/bg_city_ground_1024_512.png";
 
+
     //MUSIC
     public static final String SOUND_COPTER_CAP = "sounds/copter-cap.wav";
     public static final String MUSIC_MENU       = "music/Running_menu.ogg";

@@ -3,86 +3,93 @@ atlas.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+runner-bros-title
+  rotate: false
+  xy: 1, 93
+  size: 458, 68
+  orig: 458, 68
+  offset: 0, 0
+  index: -1
 btn_copterCap
   rotate: false
-  xy: 1, 163
+  xy: 1, 12
   size: 90, 79
   orig: 90, 79
   offset: 0, 0
   index: -1
 btn_copterCap_pressed
   rotate: false
-  xy: 1, 82
+  xy: 93, 12
   size: 90, 79
   orig: 90, 79
   offset: 0, 0
   index: -1
 btn_doublejump
   rotate: false
-  xy: 93, 163
+  xy: 185, 12
   size: 90, 79
   orig: 90, 79
   offset: 0, 0
   index: -1
 btn_doublejump_pressed
   rotate: false
-  xy: 1, 1
+  xy: 277, 12
   size: 90, 79
   orig: 90, 79
   offset: 0, 0
   index: -1
 btn_fast
   rotate: false
-  xy: 93, 82
+  xy: 369, 12
   size: 90, 79
   orig: 90, 79
   offset: 0, 0
   index: -1
 btn_fast_pressed
   rotate: false
-  xy: 185, 163
+  xy: 461, 82
   size: 90, 79
   orig: 90, 79
   offset: 0, 0
   index: -1
 btn_jump
   rotate: false
-  xy: 93, 1
+  xy: 553, 82
   size: 90, 79
   orig: 90, 79
   offset: 0, 0
   index: -1
 btn_jump_pressed
   rotate: false
-  xy: 185, 82
+  xy: 645, 82
   size: 90, 79
   orig: 90, 79
   offset: 0, 0
   index: -1
 btn_left
   rotate: false
-  xy: 277, 163
+  xy: 737, 82
   size: 90, 79
   orig: 90, 79
   offset: 0, 0
   index: -1
 btn_left_pressed
   rotate: false
-  xy: 185, 1
+  xy: 461, 1
   size: 90, 79
   orig: 90, 79
   offset: 0, 0
   index: -1
 btn_right
   rotate: false
-  xy: 277, 82
+  xy: 553, 1
   size: 90, 79
   orig: 90, 79
   offset: 0, 0
   index: -1
 btn_right_pressed
   rotate: false
-  xy: 369, 163
+  xy: 645, 1
   size: 90, 79
   orig: 90, 79
   offset: 0, 0
