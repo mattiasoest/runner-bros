@@ -181,8 +181,8 @@ public class GameRenderer {
         setButtonRight(false);
 
         //TODO: Use other graphics later
-        TextureRegion tempPause = atlas.findRegion("btn_left_pressed");
-        TextureRegion tempPause2 = atlas.findRegion("btn_left");
+        TextureRegion tempPause = atlas.findRegion("btn_pause_pressed");
+        TextureRegion tempPause2 = atlas.findRegion("btn_pause");
 //        tempPause.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 //        tempPause2.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         buttonPausePressedSprite = new Sprite(tempPause);

@@ -63,8 +63,8 @@ public class MainMenuScreen implements Screen {
         Image titleImage = setupHeader(generalAtlas);
 
 
-        playStyle.up = generalSkin.getDrawable("btn_right");
-        playStyle.down = generalSkin.getDrawable("btn_right_pressed");
+        playStyle.up = generalSkin.getDrawable("btn_play_biggreen");
+        playStyle.down = generalSkin.getDrawable("btn_play_biggreen_pressed");
         exitStyle.up = generalSkin.getDrawable("btn_fast");
         exitStyle.down = generalSkin.getDrawable("btn_fast_pressed");
 

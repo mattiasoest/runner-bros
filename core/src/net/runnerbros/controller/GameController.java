@@ -22,6 +22,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -994,6 +995,9 @@ public class GameController implements InputProcessor {
     }
 
     public void setupPauseMenu(FitViewport view, Batch batch) {
+
+        TextureAtlas menuAtlas = Assets.manager.get(Assets.BUTTON_ATLAS, TextureAtlas.class);
+
 //        this.stage = new Stage();
         this.stage = new Stage(view, batch);
         this.pauseTable = new Table();
@@ -1002,24 +1006,25 @@ public class GameController implements InputProcessor {
         Label.LabelStyle lStyle = new Label.LabelStyle(Assets.getRockwellFont(), Color.WHITE);
         Label label = new Label("Paused", lStyle);
 
+        Image pauseHeader = new Image(menuAtlas.findRegion("pause_title2"));
+
         ImageButton.ImageButtonStyle resumeStyle = new ImageButton.ImageButtonStyle();
         ImageButton.ImageButtonStyle retryButtonStyle = new ImageButton.ImageButtonStyle();
         ImageButton.ImageButtonStyle backStyle = new ImageButton.ImageButtonStyle();
 
-        Skin buttonSkin = new Skin(Assets.manager.get(Assets.BUTTON_ATLAS, TextureAtlas.class));
+        Skin buttonSkin = new Skin(menuAtlas);
 
         resumeStyle.up = buttonSkin.getDrawable("btn_right");
         resumeStyle.down = buttonSkin.getDrawable("btn_right_pressed");
-        retryButtonStyle.up = buttonSkin.getDrawable("btn_fast");
-        retryButtonStyle.down = buttonSkin.getDrawable("btn_fast_pressed");
-        backStyle.up = buttonSkin.getDrawable("btn_left");
-        backStyle.down = buttonSkin.getDrawable("btn_left_pressed");
+        retryButtonStyle.up = buttonSkin.getDrawable("btn_replay");
+        retryButtonStyle.down = buttonSkin.getDrawable("btn_replay_pressed");
+        backStyle.up = buttonSkin.getDrawable("btn_menu");
+        backStyle.down = buttonSkin.getDrawable("btn_menu_pressed");
 
         ImageButton resumeButton = new ImageButton(resumeStyle);
         ImageButton retryButton = new ImageButton(retryButtonStyle);
         ImageButton backButton = new ImageButton(backStyle);
 
-//        resumeButton.setPosition(VIRTUAL_WIDTH / 2 + resumeButton.getWidth() / 2, VIRTUAL_HEIGHT / 3);
 
         resumeButton.addListener(new ClickListener() {
             @Override
@@ -1053,7 +1058,7 @@ public class GameController implements InputProcessor {
         miniTable.add(retryButton).padLeft(30).padRight(30);
         miniTable.add(backButton).padLeft(30);
 
-        pauseTable.add(label).padBottom(60).row();
+        pauseTable.add(pauseHeader).padBottom(60).row();
         pauseTable.add(miniTable);
         stage.addActor(pauseTable);
     }
