@@ -2,16 +2,22 @@ package net.runnerbros.entities;
 
 public class Slime extends MoveableEntity {
 
-
+	private final float slimeVelocityMultiplier;
 
 	public static enum Type {
-		GREY, RED, BLUE, YELLOW, PINK,
+//		GREY,
+//		RED,
+		BLUE,
+//		YELLOW,
+		PINK,
+		GREEN
 	}
 	
 	private final Type type;
 	
-	public Slime(float x, float y, float width, float height, Type type) {
+	public Slime(float x, float y, float width, float height, float slimeVelocityMultiplier, Type type) {
 		super(x, y, width, height, false);
+		this.slimeVelocityMultiplier = slimeVelocityMultiplier;
 		this.type =  type;
 	}
 	
@@ -20,6 +26,10 @@ public class Slime extends MoveableEntity {
 	}
 
 	public Slime copy() {
-		return new Slime(getBounds().x, getBounds().y, width, height, type);
+		return new Slime(getBounds().x, getBounds().y, width, height, slimeVelocityMultiplier, type);
+	}
+
+	public float getSlimeVelocityMultiplier() {
+		return slimeVelocityMultiplier;
 	}
 }

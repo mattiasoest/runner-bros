@@ -44,6 +44,10 @@ import net.runnerbros.entities.Trampoline;
 
 public class GameController implements InputProcessor {
 
+    public static final float GREEN_VELOCITY_MULTIPLIER = 4f;
+    public static final float PINK_VELOCITY_MULTIPLIER = 1f;
+
+
     public static final float VIRTUAL_WIDTH  = 800f;
     public static final float VIRTUAL_HEIGHT = 460f;
 
@@ -59,7 +63,7 @@ public class GameController implements InputProcessor {
     private static final float ENEMY_COLLISION_FORCE = 18f;
     private static final float DAMP                  = 0.85f;
     private static final float TURN_DAMP             = 0.79f;
-    private static final float SLIME_MAX_VEL         = 25f;
+    private static final float SLIME_MAX_VEL         = 18f;
     private static final float ACCELERATION          = 7.5f;
     private static final float MAX_ACCELERATION      = 40f;
     private static final float AIR_ACCELERATION      = 24f;
@@ -69,6 +73,8 @@ public class GameController implements InputProcessor {
     private final static float MAX_VEL_SPEEDRUN      = 6.2f;
     private final Preferences mapScores;
     private final RunnerBros  game;
+
+
 
 
     private float timer;
@@ -357,9 +363,16 @@ public class GameController implements InputProcessor {
                 else if (ob.getName().equals("slime")) {
                     if (ob.getProperties().containsKey("pink")) {
                         Rectangle slimePos = ((RectangleMapObject) ob).getRectangle();
-                        final Slime slime = new Slime(slimePos.x, slimePos.y, 36f, 24f, Slime.Type.PINK);
+                        final Slime slime = new Slime(slimePos.x, slimePos.y, 36f, 24f, PINK_VELOCITY_MULTIPLIER, Slime.Type.PINK);
                         slimes.add(slime);
                         enemyStartpositions.add(slime.copy());
+                    }
+                    else if (ob.getProperties().containsKey("green")) {
+                        Rectangle slimePos = ((RectangleMapObject) ob).getRectangle();
+                        final Slime slime = new Slime(slimePos.x, slimePos.y, 36f, 24f, GREEN_VELOCITY_MULTIPLIER, Slime.Type.GREEN);
+                        slimes.add(slime);
+                        enemyStartpositions.add(slime.copy());
+
                     }
 //                    else if (ob.getProperties().containsKey("grey")) {
 //                        Rectangle slimePos = ((RectangleMapObject) ob).getRectangle();
@@ -431,10 +444,10 @@ public class GameController implements InputProcessor {
 
             if (s.isAlive()) {
                 if (s.isFacingLeft()) {
-                    s.getVelocity().x = -SLIME_MAX_VEL * delta;
+                    s.getVelocity().x = -s.getSlimeVelocityMultiplier() * SLIME_MAX_VEL * delta;
                 }
                 else {
-                    s.getVelocity().x = SLIME_MAX_VEL * delta;
+                    s.getVelocity().x = s.getSlimeVelocityMultiplier() * SLIME_MAX_VEL * delta;
                 }
                 s.getBounds().x += s.getVelocity().x;
                 checkCollisionsX(s, oldX);

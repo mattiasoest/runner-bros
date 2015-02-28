@@ -148,7 +148,7 @@ public class LevelScreen implements Screen {
         button.setName(worldKey);
 
         //TODO: Only have 2 levels atm.
-        if (levelIndex < 3) {
+        if (levelIndex < 4) {
             button.addListener(levelClickListener);
         }
         return button;
