@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -43,6 +44,7 @@ public class LevelScreen implements Screen {
 
     private final Sound clickSound;
 
+    private final boolean          debug = false;
     public LevelScreen(final RunnerBros game, final int worldIndex) {
         this.game = game;
         this.worldIndex = worldIndex;
@@ -84,7 +86,9 @@ public class LevelScreen implements Screen {
                     levelTable.add(levelButton).pad(50);
                     levelTable.row();
                     //DEBUG DATA
-                    levelTable.debug();
+                    if (debug) {
+                        levelTable.debug();
+                    }
 
                     levelTable.add(localHighScore);
                     levels.add(levelTable).height(GameController.VIRTUAL_HEIGHT * 0.8f).width(LEVEL_WIDTH);
@@ -114,7 +118,8 @@ public class LevelScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 clickSound.play(0.25f);
                 dispose();
-                game.setScreen(game.getWorldScreen());
+                game.switchScreen(stage, game.getWorldScreen());
+//                game.setScreen(game.getWorldScreen());
             }
         });
 
@@ -181,6 +186,8 @@ public class LevelScreen implements Screen {
 
     @Override
     public void show() {
+        stage.getRoot().getColor().a = 0;
+        stage.getRoot().addAction(Actions.fadeIn(game.FADE_TIME));
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -218,6 +225,7 @@ public class LevelScreen implements Screen {
             game.getGameController().resetCurrentGame();
             game.getRenderer().initRenderer();
             game.setScreen(game.getPlayscreen());
+//            game.switchScreen(stage, game.getPlayscreen());
         }
     };
 }

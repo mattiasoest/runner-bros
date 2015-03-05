@@ -80,7 +80,8 @@ public class MainMenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 click.play(0.25f);
-                game.setScreen(game.getWorldScreen());
+                game.switchScreen(stage, game.getWorldScreen());
+//                game.setScreen(game.getWorldScreen());
             }
         });
 
@@ -139,6 +140,9 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
+
+        stage.getRoot().getColor().a = 0;
+        stage.getRoot().addAction(Actions.fadeIn(game.FADE_TIME));
         Gdx.input.setInputProcessor(stage);
 //        if (!Gdx.app.getType().equals(Application.ApplicationType.Desktop)) {
 //            if (!game.actionResolver.getSignedInGPGS()) {

@@ -299,6 +299,7 @@ public class GameController implements InputProcessor {
 
     public void pauseGame(boolean isPaused) {
         if (isPaused) {
+            stage.getRoot().getColor().a = 1;
             Gdx.input.setInputProcessor(stage);
             Camera cam = stage.getCamera();
             pauseTable.setPosition(cam.position.x - cam.viewportWidth / 2f, cam.position.y - cam.viewportHeight / 2f);
@@ -997,12 +998,13 @@ public class GameController implements InputProcessor {
     public void setupPauseMenu(FitViewport view, Batch batch) {
 
         TextureAtlas menuAtlas = Assets.manager.get(Assets.BUTTON_ATLAS, TextureAtlas.class);
+        Skin buttonSkin = new Skin(menuAtlas);
 
 //        this.stage = new Stage();
         this.stage = new Stage(view, batch);
         this.pauseTable = new Table();
         this.pauseTable.setSize(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
-        stage.stageToScreenCoordinates(getStageLocation(pauseTable));
+//        stage.stageToScreenCoordinates(getStageLocation(pauseTable));
         Label.LabelStyle lStyle = new Label.LabelStyle(Assets.getRockwellFont(), Color.WHITE);
         Label label = new Label("Paused", lStyle);
 
@@ -1012,7 +1014,6 @@ public class GameController implements InputProcessor {
         ImageButton.ImageButtonStyle retryButtonStyle = new ImageButton.ImageButtonStyle();
         ImageButton.ImageButtonStyle backStyle = new ImageButton.ImageButtonStyle();
 
-        Skin buttonSkin = new Skin(menuAtlas);
 
         resumeStyle.up = buttonSkin.getDrawable("btn_right");
         resumeStyle.down = buttonSkin.getDrawable("btn_right_pressed");
@@ -1047,7 +1048,8 @@ public class GameController implements InputProcessor {
             public void clicked(InputEvent event, float x, float y) {
                 resumeSound.play(0.35f);
                 Gdx.input.setInputProcessor(null);
-                game.setScreen(game.getLevelScreen());
+                game.switchScreen(stage, game.getLevelScreen());
+//                game.setScreen(game.getLevelScreen());
             }
         });
 

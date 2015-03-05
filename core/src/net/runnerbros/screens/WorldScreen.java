@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -42,6 +43,8 @@ public class WorldScreen implements Screen {
     private final Sprite           world;
     private final RunnerBros            game;
     private final Sound            clickSound;
+
+    private final boolean          debug = false;
 
     public WorldScreen(final RunnerBros game) {
         this.game = game;
@@ -90,8 +93,11 @@ public class WorldScreen implements Screen {
                     levelTable.add(levelButton).pad(50);
                     levelTable.row();
 //                    levelTable.add(coin).row();
+
                     //DEBUG DATA
-                    levelTable.debug();
+                    if (debug) {
+                        levelTable.debug();
+                    }
 
                     levelTable.add(localHighScore);
                     levels.add(levelTable).height(GameController.VIRTUAL_HEIGHT * 0.8f).width(LEVEL_WIDTH);
@@ -118,7 +124,8 @@ public class WorldScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 clickSound.play(0.25f);
-                game.setScreen(game.getMainMenuScreen());
+//                game.setScreen(game.getMainMenuScreen());
+                game.switchScreen(stage, game.getMainMenuScreen());
             }
         });
 
@@ -178,6 +185,9 @@ public class WorldScreen implements Screen {
 
     @Override
     public void show() {
+        System.out.println("SHOW WORLD");
+        stage.getRoot().getColor().a = 0;
+        stage.getRoot().addAction(Actions.fadeIn(game.FADE_TIME));
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -222,7 +232,8 @@ public class WorldScreen implements Screen {
 
             LevelScreen levelSelect = new LevelScreen(game, Integer.valueOf(worldIndex));
             game.setLevelScreen(levelSelect);
-            game.setScreen(levelSelect);
+            game.switchScreen(stage, levelSelect);
+//            game.setScreen(levelSelect);
         }
     };
 }

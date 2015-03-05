@@ -1,7 +1,11 @@
 package net.runnerbros;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import net.runnerbros.controller.ActionResolver;
 import net.runnerbros.controller.Assets;
@@ -12,8 +16,12 @@ import net.runnerbros.screens.PlayScreen;
 import net.runnerbros.screens.WorldScreen;
 import net.runnerbros.view.GameRenderer;
 
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.run;
+
 public class RunnerBros extends Game {
 
+	public static final float FADE_TIME_FROM = 0.4f;
+	public static final float FADE_TIME = 0.4f;
 
 	//Access the google GPS
 	public ActionResolver actionResolver;
@@ -74,6 +82,20 @@ public class RunnerBros extends Game {
 		Assets.dispose();
 		renderer.dispose();
 		System.exit(0);
+	}
+
+	public void switchScreen(Stage currentStage, final Screen screen) {
+		final RunnerBros bros = this;
+		currentStage.getRoot().getColor().a = 1;
+		SequenceAction sequenceAction = new SequenceAction();
+		sequenceAction.addAction(Actions.fadeOut(FADE_TIME_FROM));
+		sequenceAction.addAction(run(new Runnable() {
+			@Override
+			public void run() {
+				bros.setScreen(screen);
+			}
+		}));
+		currentStage.getRoot().addAction(sequenceAction);
 	}
 
 	public GameRenderer getRenderer() {
