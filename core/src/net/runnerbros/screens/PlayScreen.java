@@ -9,13 +9,9 @@ public class PlayScreen implements Screen {
 
 
 	private final RunnerBros  game;
-//	private final FitViewport view;
-//	private final Stage       stage;
 
 	public PlayScreen(RunnerBros game) {
 		this.game = game;
-//		view = new FitViewport(GameController.VIRTUAL_WIDTH, GameController.VIRTUAL_HEIGHT);
-//		this.stage = new Stage(view, game.getSpriteBatch());
 	}
 
 	@Override
@@ -32,10 +28,6 @@ public class PlayScreen implements Screen {
 
 	@Override
 	public void show() {
-//		stage.getRoot().getColor().a = 0;
-//		stage.getRoot().addAction(Actions.fadeIn(game.FADE_TIME));
-//		stage.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(game.FADE_TIME)));
-        game.getGameController().startTimer();
         Gdx.input.setInputProcessor(game.getGameController());
 	}
 

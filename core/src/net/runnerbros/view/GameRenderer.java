@@ -214,19 +214,30 @@ public class GameRenderer {
         drawSlimes();
         drawTampolines(delta);
         drawBenny();
-        drawPlayer();
         drawTimer();
+
+        switch (gc.getCurrentState()) {
+            case RUNNING:
+                drawSmoke(delta);
+                drawButtons();
+                drawPlayer();
+                batch.end();
+                break;
+            case READY:
+                drawButtons();
+                batch.end();
+                break;
+            case PAUSED:
+                //DRAW PAUSE MENU
+                drawPlayer();
+                batch.end();
+                gc.getPausedStage().act(delta);
+                gc.getPausedStage().draw();
+                break;
+            case FINISHED:
+                break;
+        }
         //        drawGameStats();
-        if (!gc.isGamePaused()) {
-            drawSmoke(delta);
-            drawButtons();
-        }
-        batch.end();
-        if (gc.isGamePaused()) {
-            //DRAW PAUSE MENU
-            gc.getPausedStage().act(delta);
-            gc.getPausedStage().draw();
-        }
         updateCameraPosition();
     }
 

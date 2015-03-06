@@ -77,7 +77,12 @@ public class GameController implements InputProcessor {
     private final RunnerBros  game;
 
 
+    public enum GameState {
+        RUNNING, PAUSED, READY, FINISHED
+    }
 
+
+    private static GameState currentGameState;
 
     private float timer;
     private float tempVel;
@@ -164,6 +169,7 @@ public class GameController implements InputProcessor {
     }
 
     public void loadLevel(final String key, final String name) {
+        currentGameState = GameState.READY;
         this.currentLevel = new Level(key, name);
         System.out.println("Loaded level: " + name);
         this.collisionLayer = currentLevel.getCollisionLayer();
@@ -189,19 +195,30 @@ public class GameController implements InputProcessor {
     }
 
     public void update(float delta) {
-        if (!isGamePaused) {
-            if (player.isAlive()) {
-                processInput();
-            }
-            else {
-                resetStatesAndButtons();
-                player.setState(State.FALLING);
-            }
-            updateTimer(delta);
-            updateKenny(delta);
-            updateBenny(delta);
-            updateSnowmen(delta);
-            updateSlimes(delta);
+
+        switch (currentGameState) {
+            case RUNNING:
+                if (player.isAlive()) {
+                    processInput();
+                }
+                else {
+                    resetStatesAndButtons();
+                    player.setState(State.FALLING);
+                }
+                updateTimer(delta);
+                updateKenny(delta);
+                updateBenny(delta);
+                updateSnowmen(delta);
+                updateSlimes(delta);
+            break;
+            case PAUSED:
+                return;
+            case FINISHED:
+                //TODO Fix!
+                break;
+            case READY:
+                processStartInput();
+                break;
         }
     }
 
@@ -297,22 +314,26 @@ public class GameController implements InputProcessor {
         this.isSmokeJumpTrigged = trigged;
     }
 
+    public GameState getCurrentState() {
+        return currentGameState;
+    }
 
     public void pauseGame(boolean isPaused) {
+        if (currentGameState == GameState.READY) {
+            // Just return if pause is called during the ready state.
+            return;
+        }
         if (isPaused) {
+            currentGameState = GameState.PAUSED;
             stage.addAction(Actions.alpha(1));
             Gdx.input.setInputProcessor(stage);
             Camera cam = stage.getCamera();
             pauseTable.setPosition(cam.position.x - cam.viewportWidth / 2f, cam.position.y - cam.viewportHeight / 2f);
         }
         else {
+            currentGameState = GameState.RUNNING;
             Gdx.input.setInputProcessor(this);
         }
-        this.isGamePaused = isPaused;
-    }
-
-    public boolean isGamePaused() {
-        return isGamePaused;
     }
 
     public Stage getPausedStage() {
@@ -854,7 +875,9 @@ public class GameController implements InputProcessor {
 
     private void processInput() {
 
+
         resetStatesAndButtons();
+
 
         int togglePressed = -1;
 
@@ -958,6 +981,13 @@ public class GameController implements InputProcessor {
         }
     }
 
+    private void processStartInput() {
+        if (currentGameState == GameState.READY && (Gdx.input.isKeyJustPressed(Keys.ENTER) || Gdx.input.isTouched())) {
+            currentGameState = GameState.RUNNING;
+            startTimer();
+        }
+    }
+
     private void setSpeedRunning(boolean isSpeedRunning) {
         if (isSpeedRunning) {
             this.MAX_VEL = MAX_VEL_SPEEDRUN;
@@ -977,8 +1007,9 @@ public class GameController implements InputProcessor {
         resetStatesAndButtons();
         respawnPlayer();
         resetTimer();
-        startTimer();
-        pauseGame(false);
+//        startTimer();
+        currentGameState = GameState.READY;
+//        pauseGame(false);
     }
 
     private void resetStartPositions() {
@@ -1040,6 +1071,7 @@ public class GameController implements InputProcessor {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 resumeSound.play(0.35f);
+                pauseGame(false);
                 resetCurrentGame();
             }
         });
