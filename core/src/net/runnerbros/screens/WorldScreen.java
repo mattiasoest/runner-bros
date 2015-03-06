@@ -186,9 +186,14 @@ public class WorldScreen implements Screen {
     @Override
     public void show() {
         System.out.println("SHOW WORLD");
-        stage.getRoot().getColor().a = 0;
-        stage.getRoot().addAction(Actions.fadeIn(game.FADE_TIME));
-        Gdx.input.setInputProcessor(stage);
+//        stage.getRoot().getColor().a = 0;
+        Gdx.input.setInputProcessor(null);
+        stage.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(game.FADE_TIME), Actions.run(new Runnable() {
+            @Override
+            public void run() {
+                Gdx.input.setInputProcessor(stage);
+            }
+        })));
     }
 
     @Override

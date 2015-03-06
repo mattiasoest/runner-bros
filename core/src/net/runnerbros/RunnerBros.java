@@ -1,6 +1,7 @@
 package net.runnerbros;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -15,8 +16,6 @@ import net.runnerbros.screens.MainMenuScreen;
 import net.runnerbros.screens.PlayScreen;
 import net.runnerbros.screens.WorldScreen;
 import net.runnerbros.view.GameRenderer;
-
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.run;
 
 public class RunnerBros extends Game {
 
@@ -86,16 +85,17 @@ public class RunnerBros extends Game {
 
 	public void switchScreen(Stage currentStage, final Screen screen) {
 		final RunnerBros bros = this;
-		currentStage.getRoot().getColor().a = 1;
+//		currentStage.getRoot().getColor().a = 1;
+		Gdx.input.setInputProcessor(null);
 		SequenceAction sequenceAction = new SequenceAction();
 		sequenceAction.addAction(Actions.fadeOut(FADE_TIME_FROM));
-		sequenceAction.addAction(run(new Runnable() {
+		sequenceAction.addAction(Actions.run(new Runnable() {
 			@Override
 			public void run() {
 				bros.setScreen(screen);
 			}
 		}));
-		currentStage.getRoot().addAction(sequenceAction);
+		currentStage.addAction(sequenceAction);
 	}
 
 	public GameRenderer getRenderer() {

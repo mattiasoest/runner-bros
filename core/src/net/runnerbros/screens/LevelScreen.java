@@ -67,34 +67,23 @@ public class LevelScreen implements Screen {
         scroll.setFlingTime(0.5f);
         scroll.setPageSpacing(pageSpacing);
         int levelIndex = 1;
-        int first = 0;
-        int last = 4;
-        for (int l = first; l <= last; l++) {
+        for (int i = 0; i < 4; i++) {
             Table levels = new Table();
-            //            levels.debug();
-
-            //            levels.defaults().pad(15, 30, 15, 30);
-//            levels.defaults().pad(20, 30, 20, 30);
-            for (int y = 0; y < 1; y++) {
-//                levels.row();
-                for (int x = 0; x < 1; x++) {
-                    Table levelTable = new Table();
+            Table levelTable = new Table();
 //                    levelTable.setBackground(worldBg.getDrawable());
-                    Button levelButton = getLevelButton(levelIndex);
-                    Label localHighScore = new Label("Highscore: 33.255", ls);
+            Button levelButton = getLevelButton(levelIndex);
+            Label localHighScore = new Label("Highscore: 33.255", ls);
 //                    levelButton.setSize(50, 50);
-                    levelTable.add(levelButton).pad(50);
-                    levelTable.row();
-                    //DEBUG DATA
-                    if (debug) {
-                        levelTable.debug();
-                    }
-
-                    levelTable.add(localHighScore);
-                    levels.add(levelTable).height(GameController.VIRTUAL_HEIGHT * 0.8f).width(LEVEL_WIDTH);
-                    levelIndex++;
-                }
+            levelTable.add(levelButton).pad(50);
+            levelTable.row();
+            //DEBUG DATA
+            if (debug) {
+                levelTable.debug();
             }
+
+            levelTable.add(localHighScore);
+            levels.add(levelTable).height(GameController.VIRTUAL_HEIGHT * 0.8f).width(LEVEL_WIDTH);
+            levelIndex++;
             final float standardPad = 110;
             levels.padLeft(standardPad);
             levels.padRight(standardPad);
@@ -152,7 +141,7 @@ public class LevelScreen implements Screen {
         button.row();
         button.setName(worldKey);
 
-        //TODO: Only have 2 levels atm.
+        //TODO: Only have 3 levels atm.
         if (levelIndex < 4) {
             button.addListener(levelClickListener);
         }
@@ -186,9 +175,15 @@ public class LevelScreen implements Screen {
 
     @Override
     public void show() {
-        stage.getRoot().getColor().a = 0;
-        stage.getRoot().addAction(Actions.fadeIn(game.FADE_TIME));
-        Gdx.input.setInputProcessor(stage);
+//        stage.getRoot().getColor().a = 0;
+//        stage.getRoot().addAction(Actions.fadeIn(game.FADE_TIME));
+        Gdx.input.setInputProcessor(null);
+        stage.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(game.FADE_TIME), Actions.run(new Runnable() {
+            @Override
+            public void run() {
+            Gdx.input.setInputProcessor(stage);
+            }
+        })));
     }
 
     @Override

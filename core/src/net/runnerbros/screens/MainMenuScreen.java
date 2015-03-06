@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.ScaleToAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -90,13 +91,27 @@ public class MainMenuScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
 //                game.dispose();
                 click.play(0.25f);
-                Gdx.app.exit();
+                exitGame();
             }
+
         });
 
         stage.addActor(titleImage);
         stage.addActor(playButton);
         stage.addActor(exitButton);
+    }
+
+    private void exitGame() {
+        Gdx.input.setInputProcessor(null);
+        SequenceAction sequenceAction = new SequenceAction();
+        sequenceAction.addAction(Actions.fadeOut(0.4f));
+        sequenceAction.addAction(Actions.run(new Runnable() {
+            @Override
+            public void run() {
+                Gdx.app.exit();
+            }
+        }));
+        stage.addAction(sequenceAction);
     }
 
     private Image setupHeader(TextureAtlas generalAtlas) {
@@ -141,9 +156,14 @@ public class MainMenuScreen implements Screen {
     @Override
     public void show() {
 
-        stage.getRoot().getColor().a = 0;
-        stage.getRoot().addAction(Actions.fadeIn(game.FADE_TIME));
-        Gdx.input.setInputProcessor(stage);
+//        stage.getRoot().getColor().a = 0;
+        Gdx.input.setInputProcessor(null);
+        stage.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(game.FADE_TIME), Actions.run(new Runnable() {
+            @Override
+            public void run() {
+                Gdx.input.setInputProcessor(stage);
+            }
+        })));
 //        if (!Gdx.app.getType().equals(Application.ApplicationType.Desktop)) {
 //            if (!game.actionResolver.getSignedInGPGS()) {
 //                game.actionResolver.loginGPGS();

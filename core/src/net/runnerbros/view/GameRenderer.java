@@ -170,7 +170,7 @@ public class GameRenderer {
         camera.update();
         Gdx.graphics.setVSync(false);
         this.player = gc.getPlayer();
-        batch.enableBlending();
+//        batch.enableBlending();
         loadAnimationsAndTextures();
 
         setButtonSpeed(false);

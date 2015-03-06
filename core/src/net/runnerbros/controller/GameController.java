@@ -22,6 +22,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -299,7 +300,7 @@ public class GameController implements InputProcessor {
 
     public void pauseGame(boolean isPaused) {
         if (isPaused) {
-            stage.getRoot().getColor().a = 1;
+            stage.addAction(Actions.alpha(1));
             Gdx.input.setInputProcessor(stage);
             Camera cam = stage.getCamera();
             pauseTable.setPosition(cam.position.x - cam.viewportWidth / 2f, cam.position.y - cam.viewportHeight / 2f);
