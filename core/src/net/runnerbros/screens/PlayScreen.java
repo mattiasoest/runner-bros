@@ -3,6 +3,7 @@ package net.runnerbros.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import net.runnerbros.RunnerBros;
@@ -35,8 +36,8 @@ public class PlayScreen implements Screen {
 
 	@Override
 	public void show() {
-//		stage.getRoot().getColor().a = 0;
-//		stage.getRoot().addAction(Actions.fadeIn(game.FADE_TIME));
+		stage.getRoot().getColor().a = 0;
+		stage.getRoot().addAction(Actions.fadeIn(game.FADE_TIME));
         game.getGameController().startTimer();
         Gdx.input.setInputProcessor(game.getGameController());
 	}

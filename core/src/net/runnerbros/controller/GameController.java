@@ -9,7 +9,6 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapLayer;
@@ -24,9 +23,9 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Base64Coder;
@@ -132,6 +131,8 @@ public class GameController implements InputProcessor {
     private boolean isGamePaused;
     private Stage   stage;
     private Table   pauseTable;
+
+    private Window pauseWindow;
 
     private long startCopterTime = 0l;
 
@@ -302,7 +303,7 @@ public class GameController implements InputProcessor {
             stage.getRoot().getColor().a = 1;
             Gdx.input.setInputProcessor(stage);
             Camera cam = stage.getCamera();
-            pauseTable.setPosition(cam.position.x - cam.viewportWidth / 2f, cam.position.y - cam.viewportHeight / 2f);
+            pauseWindow.setPosition(cam.position.x - cam.viewportWidth / 2f, cam.position.y - cam.viewportHeight / 2f);
         }
         else {
             Gdx.input.setInputProcessor(this);
@@ -1000,13 +1001,19 @@ public class GameController implements InputProcessor {
         TextureAtlas menuAtlas = Assets.manager.get(Assets.BUTTON_ATLAS, TextureAtlas.class);
         Skin buttonSkin = new Skin(menuAtlas);
 
+        Window.WindowStyle ws = new Window.WindowStyle();
+        ws.titleFont = Assets.getRockwellFont();
+
+        pauseWindow = new Window("TEST TITLE", ws);
+        this.pauseWindow.setSize(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
+
 //        this.stage = new Stage();
         this.stage = new Stage(view, batch);
         this.pauseTable = new Table();
         this.pauseTable.setSize(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
-//        stage.stageToScreenCoordinates(getStageLocation(pauseTable));
-        Label.LabelStyle lStyle = new Label.LabelStyle(Assets.getRockwellFont(), Color.WHITE);
-        Label label = new Label("Paused", lStyle);
+        stage.stageToScreenCoordinates(getStageLocation(pauseTable));
+//        Label.LabelStyle lStyle = new Label.LabelStyle(Assets.getRockwellFont(), Color.WHITE);
+//        Label label = new Label("Paused", lStyle);
 
         Image pauseHeader = new Image(menuAtlas.findRegion("pause_title2"));
 
@@ -1053,7 +1060,7 @@ public class GameController implements InputProcessor {
             }
         });
 
-        label.setWidth(label.getPrefWidth());
+//        label.setWidth(label.getPrefWidth());
 //        label.setPosition(VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2);
         Table miniTable = new Table();
         miniTable.add(resumeButton).padRight(30);
@@ -1062,7 +1069,8 @@ public class GameController implements InputProcessor {
 
         pauseTable.add(pauseHeader).padBottom(60).row();
         pauseTable.add(miniTable);
-        stage.addActor(pauseTable);
+        pauseWindow.add(pauseTable);
+        stage.addActor(pauseWindow);
     }
 
     //Only for not be able to spamming jump and fire so we cant use polling
