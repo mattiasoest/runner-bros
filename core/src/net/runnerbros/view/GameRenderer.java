@@ -219,8 +219,8 @@ public class GameRenderer {
         switch (gc.getCurrentState()) {
             case RUNNING:
                 drawSmoke(delta);
-                drawButtons();
                 drawPlayer();
+                drawButtons();
                 batch.end();
                 break;
             case READY:
@@ -291,7 +291,7 @@ public class GameRenderer {
         batch.draw(skystatic, camera.position.x - camera.viewportWidth / 2f, camera.position.y - camera.viewportHeight / 2f, camera.viewportWidth, camera.viewportHeight, 0, 1, 1, 0);
 
         batch.draw(buildingsGround, camera.position.x - camera.viewportWidth / 2f, camera.position.y / 1.4f - camera.viewportHeight / 3.5f, camera.viewportWidth, camera.viewportHeight, 0, 1, 1, 0);
-        batch.draw(buildingsBlack, camera.position.x / 1.05f - camera.viewportWidth, camera.position.y / 1.1f - camera.viewportHeight / 2.4f, buildingsBlack.getWidth() * 4, buildingsBlack.getHeight() * 1, 0, 1, 4, 0);
+        batch.draw(buildingsBlack, camera.position.x / 1.05f - camera.viewportWidth, camera.position.y / 1.1f - camera.viewportHeight / 2.1f, buildingsBlack.getWidth() * 4, buildingsBlack.getHeight() * 1, 0, 1, 4, 0);
         batch.draw(buildings, camera.position.x / 1.3f - camera.viewportWidth, camera.position.y / 1.4f - camera.viewportHeight / 3f, buildings.getWidth() * 4, buildings.getHeight(), 0, 1, 4, 0);
 
         batch.draw(skystaticFog, camera.position.x - camera.viewportWidth / 2f, camera.position.y - camera.viewportHeight / 2f, camera.viewportWidth, camera.viewportHeight, 0, 1, 1, 0);

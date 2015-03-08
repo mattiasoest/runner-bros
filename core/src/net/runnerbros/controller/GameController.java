@@ -1256,6 +1256,7 @@ public class GameController implements InputProcessor {
     }
 
     private void resetStatesAndButtons() {
+        benny.resetBenny();
         player.setState(State.IDLE);
         buttonRightPressed = false;
         buttonLeftPressed = false;

@@ -18,4 +18,8 @@ public class Benny extends MoveableEntity {
     public void setHappy() {
         isHappy = true;
     }
+
+    public void resetBenny() {
+        isHappy = false;
+    }
 }

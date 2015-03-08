@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="200" height="20" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="tiles2" tilewidth="32" tileheight="32">
+  <image source="tiles2.png" width="224" height="128"/>
+  <tile id="0">
+   <properties>
+    <property name="blocked" value=""/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="spikes" value=""/>
+   </properties>
+  </tile>
+  <tile id="22">
+   <properties>
+    <property name="blocked" value=""/>
+   </properties>
+  </tile>
+  <tile id="23">
+   <properties>
+    <property name="blocked" value=""/>
+   </properties>
+  </tile>
+  <tile id="26">
+   <properties>
+    <property name="spikes" value=""/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Tile Layer 1" width="200" height="20">
+  <data encoding="base64" compression="zlib">
+   eJztmdEKwyAMRTPwdY9Dmfu4fdo+desodNhmFqMk6j0Qygi6mnoqVk8AgCP8GgCAPfCDxxPqMzt4/jyO6LnUJhK9tO8F6AA/eOLqh4Mfw3LL5OEHD9aP8bln8vCDR7p+oK628IIAe+AHgB/8u8LBj+mBHzzS/Qfq2j/wgwfrh5xLYTsrewL4wTOzH6FSPxI/JPlaWPLD2jeDWf0IZM+PaybfCitzsTUl49TafzwK29UgkE0/0nMKC34cnS2W+tTCw9Zua33f1VpHA9nyw/r+I3e2mPYzGlrrh+Qcq5fohZHGUhut/Yf23IUfG2fG8pkfyzv0e3XM7zS4fK6dpK948j/+5X9zaQ3O9JO2Lxmn9tyFHxvadULMGb2gXSfEnNELy72+AT9hS7Y=
+  </data>
+ </layer>
+ <objectgroup name="objects" width="200" height="20">
+  <object name="slime" x="3403" y="452" width="36" height="20">
+   <properties>
+    <property name="pink" value=""/>
+   </properties>
+  </object>
+  <object name="slime" x="3822" y="451" width="36" height="20">
+   <properties>
+    <property name="pink" value=""/>
+   </properties>
+  </object>
+  <object name="slime" x="3584" y="448" width="36" height="20">
+   <properties>
+    <property name="pink" value=""/>
+   </properties>
+  </object>
+  <object name="slime" x="3999" y="449" width="36" height="20">
+   <properties>
+    <property name="pink" value=""/>
+   </properties>
+  </object>
+  <object name="slime" x="4364" y="444" width="36" height="20">
+   <properties>
+    <property name="green" value=""/>
+   </properties>
+  </object>
+  <object name="slime" x="4704" y="443" width="36" height="20">
+   <properties>
+    <property name="green" value=""/>
+   </properties>
+  </object>
+  <object name="goal" x="6164" y="52" width="204" height="149"/>
+  <object name="benny" x="6283" y="136" width="27" height="53"/>
+  <object name="spawnpoint" x="63" y="448" width="27" height="58"/>
+ </objectgroup>
+</map>
