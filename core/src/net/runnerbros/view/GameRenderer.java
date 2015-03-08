@@ -74,7 +74,6 @@ public class GameRenderer {
     private PlayerAnimation lennyAnimation;
     private PlayerAnimation currentPlayerAnimation;
 
-    private int[] layers = new int[]{ 0, 1 };
     private float startYpositionHaltSmokeAanimation;
     private float startYpositionTurnSmokeAnimation;
     private float beforeJumpXpositionTurnSmokeAnimation;
@@ -208,7 +207,7 @@ public class GameRenderer {
         drawParallaxBackground();
         renderer.setView(camera);
         //TODO: Remove layers and just user render() ??
-        renderer.render(layers);
+        renderer.render();
         batch.begin();
         drawSnowmen();
         drawSlimes();

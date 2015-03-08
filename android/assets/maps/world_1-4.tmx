@@ -68,4 +68,9 @@
   <object name="benny" x="6283" y="136" width="27" height="53"/>
   <object name="spawnpoint" x="63" y="448" width="27" height="58"/>
  </objectgroup>
+ <layer name="Tile Layer 2" width="200" height="20">
+  <data encoding="base64" compression="zlib">
+   eJzt2UEOABAMBEBP8P/XujrSENXMJPsAJEujNQDglD4FAAAgM3NLLj0Q7AkAAPWZDYAdN/tB5wC8Fe1hd8I67+x6nOM9kX+t7PlNpbUAAAB5DRUwBrE=
+  </data>
+ </layer>
 </map>
