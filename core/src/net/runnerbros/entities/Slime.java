@@ -5,8 +5,7 @@ public class Slime extends MoveableEntity {
 	private final float slimeVelocityMultiplier;
 
 	public static enum Type {
-//		GREY,
-//		RED,
+		RED,
 		BLUE,
 //		YELLOW,
 		PINK,

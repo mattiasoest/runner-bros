@@ -382,13 +382,13 @@ public class GameRenderer {
                     slimeFrame = s.isFacingLeft() ? slimeBlueLeftAnimation.getKeyFrame(s.getStateTime(), true) : slimeBlueRightAnimation.getKeyFrame(s.getStateTime(), true);
             }
             else if (s.getType().equals(Slime.Type.PINK)) {
-//                if (s.isAlive()) {
                     slimeFrame = s.isFacingLeft() ? slimePinkLeftAnimation.getKeyFrame(s.getStateTime(), true) : slimePinkRightAnimation.getKeyFrame(s.getStateTime(), true);
-//                }
-//                else { slimeFrame = objectAtlas.findRegion("slime-grey-smashed"); }
             }
             else if (s.getType().equals(Slime.Type.GREEN)) {
                 slimeFrame = s.isFacingLeft() ? slimeGreenLeftAnimation.getKeyFrame(s.getStateTime(), true) : slimeGreenRightAnimation.getKeyFrame(s.getStateTime(), true);
+            }
+            else if (s.getType().equals(Slime.Type.RED)) {
+                slimeFrame = s.isFacingLeft() ? slimeRedLeftAnimation.getKeyFrame(s.getStateTime(), true) : slimeRedRightAnimation.getKeyFrame(s.getStateTime(), true);
             }
 
             float renderExtaWidth = 4;
@@ -687,6 +687,37 @@ public class GameRenderer {
         }
         slimeGreenRightAnimation = new Animation(SLIME_FRAME_DURATION / GameController.GREEN_VELOCITY_MULTIPLIER  * 2, slimeGreenRightFrames);
         slimeGreenRightAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+
+
+
+        //Red
+        TextureRegion[] slimeRedLeftFrames = { objectAtlas.findRegion("slime_red1"), objectAtlas.findRegion("slime_red2"), objectAtlas.findRegion("slime_red3") };
+        TextureRegion[] slimeRedRightFrames = new TextureRegion[3];
+
+        slimeRedLeftAnimation = new Animation(SLIME_FRAME_DURATION / GameController.RED_VELOCITY_MULTIPLIER * 2, slimeRedLeftFrames);
+        slimeRedLeftAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+        for (int i = 0; i < 3; i++) {
+            slimeRedRightFrames[i] = new TextureRegion(slimeRedLeftFrames[i]);
+            slimeRedRightFrames[i].flip(true, false);
+
+        }
+        slimeRedRightAnimation = new Animation(SLIME_FRAME_DURATION / GameController.RED_VELOCITY_MULTIPLIER  * 2, slimeRedRightFrames);
+        slimeRedRightAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+
+
+        //Blue
+        TextureRegion[] slimeBlueLeftFrames = { objectAtlas.findRegion("slime_blue1"), objectAtlas.findRegion("slime_blue2"), objectAtlas.findRegion("slime_blue3") };
+        TextureRegion[] slimeBlueRightFrames = new TextureRegion[3];
+
+        slimeBlueLeftAnimation = new Animation(SLIME_FRAME_DURATION / GameController.BLUE_VELOCITY_MULTIPLIER* 2, slimeBlueLeftFrames);
+        slimeBlueLeftAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+        for (int i = 0; i < 3; i++) {
+            slimeBlueRightFrames[i] = new TextureRegion(slimeBlueLeftFrames[i]);
+            slimeBlueRightFrames[i].flip(true, false);
+
+        }
+        slimeBlueRightAnimation = new Animation(SLIME_FRAME_DURATION / GameController.BLUE_VELOCITY_MULTIPLIER  * 2, slimeBlueRightFrames);
+        slimeBlueRightAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
     }
 
     private void setButtonLeft(boolean pressed) {

@@ -47,6 +47,8 @@ import net.runnerbros.entities.Trampoline;
 public class GameController implements InputProcessor {
 
     public static final float GREEN_VELOCITY_MULTIPLIER = 4f;
+    public static final float RED_VELOCITY_MULTIPLIER = 6f;
+    public static final float BLUE_VELOCITY_MULTIPLIER = 2.5f;
     public static final float PINK_VELOCITY_MULTIPLIER = 1f;
 
 
@@ -398,18 +400,18 @@ public class GameController implements InputProcessor {
                         enemyStartpositions.add(slime.copy());
 
                     }
-//                    else if (ob.getProperties().containsKey("grey")) {
-//                        Rectangle slimePos = ((RectangleMapObject) ob).getRectangle();
-//                        slimes.add(new Slime(slimePos.x, slimePos.y, 14f, 8f, Slime.Type.GREY));
-//                    }
-//                    else if (ob.getProperties().containsKey("yellow")) {
-//                        Rectangle slimePos = ((RectangleMapObject) ob).getRectangle();
-//                        slimes.add(new Slime(slimePos.x, slimePos.y, 14f, 8f, Slime.Type.YELLOW));
-//                    }
-//                    else if (ob.getProperties().containsKey("red")) {
-//                        Rectangle slimePos = ((RectangleMapObject) ob).getRectangle();
-//                        slimes.add(new Slime(slimePos.x, slimePos.y, 14f, 8f, Slime.Type.RED));
-//                    }
+                    else if (ob.getProperties().containsKey("red")) {
+                        Rectangle slimePos = ((RectangleMapObject) ob).getRectangle();
+                        final Slime slime = new Slime(slimePos.x, slimePos.y, 36f, 24f, RED_VELOCITY_MULTIPLIER, Slime.Type.RED);
+                        slimes.add(slime);
+                        enemyStartpositions.add(slime.copy());
+                    }
+                    else if (ob.getProperties().containsKey("blue")) {
+                        Rectangle slimePos = ((RectangleMapObject) ob).getRectangle();
+                        final Slime slime = new Slime(slimePos.x, slimePos.y, 36f, 24f, BLUE_VELOCITY_MULTIPLIER, Slime.Type.BLUE);
+                        slimes.add(slime);
+                        enemyStartpositions.add(slime.copy());
+                    }
                 }
                 else if (ob.getName().equals("snowman")) {
                     Rectangle snowmanPos = ((RectangleMapObject) ob).getRectangle();
