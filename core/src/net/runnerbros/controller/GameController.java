@@ -377,6 +377,11 @@ public class GameController implements InputProcessor {
         //TODO Set attribute for the goal
         this.levelGoal = ((RectangleMapObject) objectLayer.getObjects().get("goal")).getRectangle();
         spawnPoint = new Vector2(rectSpawn.x, rectSpawn.y);
+
+        Rectangle bennyPos = ((RectangleMapObject) objectLayer.getObjects().get("benny")).getRectangle();
+        this.benny = new Benny(bennyPos.x, bennyPos.y, 32f, 48f, true);
+
+
         boolean up = false;
 
         for (MapObject ob : objectLayer.getObjects()) {
@@ -416,10 +421,6 @@ public class GameController implements InputProcessor {
                 else if (ob.getName().equals("snowman")) {
                     Rectangle snowmanPos = ((RectangleMapObject) ob).getRectangle();
                     snowmen.add(new Snowman(snowmanPos.x, snowmanPos.y, 32f, 64f));
-                }
-                else if (ob.getName().equals("benny")) {
-                    final Rectangle bennyPos = ((RectangleMapObject) ob).getRectangle();
-                    benny = new Benny(bennyPos.x, bennyPos.y, 32f, 48f, true);
                 }
 
 

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="80" height="60" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="tiles" tilewidth="32" tileheight="32">
+  <image source="tiles.png" width="224" height="128"/>
+  <tile id="0">
+   <properties>
+    <property name="blocked" value=""/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="spikes" value=""/>
+   </properties>
+  </tile>
+  <tile id="14">
+   <properties>
+    <property name="blocked" value=""/>
+   </properties>
+  </tile>
+  <tile id="23">
+   <properties>
+    <property name="blocked" value=""/>
+   </properties>
+  </tile>
+  <tile id="26">
+   <properties>
+    <property name="spikes" value=""/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Tile Layer 1" width="80" height="60">
+  <data encoding="base64" compression="zlib">
+   eJztnNtqwzAMQD3Ye54GZf3//xyGFUxwdZcipTpgGLUtyydx7Lasx4jjCBwrgmPEzqn96cerxA9S3/5gfpH69veeg1Eic6pC+6PxzoG3P0m89kfrA+VUBQ9/Etea/ldi7U+zzjUxHsJxd1DWzfq3lT/tfaN51j6GnUOOP2q8jP44155bsHE5eMTUjHVu2/54Y11N+9PR/nRU8pfRZ4X99/u/tD/+ONKzexRe/iSxd/2oMb6WEomnP2l8Sf87+ZOeQ3dtPsmfxxlfcq0isfJn9X6Ik1+G/aX96bDwZ7letflFU8FfxnPfi0r+Mnqs8PzL7LCCv8xY+VvrrNxJ8ovG0t+5jcV6s/Zn+d3cZOb3JBbuZ0if4s9j/9zt0ZH5ceeAzUvSB5oL1o7zOnVM6zLXE3VdSfpAc4HaYDE4ePqjrivtWtzFgdpgMaoRdZ0GUkepz4bmfoPiQfVY/0pYulvjQfVY/ypYu1tjYm04r2dgN69of9B4md1NoPOJtz/NfpOFqDlw/V1FxpzGJoes9162fF5U8ZeV9qejyvMvKxn8Vb5O1PNfRA5389fgeK/TivcUB++5tb8G4uwP+70EKdbfk2Xh7A/7vQQJlv//lw3K+w3LcjfanY52p2PO7Q814TQf
+  </data>
+ </layer>
+ <objectgroup name="objects" width="80" height="60">
+  <object name="goal" x="2251" y="-16" width="291" height="168"/>
+  <object name="benny" x="2482" y="93" width="24" height="23"/>
+  <object name="slime" x="1115" y="1038" width="27" height="34">
+   <properties>
+    <property name="blue" value=""/>
+   </properties>
+  </object>
+  <object name="slime" x="1229" y="1034" width="27" height="34">
+   <properties>
+    <property name="blue" value=""/>
+   </properties>
+  </object>
+  <object name="slime" x="1422" y="1046" width="27" height="34">
+   <properties>
+    <property name="green" value=""/>
+   </properties>
+  </object>
+  <object name="slime" x="700" y="1786" width="27" height="34">
+   <properties>
+    <property name="blue" value=""/>
+   </properties>
+  </object>
+  <object name="slime" x="734" y="1783" width="27" height="34">
+   <properties>
+    <property name="pink" value=""/>
+   </properties>
+  </object>
+  <object name="spawnpoint" x="75" y="1809"/>
+  <object name="slime" x="1757" y="349" width="29" height="29">
+   <properties>
+    <property name="green" value=""/>
+   </properties>
+  </object>
+  <object name="slime" x="1361" y="347" width="29" height="29">
+   <properties>
+    <property name="green" value=""/>
+   </properties>
+  </object>
+  <object name="slime" x="2290" y="1149" width="27" height="27">
+   <properties>
+    <property name="red" value=""/>
+   </properties>
+  </object>
+  <object name="slime" x="52" y="1625" width="27" height="34">
+   <properties>
+    <property name="red" value=""/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer name="Tile Layer 2" width="80" height="60">
+  <data encoding="base64" compression="zlib">
+   eJzt2UEKgCAQBVCP0P1PG62CQBRzZMr3wKWLBv1OTCkAcDs6FrzlLAE7aOWcHOTS03uNLAC+T6YDQA7+ucapFeQn1+ZQRwBYZ8VsrfW21/ZANOcslll83a7fPYv6jVO7fjtnFGSjjwDgyZsAObmTAP8WNVPU10GsE93SCDE=
+  </data>
+ </layer>
+</map>
