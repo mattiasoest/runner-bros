@@ -67,7 +67,7 @@ public class LevelScreen implements Screen {
         scroll.setFlingTime(0.5f);
         scroll.setPageSpacing(pageSpacing);
         int levelIndex = 1;
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 6; i++) {
             Table levels = new Table();
             Table levelTable = new Table();
 //                    levelTable.setBackground(worldBg.getDrawable());
@@ -141,8 +141,8 @@ public class LevelScreen implements Screen {
         button.row();
         button.setName(worldKey);
 
-        //TODO: Only have 4* levels atm.
-        if (levelIndex < 5) {
+        //TODO: Only have 5* levels atm.
+        if (levelIndex < 6) {
             button.addListener(levelClickListener);
         }
         return button;

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="200" height="20" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="tiles" tilewidth="32" tileheight="32">
+  <image source="tiles2.png" width="224" height="128"/>
+  <tile id="3">
+   <properties>
+    <property name="spikes" value=""/>
+   </properties>
+  </tile>
+  <tile id="11">
+   <properties>
+    <property name="blocked" value=""/>
+   </properties>
+  </tile>
+  <tile id="21">
+   <properties>
+    <property name="blocked" value=""/>
+   </properties>
+  </tile>
+  <tile id="23">
+   <properties>
+    <property name="blocked" value=""/>
+   </properties>
+  </tile>
+  <tile id="26">
+   <properties>
+    <property name="spikes" value=""/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Tile Layer 1" width="200" height="20">
+  <data encoding="base64" compression="zlib">
+   eJztmLkOwjAQRClokNJQgLj+/zsRIggBHide73hjMk+aJiCf+7DJsBFCpBjGCCF+kR9CYOSHEBj5IQSG5cegdBGRR36sOyIP24+dMVP7ymjTq5+aoP73pH7EkwN43sIPy97KD27/8uOTC3g+d52s57dXnZS2m3KSMe6a3/U5Y5QffDzuob35UdMHqyYtY5IffDz9YNWZ9/06yo/jmF788E5LXmtd+122Hy33lV0j0WOKnLv84PnByDnzGTpvTmOW7EftGYOSmjdaw3/wwwuGH5babZESP5ZY47XzbjH3nG+lHCfSghI/0Hvgkv2Zk2g/Ih1muhHpyCOl9OYHeg/s6QZzDz3bjq41qxvWcXvMN8UNPF8KrLvmWhLtQPT8PbJkotem91jrOvcfDQXd+6LXQH4o3n7oHHln+5Vr4pnlOyVB7U2N/Q54KVq6
+  </data>
+ </layer>
+ <objectgroup name="objects" width="200" height="20">
+  <object name="spawnpoint" x="74" y="493" width="18" height="46"/>
+  <object name="slime" x="457" y="515" width="31" height="18">
+   <properties>
+    <property name="pink" value=""/>
+   </properties>
+  </object>
+  <object name="slime" x="1055" y="504" width="30" height="17">
+   <properties>
+    <property name="green" value=""/>
+   </properties>
+  </object>
+  <object name="slime" x="1821" y="507" width="30" height="17">
+   <properties>
+    <property name="green" value=""/>
+   </properties>
+  </object>
+  <object name="slime" x="3846" y="517" width="30" height="17">
+   <properties>
+    <property name="green" value=""/>
+   </properties>
+  </object>
+  <object name="benny" x="6324" y="235" width="16" height="44"/>
+  <object name="goal" x="6152" y="-7" width="232" height="325"/>
+ </objectgroup>
+</map>
