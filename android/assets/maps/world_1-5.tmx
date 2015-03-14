@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="200" height="20" tilewidth="32" tileheight="32">
  <tileset firstgid="1" name="tiles" tilewidth="32" tileheight="32">
-  <image source="tiles2.png" width="224" height="128"/>
+  <image source="tiles.png" width="224" height="128"/>
   <tile id="3">
    <properties>
     <property name="spikes" value=""/>
@@ -35,7 +35,7 @@
  </layer>
  <objectgroup name="objects" width="200" height="20">
   <object name="spawnpoint" x="74" y="493" width="18" height="46"/>
-  <object name="slime" x="457" y="515" width="31" height="18">
+  <object name="slime" x="457" y="525" width="31" height="18">
    <properties>
     <property name="pink" value=""/>
    </properties>
