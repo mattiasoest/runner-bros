@@ -3,220 +3,283 @@ atlas.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-pause_title2
+btn_play_bigblue
   rotate: false
-  xy: 1, 291
-  size: 251, 60
-  orig: 251, 60
+  xy: 1, 376
+  size: 184, 161
+  orig: 184, 161
   offset: 0, 0
   index: -1
-settings_title
+btn_play_bigblue_pressed
   rotate: false
-  xy: 254, 291
-  size: 293, 60
-  orig: 293, 60
+  xy: 1, 213
+  size: 184, 161
+  orig: 184, 161
   offset: 0, 0
   index: -1
-runner-bros-title
+btn_highschore_bigyellow
   rotate: false
-  xy: 549, 283
-  size: 458, 68
-  orig: 458, 68
-  offset: 0, 0
-  index: -1
-btn_copterCap
-  rotate: false
-  xy: 1, 210
-  size: 90, 79
-  orig: 90, 79
-  offset: 0, 0
-  index: -1
-btn_copterCap_pressed
-  rotate: false
-  xy: 93, 210
-  size: 90, 79
-  orig: 90, 79
-  offset: 0, 0
-  index: -1
-btn_doublejump
-  rotate: false
-  xy: 185, 210
-  size: 90, 79
-  orig: 90, 79
-  offset: 0, 0
-  index: -1
-btn_doublejump_pressed
-  rotate: false
-  xy: 277, 210
-  size: 90, 79
-  orig: 90, 79
-  offset: 0, 0
-  index: -1
-btn_fast
-  rotate: false
-  xy: 369, 210
-  size: 90, 79
-  orig: 90, 79
-  offset: 0, 0
-  index: -1
-btn_fast_pressed
-  rotate: false
-  xy: 461, 202
-  size: 90, 79
-  orig: 90, 79
-  offset: 0, 0
-  index: -1
-btn_highschore
-  rotate: false
-  xy: 553, 202
-  size: 90, 79
-  orig: 90, 79
-  offset: 0, 0
-  index: -1
-btn_jump
-  rotate: false
-  xy: 645, 202
-  size: 90, 79
-  orig: 90, 79
-  offset: 0, 0
-  index: -1
-btn_jump_pressed
-  rotate: false
-  xy: 737, 202
-  size: 90, 79
-  orig: 90, 79
-  offset: 0, 0
-  index: -1
-btn_left
-  rotate: false
-  xy: 829, 202
-  size: 90, 79
-  orig: 90, 79
-  offset: 0, 0
-  index: -1
-btn_left_pressed
-  rotate: false
-  xy: 1, 129
-  size: 90, 79
-  orig: 90, 79
-  offset: 0, 0
-  index: -1
-btn_menu
-  rotate: false
-  xy: 93, 129
-  size: 90, 79
-  orig: 90, 79
-  offset: 0, 0
-  index: -1
-btn_pause
-  rotate: false
-  xy: 185, 129
-  size: 90, 79
-  orig: 90, 79
-  offset: 0, 0
-  index: -1
-btn_right
-  rotate: false
-  xy: 277, 129
-  size: 90, 79
-  orig: 90, 79
-  offset: 0, 0
-  index: -1
-btn_right_pressed
-  rotate: false
-  xy: 369, 129
-  size: 90, 79
-  orig: 90, 79
-  offset: 0, 0
-  index: -1
-btn_settings
-  rotate: false
-  xy: 461, 121
-  size: 90, 79
-  orig: 90, 79
+  xy: 1, 94
+  size: 133, 117
+  orig: 133, 117
   offset: 0, 0
   index: -1
 btn_highschore_pressed
   rotate: false
-  xy: 553, 120
+  xy: 1, 12
   size: 91, 80
   orig: 91, 80
   offset: 0, 0
   index: -1
 btn_menu_pressed
   rotate: false
-  xy: 646, 120
+  xy: 94, 12
   size: 91, 80
   orig: 91, 80
-  offset: 0, 0
-  index: -1
-btn_pause_pressed
-  rotate: false
-  xy: 739, 120
-  size: 91, 80
-  orig: 91, 80
-  offset: 0, 0
-  index: -1
-btn_replay
-  rotate: false
-  xy: 832, 120
-  size: 91, 80
-  orig: 91, 80
-  offset: 0, 0
-  index: -1
-btn_replay_pressed
-  rotate: false
-  xy: 1, 47
-  size: 91, 80
-  orig: 91, 80
-  offset: 0, 0
-  index: -1
-btn_settings_pressed
-  rotate: false
-  xy: 94, 47
-  size: 91, 80
-  orig: 91, 80
-  offset: 0, 0
-  index: -1
-btn_highschore_bigyellow
-  rotate: false
-  xy: 187, 10
-  size: 133, 117
-  orig: 133, 117
   offset: 0, 0
   index: -1
 btn_highschore_bigyellow_pressed
   rotate: false
-  xy: 322, 10
+  xy: 136, 94
   size: 133, 117
   orig: 133, 117
   offset: 0, 0
   index: -1
+btn_musicOff
+  rotate: false
+  xy: 187, 12
+  size: 91, 80
+  orig: 91, 80
+  offset: 0, 0
+  index: -1
+runner-bros-title
+  rotate: false
+  xy: 280, 469
+  size: 458, 68
+  orig: 458, 68
+  offset: 0, 0
+  index: -1
+btn_musicOn_pressed
+  rotate: false
+  xy: 187, 457
+  size: 91, 80
+  orig: 91, 80
+  offset: 0, 0
+  index: -1
 btn_play_biggreen
   rotate: false
-  xy: 457, 1
+  xy: 740, 420
   size: 133, 117
   orig: 133, 117
   offset: 0, 0
   index: -1
 btn_play_biggreen_pressed
   rotate: false
-  xy: 592, 1
+  xy: 187, 301
   size: 133, 117
   orig: 133, 117
+  offset: 0, 0
+  index: -1
+btn_pause_pressed
+  rotate: false
+  xy: 187, 219
+  size: 91, 80
+  orig: 91, 80
   offset: 0, 0
   index: -1
 btn_settings_bigyellow
   rotate: false
-  xy: 727, 1
+  xy: 271, 100
   size: 133, 117
   orig: 133, 117
   offset: 0, 0
   index: -1
+btn_replay
+  rotate: false
+  xy: 280, 219
+  size: 91, 80
+  orig: 91, 80
+  offset: 0, 0
+  index: -1
 btn_settings_bigyellow_pressed
   rotate: false
-  xy: 862, 1
+  xy: 322, 301
   size: 133, 117
   orig: 133, 117
+  offset: 0, 0
+  index: -1
+btn_replay_pressed
+  rotate: false
+  xy: 373, 219
+  size: 91, 80
+  orig: 91, 80
+  offset: 0, 0
+  index: -1
+pause_title2
+  rotate: false
+  xy: 466, 407
+  size: 251, 60
+  orig: 251, 60
+  offset: 0, 0
+  index: -1
+btn_settings_pressed
+  rotate: false
+  xy: 280, 18
+  size: 91, 80
+  orig: 91, 80
+  offset: 0, 0
+  index: -1
+btn_soundOff
+  rotate: false
+  xy: 373, 18
+  size: 91, 80
+  orig: 91, 80
+  offset: 0, 0
+  index: -1
+btn_soundOff2
+  rotate: false
+  xy: 457, 325
+  size: 91, 80
+  orig: 91, 80
+  offset: 0, 0
+  index: -1
+btn_soundOn_pressed
+  rotate: false
+  xy: 406, 137
+  size: 91, 80
+  orig: 91, 80
+  offset: 0, 0
+  index: -1
+btn_copterCap
+  rotate: false
+  xy: 466, 244
+  size: 90, 79
+  orig: 90, 79
+  offset: 0, 0
+  index: -1
+btn_copterCap_pressed
+  rotate: false
+  xy: 550, 326
+  size: 90, 79
+  orig: 90, 79
+  offset: 0, 0
+  index: -1
+settings_title
+  rotate: false
+  xy: 642, 345
+  size: 293, 60
+  orig: 293, 60
+  offset: 0, 0
+  index: -1
+btn_doublejump
+  rotate: false
+  xy: 466, 56
+  size: 90, 79
+  orig: 90, 79
+  offset: 0, 0
+  index: -1
+btn_doublejump_pressed
+  rotate: false
+  xy: 499, 163
+  size: 90, 79
+  orig: 90, 79
+  offset: 0, 0
+  index: -1
+btn_fast
+  rotate: false
+  xy: 558, 245
+  size: 90, 79
+  orig: 90, 79
+  offset: 0, 0
+  index: -1
+btn_fast_pressed
+  rotate: false
+  xy: 558, 82
+  size: 90, 79
+  orig: 90, 79
+  offset: 0, 0
+  index: -1
+btn_highschore
+  rotate: false
+  xy: 591, 164
+  size: 90, 79
+  orig: 90, 79
+  offset: 0, 0
+  index: -1
+btn_jump
+  rotate: false
+  xy: 558, 1
+  size: 90, 79
+  orig: 90, 79
+  offset: 0, 0
+  index: -1
+btn_jump_pressed
+  rotate: false
+  xy: 650, 264
+  size: 90, 79
+  orig: 90, 79
+  offset: 0, 0
+  index: -1
+btn_left
+  rotate: false
+  xy: 650, 83
+  size: 90, 79
+  orig: 90, 79
+  offset: 0, 0
+  index: -1
+btn_left_pressed
+  rotate: false
+  xy: 650, 2
+  size: 90, 79
+  orig: 90, 79
+  offset: 0, 0
+  index: -1
+btn_menu
+  rotate: false
+  xy: 683, 183
+  size: 90, 79
+  orig: 90, 79
+  offset: 0, 0
+  index: -1
+btn_musicOn
+  rotate: false
+  xy: 742, 264
+  size: 90, 79
+  orig: 90, 79
+  offset: 0, 0
+  index: -1
+btn_pause
+  rotate: false
+  xy: 834, 264
+  size: 90, 79
+  orig: 90, 79
+  offset: 0, 0
+  index: -1
+btn_right
+  rotate: false
+  xy: 775, 183
+  size: 90, 79
+  orig: 90, 79
+  offset: 0, 0
+  index: -1
+btn_right_pressed
+  rotate: false
+  xy: 742, 102
+  size: 90, 79
+  orig: 90, 79
+  offset: 0, 0
+  index: -1
+btn_settings
+  rotate: false
+  xy: 834, 102
+  size: 90, 79
+  orig: 90, 79
+  offset: 0, 0
+  index: -1
+btn_soundOn
+  rotate: false
+  xy: 742, 21
+  size: 90, 79
+  orig: 90, 79
   offset: 0, 0
   index: -1

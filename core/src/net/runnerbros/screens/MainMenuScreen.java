@@ -64,16 +64,16 @@ public class MainMenuScreen implements Screen {
         Image titleImage = setupHeader(generalAtlas);
 
 
-        playStyle.up = generalSkin.getDrawable("btn_play_biggreen");
-        playStyle.down = generalSkin.getDrawable("btn_play_biggreen_pressed");
+        playStyle.up = generalSkin.getDrawable("btn_play_bigblue");
+        playStyle.down = generalSkin.getDrawable("btn_play_bigblue_pressed");
         exitStyle.up = generalSkin.getDrawable("btn_fast");
         exitStyle.down = generalSkin.getDrawable("btn_fast_pressed");
 
         ImageButton playButton = new ImageButton(playStyle);
         ImageButton exitButton = new ImageButton(exitStyle);
 
-        playButton.setPosition(GameController.VIRTUAL_WIDTH / 2 - playButton.getWidth() / 2, GameController.VIRTUAL_HEIGHT * 0.45f);
-        exitButton.setPosition(GameController.VIRTUAL_WIDTH / 2  - exitButton.getWidth() / 2, GameController.VIRTUAL_HEIGHT * 0.25f);
+        playButton.setPosition(GameController.VIRTUAL_WIDTH / 2 - playButton.getWidth() / 2, GameController.VIRTUAL_HEIGHT * 0.35f);
+        exitButton.setPosition(GameController.VIRTUAL_WIDTH / 2  - exitButton.getWidth() / 2, GameController.VIRTUAL_HEIGHT * 0.15f);
 
 
         final Sound click = Assets.manager.get(Assets.SOUND_CLICK_BUTTON, Sound.class);
