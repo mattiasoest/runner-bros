@@ -14,6 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -42,14 +44,9 @@ public class MainMenuScreen implements Screen {
         view = new FitViewport(GameController.VIRTUAL_WIDTH, GameController.VIRTUAL_HEIGHT);
         this.stage = new Stage(view, game.getSpriteBatch());
 
-
-//        Label.LabelStyle lStyle = new Label.LabelStyle(Assets.getRockwellFont(), Color.WHITE);
-//        Label header = new Label("Runner Bros", lStyle);
-//
-//        header.setPosition(GameController.VIRTUAL_WIDTH / 2 - header.getWidth() / 2, GameController.VIRTUAL_HEIGHT * 0.7f);
-
         ImageButton.ImageButtonStyle playStyle = new ImageButton.ImageButtonStyle();
         ImageButton.ImageButtonStyle exitStyle = new ImageButton.ImageButtonStyle();
+        ImageButton.ImageButtonStyle settingsStyle = new ImageButton.ImageButtonStyle();
 
         TextureAtlas generalAtlas = Assets.manager.get(Assets.BUTTON_ATLAS, TextureAtlas.class);
 
@@ -60,15 +57,32 @@ public class MainMenuScreen implements Screen {
 
         playStyle.up = generalSkin.getDrawable("btn_play_bigblue");
         playStyle.down = generalSkin.getDrawable("btn_play_bigblue_pressed");
-        exitStyle.up = generalSkin.getDrawable("btn_fast");
-        exitStyle.down = generalSkin.getDrawable("btn_fast_pressed");
+        exitStyle.up = generalSkin.getDrawable("btn_left");
+        exitStyle.down = generalSkin.getDrawable("btn_left_pressed");
+        settingsStyle.up = generalSkin.getDrawable("btn_settings");
+        settingsStyle.down = generalSkin.getDrawable("btn_settings_pressed");
 
         ImageButton playButton = new ImageButton(playStyle);
         ImageButton exitButton = new ImageButton(exitStyle);
+        ImageButton settingsButton = new ImageButton(settingsStyle);
 
-        playButton.setPosition(GameController.VIRTUAL_WIDTH / 2 - playButton.getWidth() / 2, GameController.VIRTUAL_HEIGHT * 0.35f);
-        exitButton.setPosition(GameController.VIRTUAL_WIDTH / 2  - exitButton.getWidth() / 2, GameController.VIRTUAL_HEIGHT * 0.15f);
 
+//        playButton.setPosition(GameController.VIRTUAL_WIDTH / 2 - playButton.getWidth() / 2, GameController.VIRTUAL_HEIGHT * 0.35f);
+
+        Table container =  new Table();
+        container.setPosition(0, 0f);
+        container.setSize(GameController.VIRTUAL_WIDTH, GameController.VIRTUAL_HEIGHT);
+        container.add(titleImage).pad(25).row().expand();
+        container.add(playButton).row();
+
+
+        Table bottomTable = new Table();
+
+        bottomTable.setPosition(0, 0f);
+//        bottomTable.setSize(GameController.VIRTUAL_WIDTH, bottomTable.getPrefHeight());
+        bottomTable.add(exitButton).expandX().align(Align.left);
+
+        bottomTable.add(settingsButton);
 
         playButton.addListener(new ClickListener() {
             @Override
@@ -89,9 +103,17 @@ public class MainMenuScreen implements Screen {
 
         });
 
-        stage.addActor(titleImage);
-        stage.addActor(playButton);
-        stage.addActor(exitButton);
+
+        settingsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                SoundManager.INSTANCE.playButtonClick();
+                game.switchScreen(stage, game.getOptionScreen());
+            }
+        });
+
+        container.add(bottomTable).bottom().pad(25).fill();
+        stage.addActor(container);
     }
 
     private void exitGame() {

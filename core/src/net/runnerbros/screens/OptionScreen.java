@@ -10,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -37,30 +39,60 @@ public class OptionScreen implements Screen {
 
         view = new FitViewport(GameController.VIRTUAL_WIDTH, GameController.VIRTUAL_HEIGHT);
         this.stage = new Stage(view, game.getSpriteBatch());
-        ImageButton.ImageButtonStyle musicStyle = new ImageButton.ImageButtonStyle();
-        ImageButton.ImageButtonStyle soundStyle = new ImageButton.ImageButtonStyle();
+
+        final ImageButton.ImageButtonStyle musicStyleOn = new ImageButton.ImageButtonStyle();
+        final ImageButton.ImageButtonStyle musicStyleOff = new ImageButton.ImageButtonStyle();
+        final ImageButton.ImageButtonStyle soundOnStyle = new ImageButton.ImageButtonStyle();
+        final ImageButton.ImageButtonStyle soundOffStyle = new ImageButton.ImageButtonStyle();
+
+        ImageButton.ImageButtonStyle backStyle = new ImageButton.ImageButtonStyle();
 
         TextureAtlas generalAtlas = Assets.manager.get(Assets.BUTTON_ATLAS, TextureAtlas.class);
 
         Skin generalSkin = new Skin(generalAtlas);
 
-        musicStyle.up = generalSkin.getDrawable("btn_musicOn");
-        musicStyle.down = generalSkin.getDrawable("btn_musicOn_pressed");
-        soundStyle.up = generalSkin.getDrawable("btn_soundOn");
-        soundStyle.down = generalSkin.getDrawable("btn_soundOn_pressed");
+        musicStyleOn.up = generalSkin.getDrawable("btn_musicOn");
+        musicStyleOn.down = generalSkin.getDrawable("btn_musicOn_pressed");
 
-        ImageButton musicToggleButton = new ImageButton(musicStyle);
-        ImageButton soundToggleButton = new ImageButton(soundStyle);
+        musicStyleOff.up = generalSkin.getDrawable("btn_musicOff");
+        musicStyleOff.down = generalSkin.getDrawable("btn_musicOn_pressed");
 
-//        musicToggleButton.setPosition(GameController.VIRTUAL_WIDTH / 2 - musicToggleButton.getWidth() / 2, GameController.VIRTUAL_HEIGHT * 0.35f);
-//        soundToggleButton.setPosition(GameController.VIRTUAL_WIDTH / 2  - soundToggleButton.getWidth() / 2, GameController.VIRTUAL_HEIGHT * 0.15f);
+        soundOnStyle.up = generalSkin.getDrawable("btn_soundOn");
+        soundOnStyle.down = generalSkin.getDrawable("btn_soundOn_pressed");
 
+        soundOffStyle.up = generalSkin.getDrawable("btn_soundOff2");
+        soundOffStyle.down = generalSkin.getDrawable("btn_soundOn_pressed");
+        backStyle.up = generalSkin.getDrawable("btn_left");
+        backStyle.down = generalSkin.getDrawable("btn_left_pressed");
+
+        final ImageButton musicToggleButton = new ImageButton(musicStyleOn);
+        final ImageButton soundToggleButton = new ImageButton(soundOnStyle);
+        ImageButton backButton = new ImageButton(backStyle);
+
+        Table buttonTable = new Table();
+
+        buttonTable.setPosition(0, 0);
+        buttonTable.setSize(GameController.VIRTUAL_WIDTH, GameController.VIRTUAL_HEIGHT);
+
+        buttonTable.add(soundToggleButton).pad(25);
+        buttonTable.add(musicToggleButton).pad(25);
+        buttonTable.row();
+        buttonTable.add(backButton).align(Align.bottomLeft).pad(25);
 
         musicToggleButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 SoundManager.INSTANCE.playButtonClick();
-
+                if (SoundManager.INSTANCE.isMusicEnabled()) {
+                    SoundManager.INSTANCE.setMusicEnabled(false);
+                    musicToggleButton.setStyle(musicStyleOff);
+                    SoundManager.INSTANCE.pauseMusic();
+                }
+                else {
+                    SoundManager.INSTANCE.setMusicEnabled(true);
+                    musicToggleButton.setStyle(musicStyleOn);
+                    SoundManager.INSTANCE.playMenuMusic();
+                }
             }
         });
 
@@ -68,12 +100,28 @@ public class OptionScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 SoundManager.INSTANCE.playButtonClick();
+                if (SoundManager.INSTANCE.isSoundEnabled()) {
+                    SoundManager.INSTANCE.setSoundEnabled(false);
+                    soundToggleButton.setStyle(soundOffStyle);
+                }
+                else {
+                    SoundManager.INSTANCE.setSoundEnabled(true);
+                    soundToggleButton.setStyle(soundOnStyle);
+                }
             }
-
         });
 
-        stage.addActor(musicToggleButton);
-        stage.addActor(soundToggleButton);
+
+        backButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                SoundManager.INSTANCE.playButtonClick();
+                //                game.setScreen(game.getMainMenuScreen());
+                game.switchScreen(stage, game.getMainMenuScreen());
+            }
+        });
+
+        stage.addActor(buttonTable);
     }
 
     @Override

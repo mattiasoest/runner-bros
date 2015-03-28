@@ -59,6 +59,10 @@ public class SoundManager {
     }
 
 
+    public boolean isSoundEnabled() {
+        return isSoundEnabled;
+    }
+
     public void setSoundEnabled(boolean isSoundEnabled) {
         this.isSoundEnabled = isSoundEnabled;
     }
@@ -72,7 +76,9 @@ public class SoundManager {
     }
 
     public void playMenuMusic() {
-        menuMusc.play();
+        if (isMusicEnabled) {
+            menuMusc.play();
+        }
     }
 
     public void playButtonClick() {
@@ -127,5 +133,9 @@ public class SoundManager {
         if (isSoundEnabled) {
             trampoline.play(0.85f);
         }
+    }
+
+    public void pauseMusic() {
+        menuMusc.pause();
     }
 }

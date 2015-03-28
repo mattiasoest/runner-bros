@@ -14,63 +14,65 @@ import net.runnerbros.controller.GameController;
 import net.runnerbros.controller.SoundManager;
 import net.runnerbros.screens.LevelScreen;
 import net.runnerbros.screens.MainMenuScreen;
+import net.runnerbros.screens.OptionScreen;
 import net.runnerbros.screens.PlayScreen;
 import net.runnerbros.screens.WorldScreen;
 import net.runnerbros.view.GameRenderer;
 
 public class RunnerBros extends Game {
 
-	public static final float FADE_TIME_FROM = 0.4f;
-	public static final float FADE_TIME = 0.4f;
+    public static final float FADE_TIME_FROM = 0.4f;
+    public static final float FADE_TIME      = 0.4f;
 
-	//Access the google GPS
-	public ActionResolver actionResolver;
+    //Access the google GPS
+    public ActionResolver actionResolver;
 
-	private GameRenderer   renderer;
-	private GameController gameController;
+    private GameRenderer   renderer;
+    private GameController gameController;
 
-	//Create all screens except the level screen.
-	private PlayScreen     playscreen;
-	private MainMenuScreen mainMenuScreen;
-	private WorldScreen    worldScreen;
+    //Create all screens except the level screen.
+    private PlayScreen     playscreen;
+    private MainMenuScreen mainMenuScreen;
+    private WorldScreen    worldScreen;
 
-	//Creates during runtime
-	private LevelScreen levelScreen;
-
-
-	public RunnerBros() {
-	}
-
-	public RunnerBros(ActionResolver actionResolver) {
-		this.actionResolver = actionResolver;
-	}
+    //Creates during runtime
+    private LevelScreen  levelScreen;
+    private OptionScreen optionScreen;
 
 
-	@Override
-	public void create() {
+    public RunnerBros() {
+    }
 
-		//TODO: FIX LEADERBOARD CODE
-		//        if (game.actionResolver.getSignedInGPGS()) {
-		//            game.actionResolver.getLeaderboardGPGS("CgkIj7LCjKMNEAIQAQ");
-		//        }
-		//        else {
-		//            game.actionResolver.loginGPGS();
-		//        }
+    public RunnerBros(ActionResolver actionResolver) {
+        this.actionResolver = actionResolver;
+    }
 
 
-		Assets.load();
+    @Override
+    public void create() {
 
-//		while (!Assets.manager.update()) {
-//			System.out.println(Assets.manager.getProgress() * 100 + "%");
-//		}
+        //TODO: FIX LEADERBOARD CODE
+        //        if (game.actionResolver.getSignedInGPGS()) {
+        //            game.actionResolver.getLeaderboardGPGS("CgkIj7LCjKMNEAIQAQ");
+        //        }
+        //        else {
+        //            game.actionResolver.loginGPGS();
+        //        }
 
-		Assets.manager.finishLoading();
-		gameController = new GameController(this);
-		renderer = new GameRenderer(gameController);
-		playscreen = new PlayScreen(this);
-		mainMenuScreen = new MainMenuScreen(this);
-		worldScreen = new WorldScreen(this);
 
+        Assets.load();
+
+        //		while (!Assets.manager.update()) {
+        //			System.out.println(Assets.manager.getProgress() * 100 + "%");
+        //		}
+
+        Assets.manager.finishLoading();
+        gameController = new GameController(this);
+        renderer = new GameRenderer(gameController);
+        playscreen = new PlayScreen(this);
+        mainMenuScreen = new MainMenuScreen(this);
+        worldScreen = new WorldScreen(this);
+        optionScreen = new OptionScreen(this);
 
         SoundManager.INSTANCE.playMenuMusic();
 
@@ -131,8 +133,14 @@ public class RunnerBros extends Game {
 		return levelScreen;
 	}
 
+    public Screen getOptionScreen() {
+        return optionScreen;
+
+    }
+
 	//Used when navigates from world screen to levelscreen
 	public void setLevelScreen(LevelScreen levelScreen) {
 		this.levelScreen = levelScreen;
 	}
+
 }
