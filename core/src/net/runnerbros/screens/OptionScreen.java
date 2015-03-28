@@ -5,9 +5,11 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -45,11 +47,17 @@ public class OptionScreen implements Screen {
         final ImageButton.ImageButtonStyle soundOnStyle = new ImageButton.ImageButtonStyle();
         final ImageButton.ImageButtonStyle soundOffStyle = new ImageButton.ImageButtonStyle();
 
+
+
         ImageButton.ImageButtonStyle backStyle = new ImageButton.ImageButtonStyle();
 
         TextureAtlas generalAtlas = Assets.manager.get(Assets.BUTTON_ATLAS, TextureAtlas.class);
 
         Skin generalSkin = new Skin(generalAtlas);
+
+        TextureRegion title = generalAtlas.findRegion("settings_title");
+        Image settingsHeader = new Image(title);
+
 
         musicStyleOn.up = generalSkin.getDrawable("btn_musicOn");
         musicStyleOn.down = generalSkin.getDrawable("btn_musicOn_pressed");
@@ -69,15 +77,14 @@ public class OptionScreen implements Screen {
         final ImageButton soundToggleButton = new ImageButton(soundOnStyle);
         ImageButton backButton = new ImageButton(backStyle);
 
-        Table buttonTable = new Table();
+        Table container = new Table();
+        container.setPosition(0, 0);
+        container.setSize(GameController.VIRTUAL_WIDTH, GameController.VIRTUAL_HEIGHT);
 
-        buttonTable.setPosition(0, 0);
-        buttonTable.setSize(GameController.VIRTUAL_WIDTH, GameController.VIRTUAL_HEIGHT);
+        Table buttonTable = new Table();
 
         buttonTable.add(soundToggleButton).pad(25);
         buttonTable.add(musicToggleButton).pad(25);
-        buttonTable.row();
-        buttonTable.add(backButton).align(Align.bottomLeft).pad(25);
 
         musicToggleButton.addListener(new ClickListener() {
             @Override
@@ -121,7 +128,11 @@ public class OptionScreen implements Screen {
             }
         });
 
-        stage.addActor(buttonTable);
+        container.add(settingsHeader).pad(25).row().expand();
+        container.add(buttonTable).pad(25).row();
+        container.add(backButton).align(Align.bottomLeft).pad(25);
+
+        stage.addActor(container);
     }
 
     @Override
