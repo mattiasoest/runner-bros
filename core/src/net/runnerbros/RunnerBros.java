@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import net.runnerbros.controller.ActionResolver;
 import net.runnerbros.controller.Assets;
 import net.runnerbros.controller.GameController;
+import net.runnerbros.controller.SoundManager;
 import net.runnerbros.screens.LevelScreen;
 import net.runnerbros.screens.MainMenuScreen;
 import net.runnerbros.screens.PlayScreen;
@@ -69,6 +70,9 @@ public class RunnerBros extends Game {
 		playscreen = new PlayScreen(this);
 		mainMenuScreen = new MainMenuScreen(this);
 		worldScreen = new WorldScreen(this);
+
+
+        SoundManager.INSTANCE.playMenuMusic();
 
 		setScreen(mainMenuScreen);
 	}

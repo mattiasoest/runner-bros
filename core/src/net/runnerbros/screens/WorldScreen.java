@@ -3,7 +3,6 @@ package net.runnerbros.screens;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -24,6 +23,7 @@ import net.runnerbros.RunnerBros;
 import net.runnerbros.controller.Assets;
 import net.runnerbros.controller.GameController;
 import net.runnerbros.controller.PagedScrollPane;
+import net.runnerbros.controller.SoundManager;
 
 /**
  * Created by mattiasosth on 20/07/2014.
@@ -40,16 +40,14 @@ public class WorldScreen implements Screen {
     private final Table            scrollContainer;
     private final Label.LabelStyle ls;
     private final Texture          background;
-    private final Sprite           world;
-    private final RunnerBros            game;
-    private final Sound            clickSound;
+    private final RunnerBros       game;
 
-    private final boolean          debug = false;
+    private final boolean debug = false;
+    private final Sprite world;
 
     public WorldScreen(final RunnerBros game) {
         this.game = game;
 
-        clickSound = Assets.manager.get(Assets.SOUND_CLICK_BUTTON, Sound.class);
 
         background = Assets.manager.get(Assets.BG_CITY_SUN, Texture.class);
         world = new Sprite(Assets.manager.get(Assets.BG_CITY_BUILDINGS_2, Texture.class));
@@ -123,7 +121,7 @@ public class WorldScreen implements Screen {
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                clickSound.play(0.25f);
+                SoundManager.INSTANCE.playButtonClick();
 //                game.setScreen(game.getMainMenuScreen());
                 game.switchScreen(stage, game.getMainMenuScreen());
             }
@@ -219,7 +217,7 @@ public class WorldScreen implements Screen {
     public ClickListener levelClickListener = new ClickListener() {
         @Override
         public void clicked(InputEvent event, float x, float y) {
-            clickSound.play(0.25f);
+            SoundManager.INSTANCE.playButtonClick();
             String worldIndex = event.getListenerActor().getName();
             System.out.println("Clicked world number: " + worldIndex);
             //TODO: Fix worlds
@@ -238,7 +236,7 @@ public class WorldScreen implements Screen {
             LevelScreen levelSelect = new LevelScreen(game, Integer.valueOf(worldIndex));
             game.setLevelScreen(levelSelect);
             game.switchScreen(stage, levelSelect);
-//            game.setScreen(levelSelect);
+            //            game.setScreen(levelSelect);
         }
     };
 }

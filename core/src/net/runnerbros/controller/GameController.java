@@ -7,7 +7,6 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -112,18 +111,6 @@ public class GameController implements InputProcessor {
 
     private Random rand;
 
-    private Sound jumpSound;
-    private Sound resumeSound;
-    private Sound pauseSound;
-    private Sound doubleJump;
-    private Sound retrySound;
-    private Sound toggleAbility;
-    private Sound copterCap;
-    private Sound slimeSmash;
-    private Sound died;
-    private Sound hit;
-    private Sound trampoline;
-
     private Array<Coin>       coins;
     private Array<Slime>      slimes;
     private Array<MoveableEntity> enemyStartpositions;
@@ -163,7 +150,6 @@ public class GameController implements InputProcessor {
         this.rand = new Random();
 
         this.player = new Player(0, 0, 12f, 58f);
-        loadAudio();
         //TODO: This method will be used in combination with the user clicking a start button
         //        loadLevel("world_1-1", "FUNKY TOWN");
         //TODO: This method will be used in combination with the user clicking a start button once the map has loaded
@@ -343,34 +329,6 @@ public class GameController implements InputProcessor {
     }
 
 
-    private void loadAudio() {
-//        this.cityWorldMusic  = Assets.manager.get(Assets.MUSIC_CITY_WORLD, Music.class);
-
-        this.jumpSound       = Assets.manager.get(Assets.SOUND_JUMP, Sound.class);
-
-        this.resumeSound     = Assets.manager.get(Assets.SOUND_CLICK_BUTTON, Sound.class);
-        this.pauseSound      = Assets.manager.get(Assets.SOUND_PAUSE, Sound.class);
-        this.doubleJump      = Assets.manager.get(Assets.SOUND_DOUBLEJUMP, Sound.class);
-        this.retrySound      = Assets.manager.get(Assets.SOUND_RETRY, Sound.class);
-        this.toggleAbility   = Assets.manager.get(Assets.SOUND_TOGGLE_ABILITY, Sound.class);
-
-        this.copterCap       = Assets.manager.get(Assets.SOUND_COPTER_CAP, Sound.class);
-
-        this.slimeSmash      = Assets.manager.get(Assets.SOUND_SLIME_SMASH, Sound.class);
-        this.died            = Assets.manager.get(Assets.SOUND_DIED, Sound.class);
-        this.hit             = Assets.manager.get(Assets.SOUND_HIT, Sound.class);
-        this.trampoline      = Assets.manager.get(Assets.SOUND_TRAMPOLINE, Sound.class);
-
-
-        //Some small config.
-//        copterCap.loop(0.06f);
-//        copterCap.pause();
-
-//        this.caravanMusic.setVolume(0.2f);
-//        this.caravanMusic.play();
-//        this.caravanMusic.setLooping(true);
-    }
-
     private void parseMapObjects() {
         MapLayer objectLayer = currentLevel.getObjectLayer();
         Rectangle rectSpawn = ((RectangleMapObject) objectLayer.getObjects().get("spawnpoint")).getRectangle();
@@ -490,16 +448,8 @@ public class GameController implements InputProcessor {
             if (s.getBounds().y < -50) { slimes.removeValue(s, true); }
 
             if (player.getBounds().overlaps(s.getBounds()) && s.isAlive() && player.isAlive()) {
-//                player.hit();
-//                hit.play(0.85f);
+
                 killPlayer();
-                //    			player.setImmune(true);
-//                if (Math.abs(player.getVelocity().x) < 0.1f) {
-//                    player.getVelocity().x = s.getVelocity().x * ENEMY_COLLISION_FORCE;
-//                }
-//                else {
-//                    player.getVelocity().x *= -3f;
-//                }
             }
         }
     }
@@ -613,7 +563,7 @@ public class GameController implements InputProcessor {
         if (player.getState() == State.FLYING) {
             if (System.currentTimeMillis() - startCopterTime >= 110l) {
                 startCopterTime = System.currentTimeMillis();
-                copterCap.play(0.17f);
+                SoundManager.INSTANCE.playCopterCap();
             }
         }
 
@@ -650,7 +600,7 @@ public class GameController implements InputProcessor {
                 t.hit();
                 player.getVelocity().y = t.getForce();
                 player.getBounds().y = t.getBounds().y + t.getHeight();
-                trampoline.play(0.85f);
+                SoundManager.INSTANCE.playTrampoline();
             }
         }
     }
@@ -767,7 +717,7 @@ public class GameController implements InputProcessor {
                         s.setAlive(false);
                         killedEnemy = true;
                         collisionY = true;
-                        slimeSmash.play(0.45f);
+                        SoundManager.INSTANCE.playSlimeSmash();
                     }
                 }
             }
@@ -868,7 +818,7 @@ public class GameController implements InputProcessor {
         // This just to keep the direction of the player.
         player.getVelocity().x *= 0.01;
         player.getVelocity().y = DEAD_BOUNCE_FORCE;
-        died.play(0.3f);
+        SoundManager.INSTANCE.playPlayedDied();
     }
 
     private boolean isCellBlocked(int x, int y) {
@@ -901,7 +851,7 @@ public class GameController implements InputProcessor {
                 if (player.getCanJump()) {
 //                    GRAVITY = ORG_GRAVITY;
                     MAX_FALL_SPEED = MAX_FALL_SPEED_ORG;
-                    jumpSound.play(0.2f);
+                    SoundManager.INSTANCE.playJump();
                     player.getVelocity().y = JUMP_FORCE;
                     player.setCanJump(false);
                     jumpPressedTime = System.currentTimeMillis();
@@ -928,7 +878,7 @@ public class GameController implements InputProcessor {
             //Either u jump or pause ising the right area of the screen
             else if (Gdx.input.isTouched(i) && (xPoint > Gdx.graphics.getWidth() * 0.81f) && yPoint < Gdx.graphics.getHeight() * 0.26f) {
                 buttonPausePressed = true;
-                pauseSound.play(0.3f);
+                SoundManager.INSTANCE.playPaused();
                 pauseGame(true);
             }
             //TODO FIXA BRA LÖSNING
@@ -1004,8 +954,6 @@ public class GameController implements InputProcessor {
     }
 
     public void resetCurrentGame() {
-        //TODO: Use the same sound for all buttons here??
-        //        retrySound.play(0.35f);
         resetStartPositions();
         resetStatesAndButtons();
         respawnPlayer();
@@ -1065,7 +1013,7 @@ public class GameController implements InputProcessor {
         resumeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                resumeSound.play(0.35f);
+                SoundManager.INSTANCE.playButtonClick();
                 pauseGame(false);
             }
         });
@@ -1073,7 +1021,7 @@ public class GameController implements InputProcessor {
         retryButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                resumeSound.play(0.35f);
+                SoundManager.INSTANCE.playButtonClick();
                 pauseGame(false);
                 resetCurrentGame();
             }
@@ -1082,7 +1030,7 @@ public class GameController implements InputProcessor {
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                resumeSound.play(0.35f);
+                SoundManager.INSTANCE.playButtonClick();
                 Gdx.input.setInputProcessor(null);
                 game.switchScreen(stage, game.getLevelScreen());
 //                game.setScreen(game.getLevelScreen());
@@ -1152,7 +1100,7 @@ public class GameController implements InputProcessor {
             case Keys.BACK:
                 //Fall through and pause game
             case Keys.P:
-                pauseSound.play(0.3f);
+                SoundManager.INSTANCE.playPaused();
                 pauseGame(true);
                 break;
         }
@@ -1251,7 +1199,7 @@ public class GameController implements InputProcessor {
         // In air
         else if (player.isJumpBootsOn() && !player.getCanJump() && player.getCanDoubleJump()) {
             //                    jumpPressedTime = System.currentTimeMillis();
-            doubleJump.play(0.3f);
+            SoundManager.INSTANCE.playDoubleJumpp();
             initriggerJumpSmoke(player.getBounds().x, player.getBounds().y);
             player.setCanDoubleJump(false);
             player.getVelocity().y = JUMP_FORCE * 1.4f;
@@ -1269,7 +1217,7 @@ public class GameController implements InputProcessor {
     }
 
     private void toggleAbility() {
-        toggleAbility.play(0.35f);
+        SoundManager.INSTANCE.playToggleAbility();
         player.setJumpBootsOn(!player.isJumpBootsOn());
         toggleButtonPressed = true;
     }

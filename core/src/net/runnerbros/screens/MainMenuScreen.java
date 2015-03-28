@@ -2,7 +2,6 @@ package net.runnerbros.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -21,6 +20,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import net.runnerbros.RunnerBros;
 import net.runnerbros.controller.Assets;
 import net.runnerbros.controller.GameController;
+import net.runnerbros.controller.SoundManager;
 
 /**
  * Created by mattiasosth on 18/07/2014.
@@ -33,16 +33,10 @@ public class MainMenuScreen implements Screen {
 
     private final FitViewport view;
     private final Texture     background;
-//    private final Music       menuMusc;
 
     public MainMenuScreen(final RunnerBros game) {
         this.game = game;
 
-
-//        menuMusc = Assets.manager.get(Assets.MUSIC_MENU, Music.class);
-//        menuMusc.setLooping(true);
-//        menuMusc.setVolume(0.2f);
-        //        menuMusc.play();
         background = Assets.manager.get(Assets.BG_CITY_SUN, Texture.class);
 
         view = new FitViewport(GameController.VIRTUAL_WIDTH, GameController.VIRTUAL_HEIGHT);
@@ -76,11 +70,10 @@ public class MainMenuScreen implements Screen {
         exitButton.setPosition(GameController.VIRTUAL_WIDTH / 2  - exitButton.getWidth() / 2, GameController.VIRTUAL_HEIGHT * 0.15f);
 
 
-        final Sound click = Assets.manager.get(Assets.SOUND_CLICK_BUTTON, Sound.class);
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                click.play(0.25f);
+                SoundManager.INSTANCE.playButtonClick();
                 game.switchScreen(stage, game.getWorldScreen());
 //                game.setScreen(game.getWorldScreen());
             }
@@ -90,7 +83,7 @@ public class MainMenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 //                game.dispose();
-                click.play(0.25f);
+                SoundManager.INSTANCE.playButtonClick();
                 exitGame();
             }
 

@@ -2,7 +2,6 @@ package net.runnerbros.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -22,6 +21,7 @@ import net.runnerbros.RunnerBros;
 import net.runnerbros.controller.Assets;
 import net.runnerbros.controller.GameController;
 import net.runnerbros.controller.PagedScrollPane;
+import net.runnerbros.controller.SoundManager;
 
 /**
  * Created by mattiasosth on 19/07/2014.
@@ -42,14 +42,10 @@ public class LevelScreen implements Screen {
     private final RunnerBros       game;
     private       int              worldIndex;
 
-    private final Sound clickSound;
-
     private final boolean          debug = false;
     public LevelScreen(final RunnerBros game, final int worldIndex) {
         this.game = game;
         this.worldIndex = worldIndex;
-        clickSound = Assets.manager.get(Assets.SOUND_CLICK_BUTTON, Sound.class);
-
         background = Assets.manager.get(Assets.BG_CITY_SUN, Texture.class);
         ls = new Label.LabelStyle();
         ls.font = Assets.getNewRockwellFont();
@@ -105,7 +101,7 @@ public class LevelScreen implements Screen {
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                clickSound.play(0.25f);
+                SoundManager.INSTANCE.playButtonClick();
                 dispose();
                 game.switchScreen(stage, game.getWorldScreen());
 //                game.setScreen(game.getWorldScreen());
@@ -210,7 +206,7 @@ public class LevelScreen implements Screen {
 
         @Override
         public void clicked(InputEvent event, float x, float y) {
-            clickSound.play(0.25f);
+            SoundManager.INSTANCE.playButtonClick();
             String levelName = event.getListenerActor().getName();
             System.out.println("Selected: " + levelName);
 

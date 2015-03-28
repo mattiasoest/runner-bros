@@ -3,6 +3,7 @@ package net.runnerbros.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -57,7 +58,7 @@ public class Assets {
         manager.load(BG_CITY_GROUND, Texture.class);
 
         //MUSIC
-//        manager.load(MUSIC_MENU, Music.class);
+        manager.load(MUSIC_MENU, Music.class);
 //        manager.load(MUSIC_CITY_WORLD, Music.class);
 
         //Audio
