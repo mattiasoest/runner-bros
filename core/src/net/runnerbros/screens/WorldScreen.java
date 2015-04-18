@@ -2,8 +2,6 @@ package net.runnerbros.screens;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -28,7 +26,7 @@ import net.runnerbros.controller.SoundManager;
 /**
  * Created by mattiasosth on 20/07/2014.
  */
-public class WorldScreen implements Screen {
+public class WorldScreen extends BackgroundScreen {
 
 
     //This is good after some testing
@@ -39,17 +37,13 @@ public class WorldScreen implements Screen {
     private final FitViewport      view;
     private final Table            scrollContainer;
     private final Label.LabelStyle ls;
-    private final Texture          background;
-    private final RunnerBros       game;
 
     private final boolean debug = false;
     private final Sprite world;
 
     public WorldScreen(final RunnerBros game) {
-        this.game = game;
+        super(game);
 
-
-        background = Assets.manager.get(Assets.BG_CITY_SUN, Texture.class);
         world = new Sprite(Assets.manager.get(Assets.BG_CITY_BUILDINGS_2, Texture.class));
         ls = new Label.LabelStyle();
         ls.font = Assets.getNewRockwellFont();
@@ -162,12 +156,7 @@ public class WorldScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        game.getSpriteBatch().begin();
-        game.getSpriteBatch().draw(background, 0, 0, GameController.VIRTUAL_WIDTH, GameController.VIRTUAL_HEIGHT);
-        game.getSpriteBatch().end();
+        super.render(delta);
 
         stage.act(delta);
         stage.draw();

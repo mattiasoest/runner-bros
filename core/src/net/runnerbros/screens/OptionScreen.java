@@ -1,9 +1,6 @@
 package net.runnerbros.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -25,19 +22,14 @@ import net.runnerbros.controller.SoundManager;
 /**
  * Created by mattiasosth on 18/07/2014.
  */
-public class OptionScreen implements Screen {
+public class OptionScreen extends BackgroundScreen {
 
-
-    private final RunnerBros game;
     private final Stage      stage;
 
     private final FitViewport view;
-    private final Texture     background;
 
     public OptionScreen(final RunnerBros game) {
-        this.game = game;
-
-        background = Assets.manager.get(Assets.BG_CITY_SUN, Texture.class);
+        super(game);
 
         view = new FitViewport(GameController.VIRTUAL_WIDTH, GameController.VIRTUAL_HEIGHT);
         this.stage = new Stage(view, game.getSpriteBatch());
@@ -137,12 +129,7 @@ public class OptionScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        game.getSpriteBatch().begin();
-        game.getSpriteBatch().draw(background, 0 ,0 , GameController.VIRTUAL_WIDTH, GameController.VIRTUAL_HEIGHT);
-        game.getSpriteBatch().end();
+        super.render(delta);
 
         stage.act(delta);
         stage.draw();

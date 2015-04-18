@@ -1,9 +1,6 @@
 package net.runnerbros.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -26,7 +23,7 @@ import net.runnerbros.controller.SoundManager;
 /**
  * Created by mattiasosth on 19/07/2014.
  */
-public class LevelScreen implements Screen {
+public class LevelScreen extends BackgroundScreen {
 
     private static final int THE_CITY    = 1;
     private static final int SNOW_LANDS  = 2;
@@ -38,15 +35,12 @@ public class LevelScreen implements Screen {
     private final Stage            stage;
     private final FitViewport      view;
     private final Label.LabelStyle ls;
-    private final Texture          background;
-    private final RunnerBros       game;
     private       int              worldIndex;
 
     private final boolean          debug = false;
     public LevelScreen(final RunnerBros game, final int worldIndex) {
-        this.game = game;
+        super(game);
         this.worldIndex = worldIndex;
-        background = Assets.manager.get(Assets.BG_CITY_SUN, Texture.class);
         ls = new Label.LabelStyle();
         ls.font = Assets.getNewRockwellFont();
 
@@ -151,11 +145,7 @@ public class LevelScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        game.getSpriteBatch().begin();
-        game.getSpriteBatch().draw(background, 0, 0, GameController.VIRTUAL_WIDTH, GameController.VIRTUAL_HEIGHT);
-        game.getSpriteBatch().end();
+        super.render(delta);
 
         stage.act(delta);
         stage.draw();
