@@ -5,6 +5,7 @@ import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -32,18 +33,25 @@ import net.runnerbros.entities.Snowman;
 import net.runnerbros.entities.Trampoline;
 
 public class GameRenderer {
-    private final FitViewport   view;
-    private final DecimalFormat decimalFormat;
-    private final Sprite        buttonPauseSprite;
-    private final Sprite        buttonPausePressedSprite;
+    private final FitViewport        view;
+    private final DecimalFormat      decimalFormat;
+    private final Sprite             buttonPauseSprite;
+    private final Sprite             buttonPausePressedSprite;
 
+    private float previousHoverCameraPosX = 0f;
 
     private Level currentLevel;
 
     private Sprite buttonPauseSp;
 
+    // HOVER CAMERA STUFF, MAYBE CREATE CLASS?
+    private float cameraStaticTimer = 0f;
+    private float cameraHoverSpeed = 50f;
+    private static final float CAMERA_SPEED_INCREASER = 1.2f;
+
     private OrthogonalTiledMapRenderer renderer;
     private OrthographicCamera         camera;
+    private final OrthographicCamera hoverCamera;
     private float                      buttonDiam;
     private boolean isSmokeTurnPlaying = false;
     private boolean isSmokeHaltPlaying = false;
@@ -52,7 +60,7 @@ public class GameRenderer {
     private boolean isRunningLeft      = false;
 
     // Original duration multiplied by the slime speed multiplier
-    private static final float SLIME_FRAME_DURATION      = 0.2f;
+    private static final float SLIME_FRAME_DURATION = 0.2f;
 
 
     private final float TRAMPOLINE_FRAME_DURATION = 0.09f;
@@ -60,7 +68,7 @@ public class GameRenderer {
     private final float SMOKE_TURN_DURATION       = 0.1f;
     private final float SNOWMAN_IDLE_DURATION     = 0.3f;
     private final float BENNY_IDLE_DURATION       = 1f;
-    private final float BENNY_HAPPY_DURATION       = 0.75f;
+    private final float BENNY_HAPPY_DURATION      = 0.75f;
 
     private TextureAtlas objectAtlas;
     private TextureAtlas atlas;
@@ -105,7 +113,6 @@ public class GameRenderer {
     private Animation smokeJumpRightAnimation;
 
 
-
     private Animation slimeBlueRightAnimation;
     private Animation slimeBlueLeftAnimation;
     private Animation slimePinkLeftAnimation;
@@ -120,7 +127,6 @@ public class GameRenderer {
     private Animation slimeGreenRightAnimation;
 
 
-
     private Animation trampolineAnimation;
     private Animation snowmanLeftAnimation;
     private Animation bennyIdleAnimation;
@@ -133,6 +139,8 @@ public class GameRenderer {
     private TextureRegion buttonToggle;
     private TextureRegion buttonPause;
 
+
+    private static final float HOVER_CAMERA_SIZE_MULTIPLIER = 2f;
     private BitmapFont font;
 
     //Debugging
@@ -159,6 +167,7 @@ public class GameRenderer {
         //        this.scale = Gdx.graphics.getWidth() / 768f;
 
         this.camera = new OrthographicCamera();
+        this.hoverCamera = new OrthographicCamera(GameController.VIRTUAL_WIDTH * HOVER_CAMERA_SIZE_MULTIPLIER, GameController.VIRTUAL_HEIGHT * HOVER_CAMERA_SIZE_MULTIPLIER);
         //        camera.viewportWidth = 384f;
         //        camera.viewportHeight = 216f;
         //        camera.viewportWidth = 768f;
@@ -204,21 +213,28 @@ public class GameRenderer {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.setProjectionMatrix(camera.combined);
-        drawParallaxBackground();
-        renderer.setView(camera);
+        batch.begin();
+        if (gc.getCurrentState().equals(GameController.GameState.CAM_INITIALIZATION)) {
+            drawParallaxBackground(camera);
+            renderer.setView(hoverCamera);
+        }
+        else {
+            drawParallaxBackground(camera);
+            renderer.setView(camera);
+        }
         //TODO: Remove layers and just user render() ??
         renderer.render();
         batch.begin();
-        drawSnowmen();
-        drawSlimes();
         drawTampolines(delta);
         drawBenny();
-        drawTimer();
+        drawPlayer();
 
         switch (gc.getCurrentState()) {
             case RUNNING:
+                drawTimer();
+                drawSnowmen();
+                drawSlimes();
                 drawSmoke(delta);
-                drawPlayer();
                 drawButtons();
                 batch.end();
                 break;
@@ -228,18 +244,29 @@ public class GameRenderer {
                 break;
             case PAUSED:
                 //DRAW PAUSE MENU
-                drawPlayer();
+                drawTimer();
+                drawSnowmen();
+                drawSlimes();
+                drawSmoke(delta);
                 batch.end();
                 gc.getPausedStage().act(delta);
                 gc.getPausedStage().draw();
                 break;
             case FINISHED:
+                batch.end();
+                break;
+            case CAM_INITIALIZATION:
+                //TODO
+                hoverCameraOverMap();
+                batch.end();
                 break;
         }
         //        drawGameStats();
-        updateCameraPosition();
+        // Update if we're not showing the map for the first time.
+        if (!gc.getCurrentState().equals(GameController.GameState.CAM_INITIALIZATION)) {
+            updateCameraPosition();
+        }
     }
-
 
     public Batch getSpriteBatch() {
         return batch;
@@ -284,16 +311,15 @@ public class GameRenderer {
         view.update(width, height);
     }
 
-    private void drawParallaxBackground() {
+    private void drawParallaxBackground(Camera cam) {
         //paralaxx
-        batch.begin();
-        batch.draw(skystatic, camera.position.x - camera.viewportWidth / 2f, camera.position.y - camera.viewportHeight / 2f, camera.viewportWidth, camera.viewportHeight, 0, 1, 1, 0);
+        batch.draw(skystatic, cam.position.x - cam.viewportWidth / 2f, cam.position.y - cam.viewportHeight / 2f, cam.viewportWidth, cam.viewportHeight, 0, 1, 1, 0);
 
-        batch.draw(buildingsGround, camera.position.x - camera.viewportWidth / 2f, camera.position.y / 1.4f - camera.viewportHeight / 3.5f, camera.viewportWidth, camera.viewportHeight, 0, 1, 1, 0);
-        batch.draw(buildingsBlack, camera.position.x / 1.05f - camera.viewportWidth, camera.position.y / 1.1f - camera.viewportHeight / 2.1f, buildingsBlack.getWidth() * 4, buildingsBlack.getHeight() * 1, 0, 1, 4, 0);
-        batch.draw(buildings, camera.position.x / 1.3f - camera.viewportWidth, camera.position.y / 1.4f - camera.viewportHeight / 3f, buildings.getWidth() * 4, buildings.getHeight(), 0, 1, 4, 0);
+        batch.draw(buildingsGround, cam.position.x - cam.viewportWidth / 2f, cam.position.y / 1.4f - cam.viewportHeight / 3.5f, cam.viewportWidth, cam.viewportHeight, 0, 1, 1, 0);
+        batch.draw(buildingsBlack, cam.position.x / 1.05f - cam.viewportWidth, cam.position.y / 1.1f - cam.viewportHeight / 2.1f, buildingsBlack.getWidth() * 4, buildingsBlack.getHeight() * 1, 0, 1, 4, 0);
+        batch.draw(buildings, cam.position.x / 1.3f - cam.viewportWidth, cam.position.y / 1.4f - cam.viewportHeight / 3f, buildings.getWidth() * 4, buildings.getHeight(), 0, 1, 4, 0);
 
-        batch.draw(skystaticFog, camera.position.x - camera.viewportWidth / 2f, camera.position.y - camera.viewportHeight / 2f, camera.viewportWidth, camera.viewportHeight, 0, 1, 1, 0);
+        batch.draw(skystaticFog, cam.position.x - cam.viewportWidth / 2f, cam.position.y - cam.viewportHeight / 2f, cam.viewportWidth, cam.viewportHeight, 0, 1, 1, 0);
         batch.end();
     }
 
@@ -314,6 +340,66 @@ public class GameRenderer {
         buttonPauseSp.draw(batch);
 
     }
+
+    // Used once at the beginning of each map.
+    private void hoverCameraOverMap() {
+        //TODO FFS
+        float posX, posY;
+        float speed = 70f;
+        if (cameraStaticTimer < 1f) {
+            cameraStaticTimer += Gdx.graphics.getDeltaTime();
+        }
+        else {
+            if (hoverCamera.position.x + hoverCamera.viewportWidth / 2 < currentLevel.getTileWidth() * (currentLevel.getCollisionLayer().getWidth() / 2)) {
+                cameraHoverSpeed -= CAMERA_SPEED_INCREASER;
+            }
+            else {
+                cameraHoverSpeed += CAMERA_SPEED_INCREASER;
+            }
+            // TODO SMOTH MOVEMENT IN THE BEGINNING AND END
+            if (cameraHoverSpeed > 650f) {
+                System.out.println("capped MAX");
+                cameraHoverSpeed = 500f;
+            }
+            else if (cameraHoverSpeed < 80f) {
+                System.out.println("capped MIN");
+                cameraHoverSpeed = 80f;
+            }
+            previousHoverCameraPosX += cameraHoverSpeed * Gdx.graphics.getDeltaTime();
+        }
+//        posX = currentLevel.getTileWidth() * (currentLevel.getCollisionLayer().getWidth() - 1) - hoverCamera.viewportWidth / 2;
+        posX = currentLevel.getTileWidth() * (currentLevel.getCollisionLayer().getWidth() - 1) - hoverCamera.viewportWidth / 2 - previousHoverCameraPosX;
+//        posX = gc.getBenny().getBounds().x - gc.getBenny().getWidth() / 2 - (player.getBounds().x + previousHoverCameraPosX);
+        posY = gc.getBenny().getBounds().y - hoverCamera.viewportHeight * 0.1f;
+        hoverCamera.position.set(posX, posY, 0);
+        if (hoverCamera.position.x - hoverCamera.viewportWidth / 2 < currentLevel.getTileWidth() * 1) {
+            System.out.println("START");
+            posX = currentLevel.getTileWidth() + hoverCamera.viewportWidth / 2;
+            if (cameraStaticTimer < 2f) {
+                // Count another 1s
+                cameraStaticTimer += Gdx.graphics.getDeltaTime();
+            }
+            else {
+                hoverCamera.viewportHeight -= hoverCamera.viewportHeight * Gdx.graphics.getDeltaTime();
+                hoverCamera.viewportWidth -= hoverCamera.viewportWidth * Gdx.graphics.getDeltaTime();
+                if (hoverCamera.viewportHeight + 1 < GameController.VIRTUAL_HEIGHT) {
+                    gc.setGameState(GameController.GameState.READY);
+                }
+            }
+        }
+//        else if (hoverCamera.position.x + hoverCamera.viewportWidth / 2 > (currentLevel.getCollisionLayer().getWidth() - 1) * currentLevel.getTileWidth()) {
+//            System.out.println("END");
+//            posX = currentLevel.getTileWidth() * (currentLevel.getCollisionLayer().getWidth() - 1) - hoverCamera.viewportWidth / 2;
+//        }
+        if (hoverCamera.position.y + hoverCamera.viewportHeight / 2 < currentLevel.getTileHeight() * 14.4f * HOVER_CAMERA_SIZE_MULTIPLIER) {
+            posY = currentLevel.getTileHeight() * 14.4f * HOVER_CAMERA_SIZE_MULTIPLIER - hoverCamera.viewportHeight / 2;
+        }
+        System.out.println(cameraStaticTimer);
+        hoverCamera.position.set(posX, posY, 0);
+        hoverCamera.update();
+
+    }
+
 
     private void updateCameraPosition() {
 //        float posX, posY;

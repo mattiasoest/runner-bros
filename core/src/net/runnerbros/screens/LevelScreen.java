@@ -204,6 +204,7 @@ public class LevelScreen extends BackgroundScreen {
             game.getGameController().loadLevel(event.getListenerActor().getName(), "FUNNY STUFF");
             // May remove this.
             game.getGameController().resetCurrentGame();
+            game.getGameController().initMap();
             game.getRenderer().initRenderer();
             game.setScreen(game.getPlayscreen());
 //            game.switchScreen(stage, game.getPlayscreen());

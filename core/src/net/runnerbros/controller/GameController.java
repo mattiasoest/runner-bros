@@ -77,9 +77,12 @@ public class GameController implements InputProcessor {
     private final Preferences mapScores;
     private final RunnerBros  game;
 
+    public void setGameState(GameState gameState) {
+        currentGameState = gameState;
+    }
 
     public enum GameState {
-        RUNNING, PAUSED, READY, FINISHED
+        RUNNING, PAUSED, READY, FINISHED, CAM_INITIALIZATION,
     }
 
 
@@ -156,6 +159,10 @@ public class GameController implements InputProcessor {
         //        startTimer();
     }
 
+    public void initMap() {
+        currentGameState = GameState.CAM_INITIALIZATION;
+    }
+
     public void loadLevel(final String key, final String name) {
         currentGameState = GameState.READY;
         this.currentLevel = new Level(key, name);
@@ -207,6 +214,12 @@ public class GameController implements InputProcessor {
             case READY:
                 processStartInput();
                 break;
+            case CAM_INITIALIZATION:
+                updateKenny(delta);
+                updateBenny(delta);
+                break;
+            default:
+                throw new RuntimeException("WTF unknown state:" + currentGameState.toString());
         }
     }
 
