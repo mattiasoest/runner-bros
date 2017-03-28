@@ -5,17 +5,17 @@ package net.runnerbros.controller;
  */
 public interface ActionResolver {
 
-    public boolean getSignedInGPGS();
+    boolean getSignedInGPGS();
 
-    public void loginGPGS();
+    void loginGPGS();
 
-    public void logoutGPGS();
+    void logoutGPGS();
 
-    public void submitScoreGPGS(long score, String leaderBoardId);
+    void submitScoreGPGS(long score, String leaderBoardId);
 
-    public void unlockAchievementGPGS(String achievementId);
+    void unlockAchievementGPGS(String achievementId);
 
-    public void getLeaderboardGPGS(String leaderBoardId);
+    void getLeaderboardGPGS(String leaderBoardId);
 
-    public void getAchievementsGPGS();
+    void getAchievementsGPGS();
 }

@@ -6,9 +6,9 @@ public abstract class Entity {
 
 
 	private float stateTime = 0;
-	protected Rectangle bounds;
-	protected float     width;
-	protected float     height;
+	private Rectangle bounds;
+	private float     width;
+	private float     height;
 
 	public Entity(float x, float y, float width, float height) {
 		this.width = width;

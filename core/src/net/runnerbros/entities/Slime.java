@@ -25,7 +25,7 @@ public class Slime extends MoveableEntity {
 	}
 
 	public Slime copy() {
-		return new Slime(getBounds().x, getBounds().y, width, height, slimeVelocityMultiplier, type);
+		return new Slime(getBounds().x, getBounds().y, getWidth(), getHeight(), slimeVelocityMultiplier, type);
 	}
 
 	public float getSlimeVelocityMultiplier() {
