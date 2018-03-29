@@ -198,6 +198,7 @@ public class GameRenderer {
 
         view = new FitViewport(GameController.VIRTUAL_WIDTH, GameController.VIRTUAL_HEIGHT, cameraManager.getGameCamera());
         gc.setupPauseMenu(view, batch);
+        gc.setupStartGameOverlay(view, batch);
     }
 
     public void initRenderer() {
@@ -209,13 +210,14 @@ public class GameRenderer {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        batch.setProjectionMatrix(cameraManager.getGameCamera().combined);
-        batch.begin();
         if (gc.getCurrentState().equals(GameController.GameState.CAM_INITIALIZATION)) {
-            drawParallaxBackground(cameraManager.getGameCamera());
+            batch.setProjectionMatrix(cameraManager.getHoverCamera().combined);
+            // Just keep it static for now by using game camera
+            drawParallaxBackground(cameraManager.getHoverCamera());
             renderer.setView(cameraManager.getHoverCamera());
         }
         else {
+            batch.setProjectionMatrix(cameraManager.getGameCamera().combined);
             drawParallaxBackground(cameraManager.getGameCamera());
             renderer.setView(cameraManager.getGameCamera());
         }
@@ -238,6 +240,7 @@ public class GameRenderer {
                 drawTimer();
                 drawButtons();
                 batch.end();
+
                 break;
             case PAUSED:
                 //Special case for when the app gets interrupted and its goes into auto pause while
@@ -259,6 +262,8 @@ public class GameRenderer {
                 //TODO
                 hoverCameraOverMap();
                 batch.end();
+                gc.getgameStartStage().act(delta);
+                gc.getgameStartStage().draw();
                 break;
         }
         //        drawGameStats();
@@ -313,6 +318,7 @@ public class GameRenderer {
 
     private void drawParallaxBackground(Camera cam) {
         //paralaxx
+        batch.begin();
         batch.draw(skystatic, cam.position.x - cam.viewportWidth / 2f, cam.position.y - cam.viewportHeight / 2f, cam.viewportWidth, cam.viewportHeight, 0, 1, 1, 0);
 
         batch.draw(buildingsGround, cam.position.x - cam.viewportWidth / 2f, cam.position.y / 1.4f - cam.viewportHeight / 3.5f, cam.viewportWidth, cam.viewportHeight, 0, 1, 1, 0);

@@ -133,7 +133,7 @@ public class GameController implements InputProcessor {
     private Stage   stagePause;
     private Stage   stageGameStart;
     private Table   pauseTable;
-    private Table   gameStartOverlay;
+    private Table   gameStartTable;
 
     private long startCopterTime = 0l;
 
@@ -347,6 +347,10 @@ public class GameController implements InputProcessor {
 
     public Stage getPausedStage() {
         return stagePause;
+    }
+
+    public Stage getgameStartStage() {
+        return stageGameStart;
     }
 
 
@@ -1079,8 +1083,8 @@ public class GameController implements InputProcessor {
     public void setupStartGameOverlay(FitViewport view, Batch batch) {
 
         this.stageGameStart = new Stage(view, batch);
-        this.pauseTable = new Table();
-        this.pauseTable.setSize(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
+        this.gameStartTable = new Table();
+        this.gameStartTable.setSize(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
         Label.LabelStyle lStyle = new Label.LabelStyle(Assets.getRockwellFont(), Color.WHITE);
         Label label = new Label("Touch to start", lStyle);
 
@@ -1088,8 +1092,8 @@ public class GameController implements InputProcessor {
         label.setWidth(label.getPrefWidth());
         label.setPosition(VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2);
         Table miniTable = new Table();
-        pauseTable.add(miniTable);
-        stageGameStart.addActor(gameStartOverlay);
+        gameStartTable.add(miniTable);
+        stageGameStart.addActor(gameStartTable);
     }
 
     //Only for not be able to spamming jump and fire so we cant use polling
