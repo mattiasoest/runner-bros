@@ -45,6 +45,8 @@ import net.runnerbros.entities.Trampoline;
 
 public class GameController implements InputProcessor {
 
+    private static final boolean IS_CAM_INIT = false;
+
     public static final float GREEN_VELOCITY_MULTIPLIER = 4f;
     public static final float RED_VELOCITY_MULTIPLIER = 6f;
     public static final float BLUE_VELOCITY_MULTIPLIER = 2.5f;
@@ -160,7 +162,9 @@ public class GameController implements InputProcessor {
     }
 
     public void initMap() {
-        currentGameState = GameState.CAM_INITIALIZATION;
+        if (IS_CAM_INIT) {
+            currentGameState = GameState.CAM_INITIALIZATION;
+        }
     }
 
     public void loadLevel(final String key, final String name) {
