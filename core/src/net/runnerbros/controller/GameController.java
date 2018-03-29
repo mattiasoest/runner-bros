@@ -45,7 +45,7 @@ import net.runnerbros.entities.Trampoline;
 
 public class GameController implements InputProcessor {
 
-    private static final boolean IS_CAM_INIT = false;
+    private static final boolean IS_CAM_INIT = true;
 
     public static final float GREEN_VELOCITY_MULTIPLIER = 4f;
     public static final float RED_VELOCITY_MULTIPLIER = 6f;
@@ -220,6 +220,7 @@ public class GameController implements InputProcessor {
                 break;
             case CAM_INITIALIZATION:
                 updateKenny(delta);
+                updateSnowmen(delta);
                 updateBenny(delta);
                 break;
             default:
