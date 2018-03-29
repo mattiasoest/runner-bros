@@ -130,8 +130,10 @@ public class GameController implements InputProcessor {
     private Vector2 triggerJumpSmokePosition = new Vector2();
     private boolean isSmokeJumpTrigged;
     private boolean isGamePaused;
-    private Stage   stage;
+    private Stage   stagePause;
+    private Stage   stageGameStart;
     private Table   pauseTable;
+    private Table   gameStartOverlay;
 
     private long startCopterTime = 0l;
 
@@ -216,12 +218,13 @@ public class GameController implements InputProcessor {
                 //TODO Fix!
                 break;
             case READY:
-                processStartInput();
-                break;
+//                break;
+                //Fall through. do the same stuff in
             case CAM_INITIALIZATION:
                 updateKenny(delta);
                 updateSnowmen(delta);
                 updateBenny(delta);
+                processStartInput();
                 break;
             default:
                 throw new RuntimeException("WTF unknown state:" + currentGameState.toString());
@@ -325,15 +328,15 @@ public class GameController implements InputProcessor {
     }
 
     public void pauseGame(boolean isPaused) {
-        if (currentGameState == GameState.READY) {
+        if (currentGameState == GameState.READY || currentGameState == GameState.CAM_INITIALIZATION) {
             // Just return if pause is called during the ready state.
             return;
         }
         if (isPaused) {
             currentGameState = GameState.PAUSED;
-            stage.addAction(Actions.alpha(1));
-            Gdx.input.setInputProcessor(stage);
-            Camera cam = stage.getCamera();
+            stagePause.addAction(Actions.alpha(1));
+            Gdx.input.setInputProcessor(stagePause);
+            Camera cam = stagePause.getCamera();
             pauseTable.setPosition(cam.position.x - cam.viewportWidth / 2f, cam.position.y - cam.viewportHeight / 2f);
         }
         else {
@@ -343,7 +346,7 @@ public class GameController implements InputProcessor {
     }
 
     public Stage getPausedStage() {
-        return stage;
+        return stagePause;
     }
 
 
@@ -957,6 +960,10 @@ public class GameController implements InputProcessor {
             currentGameState = GameState.RUNNING;
             startTimer();
         }
+        // Touch or keypress duriong the hovering, just go to the ready state and wait for another keypress/click
+        else if (currentGameState == GameState.CAM_INITIALIZATION && (Gdx.input.isKeyJustPressed(Keys.ENTER) || Gdx.input.isTouched())) {
+            currentGameState = GameState.READY;
+        }
     }
 
     private void setSpeedRunning(boolean isSpeedRunning) {
@@ -995,13 +1002,15 @@ public class GameController implements InputProcessor {
         }
     }
 
+
+    // Not a real screen, just an overlay.
     public void setupPauseMenu(FitViewport view, Batch batch) {
 
         TextureAtlas menuAtlas = Assets.manager.get(Assets.BUTTON_ATLAS, TextureAtlas.class);
         Skin buttonSkin = new Skin(menuAtlas);
 
 //        this.stage = new Stage();
-        this.stage = new Stage(view, batch);
+        this.stagePause = new Stage(view, batch);
         this.pauseTable = new Table();
         this.pauseTable.setSize(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
 //        stage.stageToScreenCoordinates(getStageLocation(pauseTable));
@@ -1049,7 +1058,7 @@ public class GameController implements InputProcessor {
             public void clicked(InputEvent event, float x, float y) {
                 SoundManager.INSTANCE.playButtonClick();
                 Gdx.input.setInputProcessor(null);
-                game.switchScreen(stage, game.getLevelScreen());
+                game.switchScreen(stagePause, game.getLevelScreen());
 //                game.setScreen(game.getLevelScreen());
             }
         });
@@ -1063,7 +1072,24 @@ public class GameController implements InputProcessor {
 
         pauseTable.add(pauseHeader).padBottom(60).row();
         pauseTable.add(miniTable);
-        stage.addActor(pauseTable);
+        stagePause.addActor(pauseTable);
+    }
+
+    // Not a real screen, just an overlay.
+    public void setupStartGameOverlay(FitViewport view, Batch batch) {
+
+        this.stageGameStart = new Stage(view, batch);
+        this.pauseTable = new Table();
+        this.pauseTable.setSize(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
+        Label.LabelStyle lStyle = new Label.LabelStyle(Assets.getRockwellFont(), Color.WHITE);
+        Label label = new Label("Touch to start", lStyle);
+
+
+        label.setWidth(label.getPrefWidth());
+        label.setPosition(VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2);
+        Table miniTable = new Table();
+        pauseTable.add(miniTable);
+        stageGameStart.addActor(gameStartOverlay);
     }
 
     //Only for not be able to spamming jump and fire so we cant use polling

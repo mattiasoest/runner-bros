@@ -213,7 +213,6 @@ public class GameRenderer {
         batch.begin();
         if (gc.getCurrentState().equals(GameController.GameState.CAM_INITIALIZATION)) {
             drawParallaxBackground(cameraManager.getGameCamera());
-            System.out.println("RNDER SET >VIEW HOVER");
             renderer.setView(cameraManager.getHoverCamera());
         }
         else {
@@ -236,10 +235,15 @@ public class GameRenderer {
                 batch.end();
                 break;
             case READY:
+                drawTimer();
                 drawButtons();
                 batch.end();
                 break;
             case PAUSED:
+                //Special case for when the app gets interrupted and its goes into auto pause while
+                // using the hovering camera
+                resetHoverProperties();
+
                 //DRAW PAUSE MENU
                 drawTimer();
                 drawSlimes();
@@ -383,8 +387,7 @@ public class GameRenderer {
 //                if (hoverCamera.viewportHeight + 1 < GameController.VIRTUAL_HEIGHT) {
                     gc.setGameState(GameController.GameState.READY);
                     // Reset the pos for next time
-                    previousHoverCameraPosX = 0f;
-                    cameraStaticTimer = 0;
+                    resetHoverProperties();
 //                }
             }
         }
@@ -400,6 +403,11 @@ public class GameRenderer {
 
     }
 
+
+    private void resetHoverProperties() {
+        previousHoverCameraPosX = 0f;
+        cameraStaticTimer = 0;
+    }
 
     private void updateCameraPosition() {
         float posX, posY;
