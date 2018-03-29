@@ -977,7 +977,7 @@ public class GameController implements InputProcessor {
         respawnPlayer();
         resetTimer();
 //        startTimer();
-        currentGameState = GameState.READY;
+        initMap();
 //        pauseGame(false);
     }
 

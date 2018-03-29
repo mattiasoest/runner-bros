@@ -33,6 +33,11 @@ import net.runnerbros.entities.Snowman;
 import net.runnerbros.entities.Trampoline;
 
 public class GameRenderer {
+
+    //Hover camera properties
+    private float cameraStaticTimer = 0f;
+    private float cameraHoverSpeed = 50f;
+
     private final FitViewport        view;
     private final DecimalFormat      decimalFormat;
     private final Sprite             buttonPauseSprite;
@@ -43,17 +48,9 @@ public class GameRenderer {
     private Level currentLevel;
 
     private Sprite buttonPauseSp;
-
-    // HOVER CAMERA STUFF, MAYBE CREATE CLASS?
-    private float cameraStaticTimer = 0f;
-    private float cameraHoverSpeed = 50f;
-    private static final float CAMERA_SPEED_INCREASER = 1.4f;
-    private static final float CAMERA_HOVERSPEED_MAX = 700f;
-    private static final float CAMERA_HOVERSPEED_MIN = 400f;
+    private CameraManager cameraManager;
 
     private OrthogonalTiledMapRenderer renderer;
-    private OrthographicCamera         camera;
-    private final OrthographicCamera hoverCamera;
     private float                      buttonDiam;
     private boolean isSmokeTurnPlaying = false;
     private boolean isSmokeHaltPlaying = false;
@@ -142,7 +139,6 @@ public class GameRenderer {
     private TextureRegion buttonPause;
 
 
-    private static final float HOVER_CAMERA_SIZE_MULTIPLIER = 2f;
     private BitmapFont font;
 
     //Debugging
@@ -168,8 +164,7 @@ public class GameRenderer {
         this.font.setUseIntegerPositions(false);
         //        this.scale = Gdx.graphics.getWidth() / 768f;
 
-        this.camera = new OrthographicCamera();
-        this.hoverCamera = new OrthographicCamera(GameController.VIRTUAL_WIDTH * HOVER_CAMERA_SIZE_MULTIPLIER, GameController.VIRTUAL_HEIGHT * HOVER_CAMERA_SIZE_MULTIPLIER);
+        this.cameraManager = new CameraManager();
         //        camera.viewportWidth = 384f;
         //        camera.viewportHeight = 216f;
         //        camera.viewportWidth = 768f;
@@ -177,7 +172,7 @@ public class GameRenderer {
         //        camera.viewportWidth = Gdx.graphics.getWidth();
         //        camera.viewportHeight = Gdx.graphics.getHeight();
         this.buttonDiam = GameController.VIRTUAL_WIDTH / 10f;
-        camera.update();
+        cameraManager.getGameCamera().update();
         Gdx.graphics.setVSync(false);
         this.player = gc.getPlayer();
 //        batch.enableBlending();
@@ -201,7 +196,7 @@ public class GameRenderer {
         buttonPauseSprite.setScale(0.55f);
         setButtonPause(false);
 
-        view = new FitViewport(GameController.VIRTUAL_WIDTH, GameController.VIRTUAL_HEIGHT, camera);
+        view = new FitViewport(GameController.VIRTUAL_WIDTH, GameController.VIRTUAL_HEIGHT, cameraManager.getGameCamera());
         gc.setupPauseMenu(view, batch);
     }
 
@@ -214,15 +209,15 @@ public class GameRenderer {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        batch.setProjectionMatrix(camera.combined);
+        batch.setProjectionMatrix(cameraManager.getGameCamera().combined);
         batch.begin();
         if (gc.getCurrentState().equals(GameController.GameState.CAM_INITIALIZATION)) {
-            drawParallaxBackground(camera);
-            renderer.setView(hoverCamera);
+            drawParallaxBackground(cameraManager.getGameCamera());
+            renderer.setView(cameraManager.getHoverCamera());
         }
         else {
-            drawParallaxBackground(camera);
-            renderer.setView(camera);
+            drawParallaxBackground(cameraManager.getGameCamera());
+            renderer.setView(cameraManager.getGameCamera());
         }
         //TODO: Remove layers and just user render() ??
         renderer.render();
@@ -273,7 +268,7 @@ public class GameRenderer {
     }
     private void drawTimer() {
         float time = gc.getTimer();
-        font.draw(batch, decimalFormat.format(time), camera.position.x - camera.viewportWidth / 2.25f, camera.position.y + camera.viewportHeight * 0.475f);
+        font.draw(batch, decimalFormat.format(time), cameraManager.getGameCamera().position.x - cameraManager.getGameCamera().viewportWidth / 2.25f, cameraManager.getGameCamera().position.y + cameraManager.getGameCamera().viewportHeight * 0.475f);
     }
 
     public void dispose() {
@@ -330,13 +325,13 @@ public class GameRenderer {
         setButtonSpeed(gc.isFirePressed());
         setButtonPause(gc.isPausePressed());
         setButtonToggle(gc.getPlayer().isJumpBootsOn());
-        batch.draw(buttonLeft, camera.position.x - camera.viewportWidth * 0.46f, camera.position.y - camera.viewportHeight * 0.485f);
-        batch.draw(buttonRight, camera.position.x - camera.viewportWidth * 0.3f, camera.position.y - camera.viewportHeight * 0.485f);
-        batch.draw(buttonSpeed, camera.position.x + camera.viewportWidth * 0.31f - buttonSpeed.getRegionWidth(), camera.position.y - camera.viewportHeight * 0.485f);
-        batch.draw(buttonJump, camera.position.x + camera.viewportWidth * 0.47f - buttonJump.getRegionWidth(), camera.position.y - camera.viewportHeight * 0.485f);
-        batch.draw(buttonToggle, camera.position.x + camera.viewportWidth * 0.47f - buttonToggle.getRegionWidth(), camera.position.y - camera.viewportHeight * 0.26f);
+        batch.draw(buttonLeft, cameraManager.getGameCamera().position.x - cameraManager.getGameCamera().viewportWidth * 0.46f, cameraManager.getGameCamera().position.y - cameraManager.getGameCamera().viewportHeight * 0.485f);
+        batch.draw(buttonRight, cameraManager.getGameCamera().position.x - cameraManager.getGameCamera().viewportWidth * 0.3f, cameraManager.getGameCamera().position.y - cameraManager.getGameCamera().viewportHeight * 0.485f);
+        batch.draw(buttonSpeed, cameraManager.getGameCamera().position.x + cameraManager.getGameCamera().viewportWidth * 0.31f - buttonSpeed.getRegionWidth(), cameraManager.getGameCamera().position.y - cameraManager.getGameCamera().viewportHeight * 0.485f);
+        batch.draw(buttonJump, cameraManager.getGameCamera().position.x + cameraManager.getGameCamera().viewportWidth * 0.47f - buttonJump.getRegionWidth(), cameraManager.getGameCamera().position.y - cameraManager.getGameCamera().viewportHeight * 0.485f);
+        batch.draw(buttonToggle, cameraManager.getGameCamera().position.x + cameraManager.getGameCamera().viewportWidth * 0.47f - buttonToggle.getRegionWidth(), cameraManager.getGameCamera().position.y - cameraManager.getGameCamera().viewportHeight * 0.26f);
 //        batch.draw(buttonPauseSp, camera.position.x + camera.viewportWidth * 0.47f - buttonToggle.getRegionWidth(), camera.position.y + camera.viewportHeight * 0.26f);
-        buttonPauseSp.setPosition(camera.position.x + camera.viewportWidth * 0.47f - buttonToggle.getRegionWidth(), camera.position.y + camera.viewportHeight * 0.22f);
+        buttonPauseSp.setPosition(cameraManager.getGameCamera().position.x + cameraManager.getGameCamera().viewportWidth * 0.47f - buttonToggle.getRegionWidth(), cameraManager.getGameCamera().position.y + cameraManager.getGameCamera().viewportHeight * 0.22f);
         buttonPauseSp.draw(batch);
 
     }
@@ -345,42 +340,46 @@ public class GameRenderer {
     private void hoverCameraOverMap() {
         float posX, posY;
 
+        boolean hasCappedMax = false;
         // The end of the map (hovercam start) pause for 1 sec and then start hovering
         if (cameraStaticTimer < 1f) {
             cameraStaticTimer += Gdx.graphics.getDeltaTime();
         }
         else {
-            if (hoverCamera.position.x - hoverCamera.viewportWidth / 2 < currentLevel.getTileWidth() * (currentLevel.getCollisionLayer().getWidth() / 2)) {
-                cameraHoverSpeed -= CAMERA_SPEED_INCREASER;
+            if (cameraManager.getHoverCamera().position.x + cameraManager.getHoverCamera().viewportWidth / 2 < currentLevel.getTileWidth() * (currentLevel.getCollisionLayer().getWidth() / 2)) {
+                cameraHoverSpeed -= CameraManager.CAMERA_SPEED_INCREASER;
                 System.out.println("Decrease");
             }
             else {
                 System.out.println("increase");
-                cameraHoverSpeed += CAMERA_SPEED_INCREASER;
+                cameraHoverSpeed += CameraManager.CAMERA_SPEED_INCREASER;
             }
             // TODO SMOTH MOVEMENT IN THE BEGINNING AND END
-            if (cameraHoverSpeed > CAMERA_HOVERSPEED_MAX) {
+            if (cameraHoverSpeed > CameraManager.CAMERA_HOVERSPEED_MAX) {
                 System.out.println("capped MAX");
-                cameraHoverSpeed = CAMERA_HOVERSPEED_MAX;
+                hasCappedMax = true;
+                cameraHoverSpeed = CameraManager.CAMERA_HOVERSPEED_MAX;
             }
-            else if (cameraHoverSpeed < CAMERA_HOVERSPEED_MIN) {
+            else if (cameraHoverSpeed < CameraManager.CAMERA_HOVERSPEED_MIN) {
                 System.out.println("capped MIN");
-                cameraHoverSpeed = CAMERA_HOVERSPEED_MIN;
+                if (hasCappedMax) {
+                    cameraHoverSpeed = CameraManager.CAMERA_HOVERSPEED_MIN;
+                }
             }
             previousHoverCameraPosX += cameraHoverSpeed * Gdx.graphics.getDeltaTime();
         }
 //        posX = currentLevel.getTileWidth() * (currentLevel.getCollisionLayer().getWidth() - 1) - hoverCamera.viewportWidth / 2;
-        posX = currentLevel.getTileWidth() * (currentLevel.getCollisionLayer().getWidth() - 1) - hoverCamera.viewportWidth / 2 - previousHoverCameraPosX;
+        posX = currentLevel.getTileWidth() * (currentLevel.getCollisionLayer().getWidth() - 1) - cameraManager.getHoverCamera().viewportWidth / 2 - previousHoverCameraPosX;
 //        posX = gc.getBenny().getBounds().x - gc.getBenny().getWidth() / 2 - (player.getBounds().x + previousHoverCameraPosX);
-        posY = gc.getBenny().getBounds().y - hoverCamera.viewportHeight * 0.1f;
-        hoverCamera.position.set(posX, posY, 0);
+        posY = gc.getBenny().getBounds().y - cameraManager.getHoverCamera().viewportHeight * 0.1f;
+        cameraManager.getHoverCamera().position.set(posX, posY, 0);
 
 
         // The beggining of the map, pause the camera for 2 sec and then maybe zoom in or somehting
-        if (hoverCamera.position.x - hoverCamera.viewportWidth / 2 < currentLevel.getTileWidth() * 1) {
+        if (cameraManager.getHoverCamera().position.x - cameraManager.getHoverCamera().viewportWidth / 2 < currentLevel.getTileWidth() * 1) {
 
-            System.out.println(hoverCamera.position.x);
-            posX = currentLevel.getTileWidth() + hoverCamera.viewportWidth / 2;
+            System.out.println(cameraManager.getHoverCamera().position.x);
+            posX = currentLevel.getTileWidth() + cameraManager.getHoverCamera().viewportWidth / 2;
             if (cameraStaticTimer < 2f) {
                 // Count another 1s
                 cameraStaticTimer += Gdx.graphics.getDeltaTime();
@@ -398,11 +397,11 @@ public class GameRenderer {
 //            System.out.println("END");
 //            posX = currentLevel.getTileWidth() * (currentLevel.getCollisionLayer().getWidth() - 1) - hoverCamera.viewportWidth / 2;
 //        }
-        if (hoverCamera.position.y + hoverCamera.viewportHeight / 2 < currentLevel.getTileHeight() * 14.4f * HOVER_CAMERA_SIZE_MULTIPLIER) {
-            posY = currentLevel.getTileHeight() * 14.4f * HOVER_CAMERA_SIZE_MULTIPLIER - hoverCamera.viewportHeight / 2;
+        if (cameraManager.getHoverCamera().position.y + cameraManager.getHoverCamera().viewportHeight / 2 < currentLevel.getTileHeight() * 14.4f * CameraManager.HOVER_CAMERA_SIZE_MULTIPLIER) {
+            posY = currentLevel.getTileHeight() * 14.4f * CameraManager.HOVER_CAMERA_SIZE_MULTIPLIER - cameraManager.getHoverCamera().viewportHeight / 2;
         }
-        hoverCamera.position.set(posX, posY, 0);
-        hoverCamera.update();
+        cameraManager.getHoverCamera().position.set(posX, posY, 0);
+        cameraManager.getHoverCamera().update();
 
     }
 
@@ -410,21 +409,21 @@ public class GameRenderer {
     private void updateCameraPosition() {
         float posX, posY;
         posX = player.getBounds().x - player.getWidth() / 2;
-        posY = player.getBounds().y - camera.viewportHeight * 0.1f; // + player.getHeight() / 2 + camera.viewportHeight / 12f
+        posY = player.getBounds().y - cameraManager.getGameCamera().viewportHeight * 0.1f; // + player.getHeight() / 2 + camera.viewportHeight / 12f
 //        posY = player.getBounds().y - camera.viewportHeight * 0.03f; // + player.getHeight() / 2 + camera.viewportHeight / 12f
-        camera.position.set(posX, posY, 0);
-        if (camera.position.x - camera.viewportWidth / 2 < currentLevel.getTileWidth() * 1) {
-            posX = currentLevel.getTileWidth() + camera.viewportWidth / 2;
+        cameraManager.getGameCamera().position.set(posX, posY, 0);
+        if (cameraManager.getGameCamera().position.x - cameraManager.getGameCamera().viewportWidth / 2 < currentLevel.getTileWidth() * 1) {
+            posX = currentLevel.getTileWidth() + cameraManager.getGameCamera().viewportWidth / 2;
         }
-        else if (camera.position.x + camera.viewportWidth / 2 > (currentLevel.getCollisionLayer().getWidth() - 1) * currentLevel.getTileWidth()) {
-            posX = currentLevel.getTileWidth() * (currentLevel.getCollisionLayer().getWidth() - 1) - camera.viewportWidth / 2;
+        else if (cameraManager.getGameCamera().position.x + cameraManager.getGameCamera().viewportWidth / 2 > (currentLevel.getCollisionLayer().getWidth() - 1) * currentLevel.getTileWidth()) {
+            posX = currentLevel.getTileWidth() * (currentLevel.getCollisionLayer().getWidth() - 1) - cameraManager.getGameCamera().viewportWidth / 2;
             //		paraBG.render(delta, camera.position.x / 5, camera.position.y /2);
         }
-        if (camera.position.y + camera.viewportHeight / 2 < currentLevel.getTileHeight() * 14.4f) {
-            posY = currentLevel.getTileHeight() * 14.4f - camera.viewportHeight / 2;
+        if (cameraManager.getGameCamera().position.y + cameraManager.getGameCamera().viewportHeight / 2 < currentLevel.getTileHeight() * 14.4f) {
+            posY = currentLevel.getTileHeight() * 14.4f - cameraManager.getGameCamera().viewportHeight / 2;
         }
-        camera.position.set(posX, posY, 0);
-        camera.update();
+        cameraManager.getGameCamera().position.set(posX, posY, 0);
+        cameraManager.getGameCamera().update();
     }
 
     private void drawTampolines(float delta) {
