@@ -362,7 +362,6 @@ public class GameRenderer {
             else {
                 cameraHoverSpeed += CameraManager.CAMERA_SPEED_INCREASER;
             }
-            // TODO SMOTH MOVEMENT IN THE BEGINNING AND END
             if (cameraHoverSpeed > CameraManager.CAMERA_HOVERSPEED_MAX) {
                 cameraHoverSpeed = CameraManager.CAMERA_HOVERSPEED_MAX;
             }
@@ -371,9 +370,7 @@ public class GameRenderer {
             }
             previousHoverCameraPosX += cameraHoverSpeed * Gdx.graphics.getDeltaTime();
         }
-//        posX = currentLevel.getTileWidth() * (currentLevel.getCollisionLayer().getWidth() - 1) - hoverCamera.viewportWidth / 2;
         posX = currentLevel.getTileWidth() * (currentLevel.getCollisionLayer().getWidth() - 1) - cameraManager.getHoverCamera().viewportWidth / 2 - previousHoverCameraPosX;
-//        posX = gc.getBenny().getBounds().x - gc.getBenny().getWidth() / 2 - (player.getBounds().x + previousHoverCameraPosX);
         posY = gc.getBenny().getBounds().y - cameraManager.getHoverCamera().viewportHeight * 0.1f;
         cameraManager.getHoverCamera().position.set(posX, posY, 0);
 
@@ -397,10 +394,6 @@ public class GameRenderer {
 //                }
             }
         }
-//        else if (hoverCamera.position.x + hoverCamera.viewportWidth / 2 > (currentLevel.getCollisionLayer().getWidth() - 1) * currentLevel.getTileWidth()) {
-//            System.out.println("END");
-//            posX = currentLevel.getTileWidth() * (currentLevel.getCollisionLayer().getWidth() - 1) - hoverCamera.viewportWidth / 2;
-//        }
         if (cameraManager.getHoverCamera().position.y + cameraManager.getHoverCamera().viewportHeight / 2 < currentLevel.getTileHeight() * 14.4f * CameraManager.HOVER_CAMERA_SIZE_MULTIPLIER) {
             posY = currentLevel.getTileHeight() * 14.4f * CameraManager.HOVER_CAMERA_SIZE_MULTIPLIER - cameraManager.getHoverCamera().viewportHeight / 2;
         }

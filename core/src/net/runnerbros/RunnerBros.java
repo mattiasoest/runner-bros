@@ -74,7 +74,9 @@ public class RunnerBros extends Game {
         worldScreen = new WorldScreen(this);
         optionScreen = new OptionScreen(this);
 
-        SoundManager.INSTANCE.playMenuMusic();
+
+        //TODO: Uncomment when done w/ dev..
+//        SoundManager.INSTANCE.playMenuMusic();
 
 		setScreen(mainMenuScreen);
 	}
