@@ -163,12 +163,12 @@ public class GameController implements InputProcessor {
 
     public void initMap() {
         if (IS_CAM_INIT) {
+            System.out.println("CAM INIT");
             currentGameState = GameState.CAM_INITIALIZATION;
         }
     }
 
     public void loadLevel(final String key, final String name) {
-        currentGameState = GameState.READY;
         this.currentLevel = new Level(key, name);
         System.out.println("Loaded level: " + name);
         this.collisionLayer = currentLevel.getCollisionLayer();
@@ -977,7 +977,6 @@ public class GameController implements InputProcessor {
         respawnPlayer();
         resetTimer();
 //        startTimer();
-        initMap();
 //        pauseGame(false);
     }
 

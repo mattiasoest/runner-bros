@@ -213,6 +213,7 @@ public class GameRenderer {
         batch.begin();
         if (gc.getCurrentState().equals(GameController.GameState.CAM_INITIALIZATION)) {
             drawParallaxBackground(cameraManager.getGameCamera());
+            System.out.println("RNDER SET >VIEW HOVER");
             renderer.setView(cameraManager.getHoverCamera());
         }
         else {
@@ -340,7 +341,6 @@ public class GameRenderer {
     private void hoverCameraOverMap() {
         float posX, posY;
 
-        boolean hasCappedMax = false;
         // The end of the map (hovercam start) pause for 1 sec and then start hovering
         if (cameraStaticTimer < 1f) {
             cameraStaticTimer += Gdx.graphics.getDeltaTime();
@@ -348,23 +348,16 @@ public class GameRenderer {
         else {
             if (cameraManager.getHoverCamera().position.x + cameraManager.getHoverCamera().viewportWidth / 2 < currentLevel.getTileWidth() * (currentLevel.getCollisionLayer().getWidth() / 2)) {
                 cameraHoverSpeed -= CameraManager.CAMERA_SPEED_INCREASER;
-                System.out.println("Decrease");
             }
             else {
-                System.out.println("increase");
                 cameraHoverSpeed += CameraManager.CAMERA_SPEED_INCREASER;
             }
             // TODO SMOTH MOVEMENT IN THE BEGINNING AND END
             if (cameraHoverSpeed > CameraManager.CAMERA_HOVERSPEED_MAX) {
-                System.out.println("capped MAX");
-                hasCappedMax = true;
                 cameraHoverSpeed = CameraManager.CAMERA_HOVERSPEED_MAX;
             }
             else if (cameraHoverSpeed < CameraManager.CAMERA_HOVERSPEED_MIN) {
-                System.out.println("capped MIN");
-                if (hasCappedMax) {
-                    cameraHoverSpeed = CameraManager.CAMERA_HOVERSPEED_MIN;
-                }
+                cameraHoverSpeed = CameraManager.CAMERA_HOVERSPEED_MIN;
             }
             previousHoverCameraPosX += cameraHoverSpeed * Gdx.graphics.getDeltaTime();
         }
@@ -378,7 +371,6 @@ public class GameRenderer {
         // The beggining of the map, pause the camera for 2 sec and then maybe zoom in or somehting
         if (cameraManager.getHoverCamera().position.x - cameraManager.getHoverCamera().viewportWidth / 2 < currentLevel.getTileWidth() * 1) {
 
-            System.out.println(cameraManager.getHoverCamera().position.x);
             posX = currentLevel.getTileWidth() + cameraManager.getHoverCamera().viewportWidth / 2;
             if (cameraStaticTimer < 2f) {
                 // Count another 1s
@@ -390,6 +382,9 @@ public class GameRenderer {
 //                hoverCamera.viewportWidth -= hoverCamera.viewportWidth * Gdx.graphics.getDeltaTime();
 //                if (hoverCamera.viewportHeight + 1 < GameController.VIRTUAL_HEIGHT) {
                     gc.setGameState(GameController.GameState.READY);
+                    // Reset the pos for next time
+                    previousHoverCameraPosX = 0f;
+                    cameraStaticTimer = 0;
 //                }
             }
         }

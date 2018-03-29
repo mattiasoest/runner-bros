@@ -13,9 +13,9 @@ public class CameraManager {
     private final OrthographicCamera hoverCamera;
 
     static final float CAMERA_HOVERSPEED_MAX = 700f;
-    static final float CAMERA_HOVERSPEED_MIN = 400f;
+    static final float CAMERA_HOVERSPEED_MIN = 330f;
     static final float HOVER_CAMERA_SIZE_MULTIPLIER = 2f;
-    static final float CAMERA_SPEED_INCREASER = 1.4f;
+    static final float CAMERA_SPEED_INCREASER = 1.5f;
 
 
     public CameraManager()
