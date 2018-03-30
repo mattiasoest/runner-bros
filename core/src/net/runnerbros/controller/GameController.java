@@ -652,6 +652,10 @@ public class GameController implements InputProcessor {
             }
         }
         levelFinishedCheck();
+        if (currentGameState == GameState.FINISHED) {
+            player.getVelocity().x = 0f;
+            player.getBounds().x = oldX;
+        }
     }
 
     private void levelFinishedCheck() {
