@@ -365,11 +365,12 @@ public class GameController implements InputProcessor {
     }
 
     public void pauseGame(boolean isPaused) {
-        if (currentGameState == GameState.READY || currentGameState == GameState.CAM_INITIALIZATION) {
+        if (currentGameState == GameState.READY || currentGameState == GameState.CAM_INITIALIZATION || currentGameState == GameState.FINISHED) {
             // Just return if pause is called during the ready state.
             return;
         }
         if (isPaused) {
+            System.out.println("PAUSED");
             currentGameState = GameState.PAUSED;
             stagePause.addAction(Actions.alpha(1));
             Gdx.input.setInputProcessor(stagePause);
@@ -632,6 +633,10 @@ public class GameController implements InputProcessor {
     }
 
     private void levelFinishedCheck() {
+        if (currentGameState == GameState.FINISHED) {
+            // Keep updating kenny animation etc, but dont keep file I/O in a loop.
+            return;
+        }
         if (player.getBounds().overlaps(levelGoal)) {
             benny.setHappy();
             stopTimer();

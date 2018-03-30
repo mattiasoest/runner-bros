@@ -41,7 +41,6 @@ public class PlayScreen implements Screen {
 
 	@Override
 	public void pause() {
-        System.out.println("PAUSE");
         game.getGameController().pauseGame(true);
 	}
 

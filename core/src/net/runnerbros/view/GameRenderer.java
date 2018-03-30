@@ -210,8 +210,8 @@ public class GameRenderer {
         renderer.render();
         batch.begin();
         drawTampolines(delta);
-        drawBenny();
         drawPlayer();
+        drawBenny();
         drawSnowmen();
         switch (gc.getCurrentState()) {
             case RUNNING:
