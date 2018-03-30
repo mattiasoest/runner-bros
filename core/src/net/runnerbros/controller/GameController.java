@@ -132,8 +132,10 @@ public class GameController implements InputProcessor {
     private boolean isSmokeJumpTrigged;
     private boolean isGamePaused;
     private Stage   stagePause;
+    private Stage   stageFinishMenu;
     private Stage   stageGameStart;
     private Table   pauseTable;
+    private Table   finishTable;
     private Table   gameStartTable;
 
     private long startCopterTime = 0l;
@@ -179,12 +181,16 @@ public class GameController implements InputProcessor {
         player.setPos(spawnPoint.x, spawnPoint.y);
     }
 
-    private void clearObjects() {
-        // Reset level objects
-        enemyStartpositions.clear();
-        snowmen.clear();
-        trampolines.clear();
-        clearEnemies();
+    public Stage getPausedStage() {
+        return stagePause;
+    }
+
+    public Stage getFinishStage() {
+        return stageFinishMenu;
+    }
+
+    public Stage getgameStartStage() {
+        return stageGameStart;
     }
 
     private void clearEnemies() {
@@ -209,9 +215,16 @@ public class GameController implements InputProcessor {
                 updateSlimes(delta);
                 break;
             case PAUSED:
+                // Only update statics with no movement speed
+                updateSnowmen(delta);
+                updateBenny(delta);
                 break;
             case FINISHED:
                 //TODO Fix!
+                finishGame();
+                updateKenny(delta);
+                updateSnowmen(delta);
+                updateBenny(delta);
                 break;
             case READY:
                 // -- IMPORTANT --  HACK
@@ -228,6 +241,14 @@ public class GameController implements InputProcessor {
                 throw new RuntimeException("WTF unknown state:" + currentGameState.toString());
         }
         resetDelay();
+    }
+
+    private void clearObjects() {
+        // Reset level objects
+        enemyStartpositions.clear();
+        snowmen.clear();
+        trampolines.clear();
+        clearEnemies();
     }
 
     private void addDelay(float delta) {
@@ -362,14 +383,15 @@ public class GameController implements InputProcessor {
         }
     }
 
-    public Stage getPausedStage() {
-        return stagePause;
+    private void finishGame() {
+            System.out.println("FINISH LOL");
+            player.setState(State.IDLE);
+            currentGameState = GameState.FINISHED;
+            stagePause.addAction(Actions.alpha(0.5f));
+            Gdx.input.setInputProcessor(stageFinishMenu);
+            Camera cam = stageFinishMenu.getCamera();
+            finishTable.setPosition(cam.position.x - cam.viewportWidth / 2f, cam.position.y - cam.viewportHeight / 2f);
     }
-
-    public Stage getgameStartStage() {
-        return stageGameStart;
-    }
-
 
     private void parseMapObjects() {
         MapLayer objectLayer = currentLevel.getObjectLayer();
@@ -869,10 +891,15 @@ public class GameController implements InputProcessor {
     }
 
     private void processInput() {
-
+        Gdx.input.setInputProcessor(this);
 
         resetPlayerStatesAndButtons();
 
+        // TODO: FOR FIXING THE SCREEN
+        if (Gdx.input.isKeyPressed(Keys.T)) {
+            currentGameState = GameState.FINISHED;
+            return;
+        }
 
         int togglePressed = -1;
 
@@ -1095,6 +1122,74 @@ public class GameController implements InputProcessor {
         pauseTable.add(pauseHeader).padBottom(60).row();
         pauseTable.add(miniTable);
         stagePause.addActor(pauseTable);
+    }
+
+    // Not a real screen, just an overlay.
+    public void setupFinishMenu(FitViewport view, Batch batch) {
+
+        TextureAtlas menuAtlas = Assets.manager.get(Assets.BUTTON_ATLAS, TextureAtlas.class);
+        Skin buttonSkin = new Skin(menuAtlas);
+
+//        this.stage = new Stage();
+        this.stageFinishMenu = new Stage(view, batch);
+        this.finishTable = new Table();
+        this.finishTable.setSize(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
+        Label.LabelStyle lStyle = new Label.LabelStyle(Assets.getRockwellFont(), Color.WHITE);
+        Label label = new Label("Finish", lStyle);
+
+        ImageButton.ImageButtonStyle highScoreStyle = new ImageButton.ImageButtonStyle();
+        ImageButton.ImageButtonStyle retryButtonStyle = new ImageButton.ImageButtonStyle();
+        ImageButton.ImageButtonStyle backStyle = new ImageButton.ImageButtonStyle();
+
+
+        highScoreStyle.up = buttonSkin.getDrawable("btn_highschore");
+        highScoreStyle.down = buttonSkin.getDrawable("btn_highschore_pressed");
+        retryButtonStyle.up = buttonSkin.getDrawable("btn_replay");
+        retryButtonStyle.down = buttonSkin.getDrawable("btn_replay_pressed");
+        backStyle.up = buttonSkin.getDrawable("btn_menu");
+        backStyle.down = buttonSkin.getDrawable("btn_menu_pressed");
+
+        ImageButton highScoreButton = new ImageButton(highScoreStyle);
+        ImageButton retryButton = new ImageButton(retryButtonStyle);
+        ImageButton backButton = new ImageButton(backStyle);
+
+
+        highScoreButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                SoundManager.INSTANCE.playButtonClick();
+                // TODO: Show highscore from google play
+            }
+        });
+
+        retryButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                SoundManager.INSTANCE.playButtonClick();
+                Gdx.input.setInputProcessor(null);
+                resetCurrentGame();
+            }
+        });
+
+        backButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                SoundManager.INSTANCE.playButtonClick();
+                Gdx.input.setInputProcessor(null);
+                game.switchScreen(stageFinishMenu, game.getLevelScreen());
+            }
+        });
+
+        label.setWidth(label.getPrefWidth());
+//        label.setPosition(VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2);
+        Table miniTable = new Table();
+        miniTable.add(highScoreButton).padRight(30);
+        miniTable.add(retryButton).padLeft(30).padRight(30);
+        miniTable.add(backButton).padLeft(30);
+
+        finishTable.add(label).padBottom(60).row();
+        finishTable.add(miniTable);
+        stageFinishMenu.addActor(finishTable);
     }
 
     // Not a real screen, just an overlay.

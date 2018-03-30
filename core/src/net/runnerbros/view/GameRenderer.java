@@ -8,7 +8,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -184,7 +183,8 @@ public class GameRenderer {
 
         view = new FitViewport(GameController.VIRTUAL_WIDTH, GameController.VIRTUAL_HEIGHT, cameraManager.getGameCamera());
         gc.setupPauseMenu(view, batch);
-        gc.setupStartGameOverlay(view, batch);
+        gc.setupFinishMenu(view, batch);
+//        gc.setupStartGameOverlay(view, batch);
     }
 
     public void initRenderer() {
@@ -241,15 +241,17 @@ public class GameRenderer {
                 gc.getPausedStage().draw();
                 break;
             case FINISHED:
+                //DRAW PAUSE MENU
+                drawTimer();
+                drawSlimes();
+                drawSmoke(delta);
                 batch.end();
+                gc.getFinishStage().act(delta);
+                gc.getFinishStage().draw();
                 break;
             case CAM_INITIALIZATION:
                 hoverCameraOverMap();
                 batch.end();
-
-                //TODO fix this overlay
-                gc.getgameStartStage().act(delta);
-                gc.getgameStartStage().draw();
                 break;
         }
         //        drawGameStats();
@@ -262,10 +264,6 @@ public class GameRenderer {
     public Batch getSpriteBatch() {
         return batch;
     }
-    private void drawTimer() {
-        float time = gc.getTimer();
-        font.draw(batch, decimalFormat.format(time), cameraManager.getGameCamera().position.x - cameraManager.getGameCamera().viewportWidth / 2.25f, cameraManager.getGameCamera().position.y + cameraManager.getGameCamera().viewportHeight * 0.475f);
-    }
 
     public void dispose() {
         if (currentLevel != null) {
@@ -273,6 +271,8 @@ public class GameRenderer {
         }
         batch.dispose();
         gc.getPausedStage().dispose();
+        gc.getFinishStage().dispose();
+//        gc.getgameStartStage().dispose();
         sr.dispose();
         //Assets dispoe this
 //        font.dispose();
@@ -294,6 +294,11 @@ public class GameRenderer {
 
         batch.draw(skystaticFog, cam.position.x - cam.viewportWidth / 2f, cam.position.y - cam.viewportHeight / 2f, cam.viewportWidth, cam.viewportHeight, 0, 1, 1, 0);
         batch.end();
+    }
+
+    private void drawTimer() {
+        float time = gc.getTimer();
+        font.draw(batch, decimalFormat.format(time), cameraManager.getGameCamera().position.x - cameraManager.getGameCamera().viewportWidth / 2.25f, cameraManager.getGameCamera().position.y + cameraManager.getGameCamera().viewportHeight * 0.475f);
     }
 
     private void drawButtons() {
@@ -509,7 +514,7 @@ public class GameRenderer {
         batch.draw(playerFrame, player.getBounds().x - 25, yPos, player.getWidth() + 50, height);
     }
 
-    public void drawSmoke(float delta) {
+    private void drawSmoke(float delta) {
         smokeHaltFrame = null;
         smokeTurnFrame = null;
         smokeJumpLeftFrame = null;
