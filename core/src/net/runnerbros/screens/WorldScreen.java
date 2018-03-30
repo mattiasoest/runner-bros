@@ -5,16 +5,20 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import net.runnerbros.RunnerBros;
@@ -39,12 +43,22 @@ public class WorldScreen extends BackgroundScreen {
     private final Label.LabelStyle ls;
 
     private final boolean debug = false;
-    private final Sprite world;
+
+
+    private final TextureRegion world_1;
+    private final TextureRegion world_2;
+    private final TextureRegion world_3;
+
+    private final TextureRegion[] worldImages;
+
 
     public WorldScreen(final RunnerBros game) {
         super(game);
 
-        world = new Sprite(Assets.manager.get(Assets.BG_CITY_BUILDINGS_2, Texture.class));
+        world_1 = new TextureRegion(Assets.manager.get(Assets.WORLD_1, Texture.class));
+        world_2 = new TextureRegion(Assets.manager.get(Assets.WORLD_2, Texture.class));
+        world_3 = new TextureRegion(Assets.manager.get(Assets.WORLD_3, Texture.class));
+        worldImages = new TextureRegion[]{world_1, world_2, world_3};
         ls = new Label.LabelStyle();
         ls.font = Assets.getNewRockwellFont();
 
@@ -63,32 +77,20 @@ public class WorldScreen extends BackgroundScreen {
         scroll.setFlingTime(0.5f);
         scroll.setPageSpacing(pageSpacing);
 
-        int levelIndex = 1;
-        int first = 0;
-        int last = 2;
-
-        for (int l = first; l <= last; l++) {
+        for (int levelIndex = 1; levelIndex <= WORLD_NUMBER; levelIndex++) {
             Table levels = new Table();
-            for (int y = 0; y < 1; y++) {
-                //                levels.row();
-                for (int x = 0; x < 1; x++) {
-                    Table levelTable = new Table();
-                    Button levelButton = getLevelButton(levelIndex);
-                    Label localHighScore = new Label("Worldinfo here", ls);
-                    //                    levelButton.setSize(50, 50);
-                    levelTable.add(levelButton).pad(50);
-                    levelTable.row();
+            Table levelTable = new Table();
+            Button levelButton = getLevelButton(levelIndex);
+            levelTable.add(levelButton);
+            levelTable.row();
 
-                    //DEBUG DATA
-                    if (debug) {
-                        levelTable.debug();
-                    }
-
-                    levelTable.add(localHighScore);
-                    levels.add(levelTable).height(GameController.VIRTUAL_HEIGHT * 0.8f).width(LEVEL_WIDTH);
-                    levelIndex++;
-                }
+            //DEBUG DATA
+            if (debug) {
+                levelTable.debug();
             }
+
+//            levelTable.add(localHighScore);
+            levels.add(levelTable).height(GameController.VIRTUAL_HEIGHT * 0.8f).width(LEVEL_WIDTH);
             final float standardPad = 110;
             levels.padLeft(standardPad);
             levels.padRight(standardPad);
@@ -122,20 +124,30 @@ public class WorldScreen extends BackgroundScreen {
 
     private Button getLevelButton(int i) {
 
-        ImageButton.ImageButtonStyle buttonStyle = new ImageButton.ImageButtonStyle();
-
-
-        Skin buttonSkin = new Skin(Assets.manager.get(Assets.BUTTON_ATLAS, TextureAtlas.class));
-
-        buttonStyle.up = buttonSkin.getDrawable("btn_right");
-        buttonStyle.down = buttonSkin.getDrawable("btn_right_pressed");
-        Button button = new ImageButton(buttonStyle);
-        Label label = new Label("World - " + Integer.toString(i), ls);
+//        ImageButton.ImageButtonStyle buttonStyle = new ImageButton.ImageButtonStyle();
+//        Skin buttonSkin = new Skin(Assets.manager.get(Assets.BUTTON_ATLAS, TextureAtlas.class));
+//
+//        buttonStyle.up = buttonSkin.getDrawable("btn_right");
+//        buttonStyle.down = buttonSkin.getDrawable("btn_right_pressed");
+        TextureRegion world = new Sprite(worldImages[i-1]);
+        Button button = new ImageButton(new TextureRegionDrawable(world));
+        String worldText = "";
+        switch (i) {
+            case 1:
+                worldText = "The City";
+                break;
+            case 2:
+                worldText = "Snow City";
+                break;
+            case 3:
+                worldText = "City Park";
+                break;
+            default:
+                throw new RuntimeException("Unknown world number: " + i);
+        }
+        Label label = new Label(worldText, ls);
         label.setAlignment(Align.center);
-
         button.stack(label);
-
-        button.row();
         //World index
         button.setName(Integer.toString(i));
         if (i <= WORLD_NUMBER) {

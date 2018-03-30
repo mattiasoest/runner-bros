@@ -8,6 +8,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Assets {
 
@@ -24,6 +25,11 @@ public class Assets {
     public static final String BG_CITY_SUN         = "textures/bg_city_1024_512.png";
     public static final String BG_CITY_GROUND      = "textures/bg_city_ground_1024_512.png";
 
+
+    // WORLD MENU IMAGES
+    public static final String WORLD_1 = "textures/world_1.png";
+    public static final String WORLD_2 = "textures/world_2.png";
+    public static final String WORLD_3 = "textures/world_3.png";
 
     //MUSIC
     public static final String SOUND_COPTER_CAP = "sounds/copter-cap.wav";
@@ -49,6 +55,12 @@ public class Assets {
         //GENERAL
         manager.load(OBJECT_ATLAS, TextureAtlas.class);
         manager.load(BUTTON_ATLAS, TextureAtlas.class);
+
+
+        // WORLD MENU IMAGES
+        manager.load(WORLD_1, Texture.class);
+        manager.load(WORLD_2, Texture.class);
+        manager.load(WORLD_3, Texture.class);
 
         //CITY WORLD
         manager.load(BG_CITY_BUILDINGS_2, Texture.class);
