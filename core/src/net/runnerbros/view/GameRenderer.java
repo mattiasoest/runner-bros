@@ -259,9 +259,10 @@ public class GameRenderer {
                 batch.end();
                 break;
             case CAM_INITIALIZATION:
-                //TODO
                 hoverCameraOverMap();
                 batch.end();
+
+                //TODO fix this overlay
                 gc.getgameStartStage().act(delta);
                 gc.getgameStartStage().draw();
                 break;

@@ -93,6 +93,7 @@ public class GameController implements InputProcessor {
     private float timer;
     private float tempVel;
     private float tempAcc;
+    private float readyDelay;
 
     private static final String SPIKES_KEY  = "spikes";
     private static final String BLOCKED_KEY = "blocked";
@@ -165,7 +166,6 @@ public class GameController implements InputProcessor {
 
     public void initMap() {
         if (IS_CAM_INIT) {
-            System.out.println("CAM INIT");
             currentGameState = GameState.CAM_INITIALIZATION;
         }
     }
@@ -203,7 +203,7 @@ public class GameController implements InputProcessor {
                     processInput();
                 }
                 else {
-                    resetStatesAndButtons();
+                    resetPlayerStatesAndButtons();
                     player.setState(State.FALLING);
                 }
                 updateTimer(delta);
@@ -211,15 +211,17 @@ public class GameController implements InputProcessor {
                 updateBenny(delta);
                 updateSnowmen(delta);
                 updateSlimes(delta);
-            break;
+                break;
             case PAUSED:
-                return;
+                break;
             case FINISHED:
                 //TODO Fix!
                 break;
             case READY:
-//                break;
-                //Fall through. do the same stuff in
+                // -- IMPORTANT --  HACK
+                addDelay(delta);
+                // RETURN so it keeps track of the delay NOT reseting it.
+                return;
             case CAM_INITIALIZATION:
                 updateKenny(delta);
                 updateSnowmen(delta);
@@ -229,6 +231,25 @@ public class GameController implements InputProcessor {
             default:
                 throw new RuntimeException("WTF unknown state:" + currentGameState.toString());
         }
+        resetDelay();
+    }
+
+    private void addDelay(float delta) {
+        updateKenny(delta);
+        updateSnowmen(delta);
+        updateBenny(delta);
+        if (readyDelay < 0.7f) {
+            readyDelay += delta;
+        }
+        else {
+            // Let the user start the game, this is to avoid skipping hovering and start the game with 1 click.
+            // And avoid thread sleeps.
+            processStartInput();
+        }
+    }
+
+    private void resetDelay() {
+        readyDelay = 0f;
     }
 
     private void updateBenny(float delta) {
@@ -854,7 +875,7 @@ public class GameController implements InputProcessor {
     private void processInput() {
 
 
-        resetStatesAndButtons();
+        resetPlayerStatesAndButtons();
 
 
         int togglePressed = -1;
@@ -967,6 +988,7 @@ public class GameController implements InputProcessor {
         // Touch or keypress duriong the hovering, just go to the ready state and wait for another keypress/click
         else if (currentGameState == GameState.CAM_INITIALIZATION && (Gdx.input.isKeyJustPressed(Keys.ENTER) || Gdx.input.isTouched())) {
             currentGameState = GameState.READY;
+
         }
     }
 
@@ -984,11 +1006,11 @@ public class GameController implements InputProcessor {
 
     public void resetCurrentGame() {
         resetStartPositions();
-        resetStatesAndButtons();
+        resetPlayerStatesAndButtons();
         respawnPlayer();
         resetTimer();
-//        startTimer();
-//        pauseGame(false);
+        currentGameState = GameState.READY;
+        // TODO ADD TIMER TO 1 LOL
     }
 
     private void resetStartPositions() {
@@ -1253,7 +1275,7 @@ public class GameController implements InputProcessor {
         }
     }
 
-    private void resetStatesAndButtons() {
+    private void resetPlayerStatesAndButtons() {
         benny.resetBenny();
         player.setState(State.IDLE);
         buttonRightPressed = false;
