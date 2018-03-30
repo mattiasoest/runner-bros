@@ -221,7 +221,6 @@ public class GameController implements InputProcessor {
                 break;
             case FINISHED:
                 //TODO Fix!
-                finishGame();
                 updateKenny(delta);
                 updateSnowmen(delta);
                 updateBenny(delta);
@@ -384,10 +383,9 @@ public class GameController implements InputProcessor {
     }
 
     private void finishGame() {
-            System.out.println("FINISH LOL");
             player.setState(State.IDLE);
             currentGameState = GameState.FINISHED;
-            stagePause.addAction(Actions.alpha(0.5f));
+            stageFinishMenu.addAction(Actions.alpha(1));
             Gdx.input.setInputProcessor(stageFinishMenu);
             Camera cam = stageFinishMenu.getCamera();
             finishTable.setPosition(cam.position.x - cam.viewportWidth / 2f, cam.position.y - cam.viewportHeight / 2f);
@@ -897,7 +895,7 @@ public class GameController implements InputProcessor {
 
         // TODO: FOR FIXING THE SCREEN
         if (Gdx.input.isKeyPressed(Keys.T)) {
-            currentGameState = GameState.FINISHED;
+            finishGame();
             return;
         }
 

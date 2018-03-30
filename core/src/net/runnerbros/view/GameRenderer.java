@@ -182,8 +182,8 @@ public class GameRenderer {
         setButtonPause(false);
 
         view = new FitViewport(GameController.VIRTUAL_WIDTH, GameController.VIRTUAL_HEIGHT, cameraManager.getGameCamera());
-        gc.setupPauseMenu(view, batch);
         gc.setupFinishMenu(view, batch);
+        gc.setupPauseMenu(view, batch);
 //        gc.setupStartGameOverlay(view, batch);
     }
 
@@ -235,7 +235,6 @@ public class GameRenderer {
                 //DRAW PAUSE MENU
                 drawTimer();
                 drawSlimes();
-                drawSmoke(delta);
                 batch.end();
                 gc.getPausedStage().act(delta);
                 gc.getPausedStage().draw();
@@ -244,7 +243,6 @@ public class GameRenderer {
                 //DRAW PAUSE MENU
                 drawTimer();
                 drawSlimes();
-                drawSmoke(delta);
                 batch.end();
                 gc.getFinishStage().act(delta);
                 gc.getFinishStage().draw();
