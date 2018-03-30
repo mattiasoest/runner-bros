@@ -237,9 +237,8 @@ public class GameController implements InputProcessor {
                 updateSlimes(delta);
                 break;
             case PAUSED:
-                // Only update statics with no movement speed
-                updateSnowmen(delta);
-                updateBenny(delta);
+                // Let the renderer handle it with its menu.
+                // Dont update anything since its paused.
                 break;
             case FINISHED:
                 //TODO Fix!
