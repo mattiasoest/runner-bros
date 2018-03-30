@@ -38,7 +38,6 @@ public class GameRenderer {
     private float cameraHoverSpeed = 50f;
 
     private final FitViewport        view;
-    private final DecimalFormat      decimalFormat;
     private final Sprite             buttonPauseSprite;
     private final Sprite             buttonPausePressedSprite;
 
@@ -148,13 +147,6 @@ public class GameRenderer {
 
         //Use this one everywhere to save resources!
         this.batch = new SpriteBatch();
-
-        DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.GERMAN);
-        otherSymbols.setDecimalSeparator('.');
-        otherSymbols.setGroupingSeparator(' ');
-
-        decimalFormat = new DecimalFormat("#.###", otherSymbols);
-        decimalFormat.setMinimumFractionDigits(3);
 
         this.gc = gc;
         this.font = Assets.getRockwellFont();
@@ -296,7 +288,7 @@ public class GameRenderer {
 
     private void drawTimer() {
         float time = gc.getTimer();
-        font.draw(batch, decimalFormat.format(time), cameraManager.getGameCamera().position.x - cameraManager.getGameCamera().viewportWidth / 2.25f, cameraManager.getGameCamera().position.y + cameraManager.getGameCamera().viewportHeight * 0.475f);
+        font.draw(batch, gc.getDecimalFormat().format(time), cameraManager.getGameCamera().position.x - cameraManager.getGameCamera().viewportWidth / 2.25f, cameraManager.getGameCamera().position.y + cameraManager.getGameCamera().viewportHeight * 0.475f);
     }
 
     private void drawButtons() {

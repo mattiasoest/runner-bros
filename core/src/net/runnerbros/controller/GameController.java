@@ -1,5 +1,8 @@
 package net.runnerbros.controller;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
@@ -76,8 +79,15 @@ public class GameController implements InputProcessor {
     private static       float MAX_VEL               = 4.6f;
     private final static float MAX_VEL_ORG           = 4.6f;
     private final static float MAX_VEL_SPEEDRUN      = 6.2f;
+
     private final Preferences mapScores;
     private final RunnerBros  game;
+
+    public DecimalFormat getDecimalFormat() {
+        return decimalFormat;
+    }
+
+    private final DecimalFormat decimalFormat;
 
     public void setGameState(GameState gameState) {
         currentGameState = gameState;
@@ -150,6 +160,14 @@ public class GameController implements InputProcessor {
         this.game = game;
         Gdx.input.setCatchBackKey(true);
 
+        DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.GERMAN);
+        otherSymbols.setDecimalSeparator('.');
+        otherSymbols.setGroupingSeparator(' ');
+
+        decimalFormat = new DecimalFormat("#.###", otherSymbols);
+        decimalFormat.setMinimumFractionDigits(3);
+
+
         this.mapScores = Gdx.app.getPreferences("runner_bros_12FG93F5GAJB529");
         this.coins = new Array<Coin>();
         this.slimes = new Array<Slime>();
@@ -179,6 +197,10 @@ public class GameController implements InputProcessor {
         parseMapObjects();
         player.randomizeBrother();
         player.setPos(spawnPoint.x, spawnPoint.y);
+    }
+
+    public Preferences getMapScores() {
+        return mapScores;
     }
 
     public Stage getPausedStage() {
@@ -643,8 +665,8 @@ public class GameController implements InputProcessor {
             finishGame();
             if (mapScores.contains(Base64Coder.encodeString(currentLevel.getKey()))) {
                 float mapValue = Float.valueOf(Base64Coder.decodeString(mapScores.getString(Base64Coder.encodeString(currentLevel.getKey()))));
-                System.out.println("comparing " + timer + " <" + mapValue);
-                if (timer < Float.valueOf(Base64Coder.decodeString(mapScores.getString(Base64Coder.encodeString(currentLevel.getKey()))))) {
+                System.out.println("comparing " + timer + " < " + mapValue);
+                if (timer < mapValue) {
                     System.out.println("New highscore on existing map, saving: " + mapValue);
                     mapScores.putString(Base64Coder.encodeString(currentLevel.getKey()), Base64Coder.encodeString(Float.toString(timer)));
                     mapScores.flush();
@@ -899,12 +921,6 @@ public class GameController implements InputProcessor {
         Gdx.input.setInputProcessor(this);
 
         resetPlayerStatesAndButtons();
-
-        // TODO: FOR FIXING THE SCREEN
-        if (Gdx.input.isKeyPressed(Keys.T)) {
-            levelFinishedCheck();
-            return;
-        }
 
         int togglePressed = -1;
 

@@ -1,6 +1,7 @@
 package net.runnerbros.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Base64Coder;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import net.runnerbros.RunnerBros;
@@ -53,16 +55,29 @@ public class LevelScreen extends BackgroundScreen {
         Table scrollContainer = new Table();
         PagedScrollPane scroll = new PagedScrollPane();
 
+        Preferences pref = game.getGameController().getMapScores();
         float pageSpacing = 0f;
         scroll.setFlingTime(0.5f);
         scroll.setPageSpacing(pageSpacing);
-        int levelIndex = 1;
-        for (int i = 0; i < 10; i++) {
+
+
+        // TODO: ADJUST WHEN WE KNOW THE NUMBER OF LEVELS FOR EACH WORLD
+        for (int levelIndex = 1; levelIndex <= 10; levelIndex++) {
             Table levels = new Table();
             Table levelTable = new Table();
 //                    levelTable.setBackground(worldBg.getDrawable());
             Button levelButton = getLevelButton(levelIndex);
-            Label localHighScore = new Label("Highscore: 33.255", ls);
+
+            Label localHighScore;
+            String currentLevel = getLevelKey(levelIndex);
+            if (pref.contains(Base64Coder.encodeString(currentLevel))) {
+                float time = Float.valueOf(Base64Coder.decodeString(pref.getString(Base64Coder.encodeString(currentLevel))));
+                String formattedTime = game.getGameController().getDecimalFormat().format(time);
+                localHighScore = new Label("Time: " + formattedTime, ls);
+            }
+            else {
+                localHighScore = new Label("Time: N/A", ls);
+            }
 //                    levelButton.setSize(50, 50);
             levelTable.add(levelButton).pad(50);
             levelTable.row();
@@ -73,7 +88,6 @@ public class LevelScreen extends BackgroundScreen {
 
             levelTable.add(localHighScore);
             levels.add(levelTable).height(GameController.VIRTUAL_HEIGHT * 0.8f).width(LEVEL_WIDTH);
-            levelIndex++;
             final float standardPad = 110;
             levels.padLeft(standardPad);
             levels.padRight(standardPad);
