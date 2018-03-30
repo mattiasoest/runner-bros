@@ -69,22 +69,15 @@ public class WorldScreen extends BackgroundScreen {
 
         for (int l = first; l <= last; l++) {
             Table levels = new Table();
-            //            levels.debug();
-
-            //            levels.defaults().pad(15, 30, 15, 30);
-            //            levels.defaults().pad(20, 30, 20, 30);
             for (int y = 0; y < 1; y++) {
                 //                levels.row();
                 for (int x = 0; x < 1; x++) {
                     Table levelTable = new Table();
-                    //                    levelTable.setBackground(worldBg.getDrawable());
-//                    Image coin = new Image(Assets.manager.get(Assets.COIN, Texture.class));
                     Button levelButton = getLevelButton(levelIndex);
                     Label localHighScore = new Label("Worldinfo here", ls);
                     //                    levelButton.setSize(50, 50);
                     levelTable.add(levelButton).pad(50);
                     levelTable.row();
-//                    levelTable.add(coin).row();
 
                     //DEBUG DATA
                     if (debug) {
@@ -93,7 +86,6 @@ public class WorldScreen extends BackgroundScreen {
 
                     levelTable.add(localHighScore);
                     levels.add(levelTable).height(GameController.VIRTUAL_HEIGHT * 0.8f).width(LEVEL_WIDTH);
-                    //                    levels.add(getLevelButton(c++)).expand().fill();
                     levelIndex++;
                 }
             }
@@ -116,7 +108,6 @@ public class WorldScreen extends BackgroundScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 SoundManager.INSTANCE.playButtonClick();
-//                game.setScreen(game.getMainMenuScreen());
                 game.switchScreen(stage, game.getMainMenuScreen());
             }
         });
@@ -160,8 +151,6 @@ public class WorldScreen extends BackgroundScreen {
 
         stage.act(delta);
         stage.draw();
-//        Table.drawDebug(stage);
-
     }
 
     @Override
@@ -173,7 +162,6 @@ public class WorldScreen extends BackgroundScreen {
     @Override
     public void show() {
         System.out.println("SHOW WORLD");
-//        stage.getRoot().getColor().a = 0;
         Gdx.input.setInputProcessor(null);
         stage.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(game.FADE_TIME), Actions.run(new Runnable() {
             @Override
@@ -225,7 +213,6 @@ public class WorldScreen extends BackgroundScreen {
             LevelScreen levelSelect = new LevelScreen(game, Integer.valueOf(worldIndex));
             game.setLevelScreen(levelSelect);
             game.switchScreen(stage, levelSelect);
-            //            game.setScreen(levelSelect);
         }
     };
 }

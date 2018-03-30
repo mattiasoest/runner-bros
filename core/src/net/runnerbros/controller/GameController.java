@@ -158,10 +158,6 @@ public class GameController implements InputProcessor {
         this.rand = new Random();
 
         this.player = new Player(0, 0, 12f, 58f);
-        //TODO: This method will be used in combination with the user clicking a start button
-        //        loadLevel("world_1-1", "FUNKY TOWN");
-        //TODO: This method will be used in combination with the user clicking a start button once the map has loaded
-        //        startTimer();
     }
 
     public void initMap() {

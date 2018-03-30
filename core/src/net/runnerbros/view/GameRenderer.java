@@ -159,37 +159,23 @@ public class GameRenderer {
 
         this.gc = gc;
         this.font = Assets.getRockwellFont();
-        //        this.font.scale(1.2f);
         this.font.setColor(Color.WHITE);
         this.font.setUseIntegerPositions(false);
-        //        this.scale = Gdx.graphics.getWidth() / 768f;
 
         this.cameraManager = new CameraManager();
-        //        camera.viewportWidth = 384f;
-        //        camera.viewportHeight = 216f;
-        //        camera.viewportWidth = 768f;
-        //        camera.viewportHeight = 432f;
-        //        camera.viewportWidth = Gdx.graphics.getWidth();
-        //        camera.viewportHeight = Gdx.graphics.getHeight();
         this.buttonDiam = GameController.VIRTUAL_WIDTH / 10f;
         cameraManager.getGameCamera().update();
         Gdx.graphics.setVSync(false);
         this.player = gc.getPlayer();
-//        batch.enableBlending();
         loadAnimationsAndTextures();
 
         setButtonSpeed(false);
         setButtonJump(false);
         setButtonLeft(false);
-        //        buttonWidth = buttonLeft.getRegionWidth() * (GameController.VIRTUAL_WIDTH / 875f);
-        //        buttonHeight = buttonLeft.getRegionHeight() * (GameController.VIRTUAL_WIDTH / 875f);
         setButtonRight(false);
 
-        //TODO: Use other graphics later
         TextureRegion tempPause = atlas.findRegion("btn_pause_pressed");
         TextureRegion tempPause2 = atlas.findRegion("btn_pause");
-//        tempPause.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-//        tempPause2.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         buttonPausePressedSprite = new Sprite(tempPause);
         buttonPauseSprite = new Sprite(tempPause2);
         buttonPausePressedSprite.setScale(0.55f);
@@ -221,7 +207,6 @@ public class GameRenderer {
             drawParallaxBackground(cameraManager.getGameCamera());
             renderer.setView(cameraManager.getGameCamera());
         }
-        //TODO: Remove layers and just user render() ??
         renderer.render();
         batch.begin();
         drawTampolines(delta);
@@ -295,25 +280,6 @@ public class GameRenderer {
 
 
     public void resize(int width, int height) {
-        //        float aspectRatio = (float) width / (float) height;
-        //        float scale = 1f;
-        //        Vector2 crop = new Vector2(0f, 0f);
-        //
-        //        if (aspectRatio > ASPECT_RATIO) {
-        //            scale = (float) height / (float) VIRTUAL_HEIGHT;
-        //            crop.x = (width - VIRTUAL_WIDTH * scale) / 2f;
-        //        }
-        //        else if (aspectRatio < ASPECT_RATIO) {
-        //            scale = (float) width / (float) VIRTUAL_WIDTH;
-        //            crop.y = (height - VIRTUAL_HEIGHT * scale) / 2f;
-        //        }
-        //        else {
-        //            scale = (float) width / (float) VIRTUAL_WIDTH;
-        //        }
-        //
-        //        float w = (float) VIRTUAL_WIDTH * scale;
-        //        float h = (float) VIRTUAL_HEIGHT * scale;
-        //        viewport = new Rectangle(crop.x, crop.y, w, h);
         view.update(width, height);
     }
 
@@ -413,14 +379,12 @@ public class GameRenderer {
         float posX, posY;
         posX = player.getBounds().x - player.getWidth() / 2;
         posY = player.getBounds().y - cameraManager.getGameCamera().viewportHeight * 0.1f; // + player.getHeight() / 2 + camera.viewportHeight / 12f
-//        posY = player.getBounds().y - camera.viewportHeight * 0.03f; // + player.getHeight() / 2 + camera.viewportHeight / 12f
         cameraManager.getGameCamera().position.set(posX, posY, 0);
         if (cameraManager.getGameCamera().position.x - cameraManager.getGameCamera().viewportWidth / 2 < currentLevel.getTileWidth() * 1) {
             posX = currentLevel.getTileWidth() + cameraManager.getGameCamera().viewportWidth / 2;
         }
         else if (cameraManager.getGameCamera().position.x + cameraManager.getGameCamera().viewportWidth / 2 > (currentLevel.getCollisionLayer().getWidth() - 1) * currentLevel.getTileWidth()) {
             posX = currentLevel.getTileWidth() * (currentLevel.getCollisionLayer().getWidth() - 1) - cameraManager.getGameCamera().viewportWidth / 2;
-            //		paraBG.render(delta, camera.position.x / 5, camera.position.y /2);
         }
         if (cameraManager.getGameCamera().position.y + cameraManager.getGameCamera().viewportHeight / 2 < currentLevel.getTileHeight() * 14.4f) {
             posY = currentLevel.getTileHeight() * 14.4f - cameraManager.getGameCamera().viewportHeight / 2;

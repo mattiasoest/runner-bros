@@ -29,14 +29,6 @@ public class PlayScreen implements Screen {
 
 	@Override
 	public void show() {
-//		Gdx.input.setInputProcessor(null);
-//		game.getGameController().getgameStartStage().addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(game.FADE_TIME), Actions.run(new Runnable() {
-//			@Override
-//			public void run() {
-//				Gdx.input.setInputProcessor(game.getGameController());
-////				Gdx.input.setInputProcessor(stage);
-//			}
-//		})));
         Gdx.input.setInputProcessor(game.getGameController());
 
 	}

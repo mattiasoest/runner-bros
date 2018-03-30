@@ -93,7 +93,6 @@ public class RunnerBros extends Game {
 
 	public void switchScreen(Stage currentStage, final Screen screen) {
 		final RunnerBros bros = this;
-//		currentStage.getRoot().getColor().a = 1;
 		Gdx.input.setInputProcessor(null);
 		SequenceAction sequenceAction = new SequenceAction();
 		sequenceAction.addAction(Actions.fadeOut(FADE_TIME_FROM));

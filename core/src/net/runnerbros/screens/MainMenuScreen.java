@@ -57,9 +57,6 @@ public class MainMenuScreen extends BackgroundScreen {
         ImageButton exitButton = new ImageButton(exitStyle);
         ImageButton settingsButton = new ImageButton(settingsStyle);
 
-
-//        playButton.setPosition(GameController.VIRTUAL_WIDTH / 2 - playButton.getWidth() / 2, GameController.VIRTUAL_HEIGHT * 0.35f);
-
         Table container =  new Table();
         container.setPosition(0, 0f);
         container.setSize(GameController.VIRTUAL_WIDTH, GameController.VIRTUAL_HEIGHT);
@@ -70,7 +67,6 @@ public class MainMenuScreen extends BackgroundScreen {
         Table bottomTable = new Table();
 
         bottomTable.setPosition(0, 0f);
-//        bottomTable.setSize(GameController.VIRTUAL_WIDTH, bottomTable.getPrefHeight());
         bottomTable.add(exitButton).expandX().align(Align.left);
 
         bottomTable.add(settingsButton);
@@ -80,14 +76,12 @@ public class MainMenuScreen extends BackgroundScreen {
             public void clicked(InputEvent event, float x, float y) {
                 SoundManager.INSTANCE.playButtonClick();
                 game.switchScreen(stage, game.getWorldScreen());
-//                game.setScreen(game.getWorldScreen());
             }
         });
 
         exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-//                game.dispose();
                 SoundManager.INSTANCE.playButtonClick();
                 exitGame();
             }

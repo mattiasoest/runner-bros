@@ -161,8 +161,6 @@ public class LevelScreen extends BackgroundScreen {
 
     @Override
     public void show() {
-//        stage.getRoot().getColor().a = 0;
-//        stage.getRoot().addAction(Actions.fadeIn(game.FADE_TIME));
         Gdx.input.setInputProcessor(null);
         stage.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(game.FADE_TIME), Actions.run(new Runnable() {
             @Override
