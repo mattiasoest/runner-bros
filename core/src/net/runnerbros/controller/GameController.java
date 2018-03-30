@@ -628,7 +628,6 @@ public class GameController implements InputProcessor {
                 SoundManager.INSTANCE.playCopterCap();
             }
         }
-
         levelFinishedCheck();
     }
 
@@ -636,19 +635,22 @@ public class GameController implements InputProcessor {
         if (player.getBounds().overlaps(levelGoal)) {
             benny.setHappy();
             stopTimer();
+            finishGame();
             if (mapScores.contains(Base64Coder.encodeString(currentLevel.getKey()))) {
-//            if (mapScores.contains(currentLevel.getKey())) {
+                float mapValue = Float.valueOf(Base64Coder.decodeString(mapScores.getString(Base64Coder.encodeString(currentLevel.getKey()))));
+                System.out.println("comparing " + timer + " <" + mapValue);
                 if (timer < Float.valueOf(Base64Coder.decodeString(mapScores.getString(Base64Coder.encodeString(currentLevel.getKey()))))) {
-//                if (timer < mapScores.getFloat(currentLevel.getKey())) {
-
+                    System.out.println("New highscore on existing map, saving: " + mapValue);
                     mapScores.putString(Base64Coder.encodeString(currentLevel.getKey()), Base64Coder.encodeString(Float.toString(timer)));
-//                    mapScores.putFloat(currentLevel.getKey(), timer);
                     mapScores.flush();
+                }
+                else {
+                    System.out.println("Too bad time, not saving..");
                 }
             }
             else {
+                System.out.println("First highscore on current map, storing: " + timer);
                 mapScores.putString(Base64Coder.encodeString(currentLevel.getKey()), Base64Coder.encodeString(Float.toString(timer)));
-//                mapScores.putFloat(currentLevel.getKey(), timer);
                 mapScores.flush();
             }
         }
@@ -895,7 +897,7 @@ public class GameController implements InputProcessor {
 
         // TODO: FOR FIXING THE SCREEN
         if (Gdx.input.isKeyPressed(Keys.T)) {
-            finishGame();
+            levelFinishedCheck();
             return;
         }
 
