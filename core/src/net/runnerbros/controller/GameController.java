@@ -809,7 +809,7 @@ public class GameController implements InputProcessor {
             }
             else if (movEnt instanceof Player) {
                 for (Slime s : slimes) {
-                    if (movEnt.getBounds().overlaps(s.getBounds()) && s.isAlive() && movEnt.getBounds().y > s.getBounds().y + s.getHeight() * 0.25f) {
+                    if (movEnt.getBounds().overlaps(s.getBounds()) && s.isAlive() && movEnt.getBounds().y > s.getBounds().y + s.getHeight() * 0.15f) {
                         s.setHeight(s.getHeight() / 2f);
                         s.getVelocity().x = 0;
                         s.setAlive(false);
