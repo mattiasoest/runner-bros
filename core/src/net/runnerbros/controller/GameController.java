@@ -241,7 +241,11 @@ public class GameController implements InputProcessor {
                 // Dont update anything since its paused.
                 break;
             case FINISHED:
-                //TODO Fix!
+                // Upadate the cam for finish table if
+                // we finished while jumping to make the stage
+                // follow us while falling down again.
+                Camera cam = stageFinishMenu.getCamera();
+                finishTable.setPosition(cam.position.x - cam.viewportWidth / 2f, cam.position.y - cam.viewportHeight / 2f);
                 updateKenny(delta);
                 updateSnowmen(delta);
                 updateBenny(delta);
