@@ -31,7 +31,7 @@
  <objectgroup name="objects">
   <object id="1" name="spawnpoint" x="93" y="489" width="23" height="51"/>
   <object id="2" name="goal" x="6275" y="-34" width="96" height="381"/>
-  <object id="3" name="benny" x="6315" y="251" width="24" height="62"/>
+  <object id="3" name="benny" x="6330" y="253" width="24" height="62"/>
   <object id="4" name="slime" x="4430" y="243" width="34" height="36">
    <properties>
     <property name="blue" value=""/>
