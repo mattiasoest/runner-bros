@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="200" height="20" tilewidth="32" tileheight="32">
- <tileset firstgid="1" name="runner-bros" tilewidth="32" tileheight="32">
+<map version="1.0" tiledversion="1.1.4" orientation="orthogonal" renderorder="right-down" width="200" height="20" tilewidth="32" tileheight="32" infinite="0" nextobjectid="4">
+ <tileset firstgid="1" name="runner-bros" tilewidth="32" tileheight="32" tilecount="28" columns="7">
   <image source="tiles.png" width="224" height="128"/>
   <tile id="0">
    <properties>
@@ -30,12 +30,12 @@
  </tileset>
  <layer name="Tile Layer 1" width="200" height="20">
   <data encoding="base64" compression="zlib">
-   eJztmN0OgyAMhWfmsvsleqF7/+fcTFzGamvBHyjr+ZKGCArYwxG1vwAAOPo5AABL4A8AZOAPAGTgDwBk4A8AZOAPAGQ8+KMpPQFQLfAHAEu6uYQ/frmRY+v56ZkA+xnm0kNOU/wxKO1b1qGHHNeCpgX3vCml3T3DGNL9apHSH3dOKk+l3YJeHijtj1zjb/WFlXzAA8eQmkcPWtTiDU/Q/VHbL0sRuyY6ps4CV6Xdqze4vMTW5eCMXHMe29t37LrQvlNz89F1IMcUj96Y4PSKqWsu/P8L+h8vFqm/FGK+Sy2+l4fk2B/DMR5CSfHojQkuH1pdQyJEej5Kuq/1FYsF3fa+f2jzO/Iejp7rP3mjRF7OzqkF7eCP+r0xAX/U4Y/2HWNQSueE57UrdeNKP/DGlxz5ofqkXqtpTcOChtwYL7aKMFU=
+   eJztmMtugzAQRYOaqKtuKoUF9P+/s0VKVDKZYWz84OFzpBHChrEz1xcH+gsAaPSPAIB38AeADf4AsMEfADb4A8AGfwDYtOCPbusJwGHBHwA2+OOVmzjfe316JSAfLdQ0xh+D079mHbZQ47OypXafFcbQnq8hEZNPuyaWH6efPWIbatc7dj3mHifVHzXnCemk1vGMWhzFGy0h90dvvyzBGm2tNXFPnEspPpz+Vr2h1SW0rQYlaq15LFfuLyef955am6eugziXtOiNCU2vkLbuon+/kN/xQrHyxRDyXlpas2ed1q6fGvvjfIxv4yhp0RsTWj28tk7EHOv5aOm+lCuUPeiW+v/Dm1/O35B7rmfyxhZ1KV3TPWiHP47vjQn8cQx/XP9inB2ta+bXXRfaxoU8eOOfGvWR+sTe62ktYw8aamP8AoZjLic=
   </data>
  </layer>
- <objectgroup name="objects" width="200" height="20">
-  <object name="goal" x="6325" y="-10" width="33" height="522"/>
-  <object name="spawnpoint" x="76" y="470" width="32" height="32"/>
-  <object name="benny" x="6317" y="247" width="27" height="56"/>
+ <objectgroup name="objects">
+  <object id="1" name="goal" x="6279" y="-10" width="79" height="522"/>
+  <object id="2" name="spawnpoint" x="76" y="470" width="32" height="32"/>
+  <object id="3" name="benny" x="6271" y="457" width="28" height="48"/>
  </objectgroup>
 </map>
