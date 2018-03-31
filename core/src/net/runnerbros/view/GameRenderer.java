@@ -1,9 +1,5 @@
 package net.runnerbros.view;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.util.Locale;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
@@ -41,7 +37,7 @@ public class GameRenderer {
     private final Sprite             buttonPauseSprite;
     private final Sprite             buttonPausePressedSprite;
 
-    private float previousHoverCameraPosX = 0f;
+    private float hoverDifferenceX = 0f;
 
     private Level currentLevel;
 
@@ -330,22 +326,25 @@ public class GameRenderer {
             else if (cameraHoverSpeed < CameraManager.CAMERA_HOVERSPEED_MIN) {
                 cameraHoverSpeed = CameraManager.CAMERA_HOVERSPEED_MIN;
             }
-            previousHoverCameraPosX += cameraHoverSpeed * Gdx.graphics.getDeltaTime();
+            hoverDifferenceX += cameraHoverSpeed * Gdx.graphics.getDeltaTime();
         }
-        posX = currentLevel.getTileWidth() * (currentLevel.getCollisionLayer().getWidth() - 1) - cameraManager.getHoverCamera().viewportWidth / 2 - previousHoverCameraPosX;
-        posY = gc.getBenny().getBounds().y - cameraManager.getHoverCamera().viewportHeight * 0.1f;
+//        posY = gc.getBenny().getBounds().y - cameraManager.getHoverCamera().viewportHeight * 0.1f;
+
+        // USE STATIC Y FOR NOW.
+        posX = currentLevel.getTileWidth() * (currentLevel.getCollisionLayer().getWidth() - 1) - cameraManager.getHoverCamera().viewportWidth / 2 - hoverDifferenceX;
+        posY = currentLevel.getTileHeight() * 14.4f * CameraManager.HOVER_CAMERA_SIZE_MULTIPLIER - cameraManager.getHoverCamera().viewportHeight / 2;
         cameraManager.getHoverCamera().position.set(posX, posY, 0);
-
-
         // The beggining of the map, pause the camera for 2 sec and then maybe zoom in or somehting
         if (cameraManager.getHoverCamera().position.x - cameraManager.getHoverCamera().viewportWidth / 2 < currentLevel.getTileWidth() * 1) {
 
             posX = currentLevel.getTileWidth() + cameraManager.getHoverCamera().viewportWidth / 2;
+            cameraManager.getHoverCamera().position.set(posX, posY, 0);
             if (cameraStaticTimer < 2f) {
                 // Count another 1s
                 cameraStaticTimer += Gdx.graphics.getDeltaTime();
             }
             else {
+                System.out.println("ONCE");
                 // Zoom in on the player...
 //                hoverCamera.viewportHeight -= hoverCamera.viewportHeight * Gdx.graphics.getDeltaTime();
 //                hoverCamera.viewportWidth -= hoverCamera.viewportWidth * Gdx.graphics.getDeltaTime();
@@ -356,17 +355,18 @@ public class GameRenderer {
 //                }
             }
         }
-        if (cameraManager.getHoverCamera().position.y + cameraManager.getHoverCamera().viewportHeight / 2 < currentLevel.getTileHeight() * 14.4f * CameraManager.HOVER_CAMERA_SIZE_MULTIPLIER) {
-            posY = currentLevel.getTileHeight() * 14.4f * CameraManager.HOVER_CAMERA_SIZE_MULTIPLIER - cameraManager.getHoverCamera().viewportHeight / 2;
-        }
-        cameraManager.getHoverCamera().position.set(posX, posY, 0);
+
         cameraManager.getHoverCamera().update();
+//        if (cameraManager.getHoverCamera().position.y + cameraManager.getHoverCamera().viewportHeight / 2 < currentLevel.getTileHeight() * 14.4f * CameraManager.HOVER_CAMERA_SIZE_MULTIPLIER) {
+//            posY = currentLevel.getTileHeight() * 14.4f * CameraManager.HOVER_CAMERA_SIZE_MULTIPLIER - cameraManager.getHoverCamera().viewportHeight / 2;
+//        }
+
 
     }
 
 
     private void resetHoverProperties() {
-        previousHoverCameraPosX = 0f;
+        hoverDifferenceX = 0f;
         cameraStaticTimer = 0;
     }
 
