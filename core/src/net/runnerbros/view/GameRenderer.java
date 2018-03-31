@@ -29,6 +29,7 @@ import net.runnerbros.entities.Trampoline;
 
 public class GameRenderer {
 
+    private static final float CAMERA_STATIC_TIMER = 1.5f;
     //Hover camera properties
     private float cameraStaticTimer = 0f;
     private float cameraHoverSpeed = 50f;
@@ -177,6 +178,7 @@ public class GameRenderer {
 
     public void initRenderer() {
         this.currentLevel = gc.getCurrentLevel();
+        resetHoverProperties();
         this.renderer = new OrthogonalTiledMapRenderer(currentLevel.getMap(), batch);
     }
 
@@ -247,6 +249,11 @@ public class GameRenderer {
         }
     }
 
+    private void resetHoverProperties() {
+        hoverDifferenceX = 0f;
+        cameraStaticTimer = 0;
+    }
+
     public Batch getSpriteBatch() {
         return batch;
     }
@@ -309,8 +316,8 @@ public class GameRenderer {
     private void hoverCameraOverMap() {
         float posX, posY;
 
-        // The end of the map (hovercam start) pause for 1 sec and then start hovering
-        if (cameraStaticTimer < 1f) {
+        // The end of the map (hovercam start) pause for CAMERA_STATIC_TIMER sec and then start hovering
+        if (cameraStaticTimer < CAMERA_STATIC_TIMER) {
             cameraStaticTimer += Gdx.graphics.getDeltaTime();
         }
         else {
@@ -339,8 +346,9 @@ public class GameRenderer {
 
             posX = currentLevel.getTileWidth() + cameraManager.getHoverCamera().viewportWidth / 2;
             cameraManager.getHoverCamera().position.set(posX, posY, 0);
-            if (cameraStaticTimer < 2f) {
-                // Count another 1s
+            if (cameraStaticTimer < CAMERA_STATIC_TIMER * 2) {
+                // Count another CAMERA_STATIC_TIMER by adding delta values to the current
+                // cameraStaticTimer which is equal to CAMERA_STATIC_TIMER in the beginning.
                 cameraStaticTimer += Gdx.graphics.getDeltaTime();
             }
             else {
@@ -364,11 +372,6 @@ public class GameRenderer {
 
     }
 
-
-    private void resetHoverProperties() {
-        hoverDifferenceX = 0f;
-        cameraStaticTimer = 0;
-    }
 
     private void updateCameraPosition() {
         float posX, posY;
