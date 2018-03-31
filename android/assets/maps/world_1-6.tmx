@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="200" height="20" tilewidth="32" tileheight="32">
- <tileset firstgid="1" name="tiles" tilewidth="32" tileheight="32">
+<map version="1.0" tiledversion="1.1.4" orientation="orthogonal" renderorder="right-down" width="200" height="20" tilewidth="32" tileheight="32" infinite="0" nextobjectid="18">
+ <tileset firstgid="1" name="tiles" tilewidth="32" tileheight="32" tilecount="28" columns="7">
   <image source="tiles.png" width="224" height="128"/>
   <tile id="0">
    <properties>
@@ -28,76 +28,76 @@
    eJztmdEOgjAMRTU+mfCCiUT9/w81JBoIcWSz7W077k3OAzxMCz2wjeGUKwMhDUiiMQY63teb5EISjTHQ8b7eJBeSaIyBzrb+K6nGoz+9a5SEfhyLqH48DWuUpBc/NK9vz6Cf9ajn17hToyS9+EFwfoyNv+ddsyT041j0+v6gH0vox8L5A/2Q+XEvnKcfPv3c0tNIP1Dr85Y5WolphdSPV+F8RD8s9ke8mYzR/r8a/Wvd+1p+1PRYpETxo7ZHat4J2fzwRlJb7/tXUfxodUNrzkTox16y+LF1g34seH6P8vDjAjz2vrc1/HKjBz9Qc7eHYQ1WfpT2uOZs1/eWx986/10jWq8tS2706ke2dZOVH6U9rjk34LHls8XSjYh+tPaiZQ9n9oPo4O2Ddg+jx9d499OPuLTcR815oNZ6GLFnbPEb6/rpR1ysegoF6ntKpvnVGyj4fWk=
   </data>
  </layer>
- <objectgroup name="objects" width="200" height="20">
-  <object name="spawnpoint" x="93" y="489" width="23" height="51"/>
-  <object name="goal" x="6156" y="-36" width="223" height="375"/>
-  <object name="benny" x="6315" y="251" width="24" height="62"/>
-  <object name="slime" x="4430" y="243" width="34" height="36">
+ <objectgroup name="objects">
+  <object id="1" name="spawnpoint" x="93" y="489" width="23" height="51"/>
+  <object id="2" name="goal" x="6275" y="-34" width="96" height="381"/>
+  <object id="3" name="benny" x="6315" y="251" width="24" height="62"/>
+  <object id="4" name="slime" x="4430" y="243" width="34" height="36">
    <properties>
     <property name="blue" value=""/>
    </properties>
   </object>
-  <object name="slime" x="4397" y="431" width="34" height="36">
+  <object id="5" name="slime" x="4397" y="431" width="34" height="36">
    <properties>
     <property name="red" value=""/>
    </properties>
   </object>
-  <object name="slime" x="4679" y="437" width="34" height="36">
+  <object id="6" name="slime" x="4679" y="437" width="34" height="36">
    <properties>
     <property name="red" value=""/>
    </properties>
   </object>
-  <object name="slime" x="4679" y="437" width="34" height="36">
+  <object id="7" name="slime" x="4679" y="437" width="34" height="36">
    <properties>
     <property name="red" value=""/>
    </properties>
   </object>
-  <object name="slime" x="3422" y="273" width="34" height="36">
+  <object id="8" name="slime" x="3422" y="273" width="34" height="36">
    <properties>
     <property name="red" value=""/>
    </properties>
   </object>
-  <object name="slime" x="1326" y="270" width="34" height="36">
+  <object id="9" name="slime" x="1326" y="270" width="34" height="36">
    <properties>
     <property name="pink" value=""/>
    </properties>
   </object>
-  <object name="slime" x="1081" y="500" width="34" height="36">
+  <object id="10" name="slime" x="1081" y="500" width="34" height="36">
    <properties>
     <property name="red" value=""/>
    </properties>
   </object>
-  <object name="slime" x="465" y="507" width="34" height="36">
+  <object id="11" name="slime" x="465" y="507" width="34" height="36">
    <properties>
     <property name="green" value=""/>
    </properties>
   </object>
-  <object name="slime" x="1403" y="502" width="34" height="36">
+  <object id="12" name="slime" x="1403" y="502" width="34" height="36">
    <properties>
     <property name="red" value=""/>
    </properties>
   </object>
-  <object name="slime" x="1821" y="498" width="34" height="36">
+  <object id="13" name="slime" x="1821" y="498" width="34" height="36">
    <properties>
     <property name="red" value=""/>
    </properties>
   </object>
-  <object name="slime" x="2247" y="496" width="34" height="36">
+  <object id="14" name="slime" x="2247" y="496" width="34" height="36">
    <properties>
     <property name="pink" value=""/>
    </properties>
   </object>
-  <object name="slime" x="1403" y="502" width="34" height="36">
+  <object id="15" name="slime" x="1403" y="502" width="34" height="36">
    <properties>
     <property name="pink" value=""/>
    </properties>
   </object>
-  <object name="slime" x="1223" y="499" width="34" height="36">
+  <object id="16" name="slime" x="1223" y="499" width="34" height="36">
    <properties>
     <property name="red" value=""/>
    </properties>
   </object>
-  <object name="slime" x="820" y="501" width="34" height="36">
+  <object id="17" name="slime" x="820" y="501" width="34" height="36">
    <properties>
     <property name="red" value=""/>
    </properties>
