@@ -209,18 +209,19 @@ public class WorldScreen extends BackgroundScreen {
             SoundManager.INSTANCE.playButtonClick();
             String worldIndex = event.getListenerActor().getName();
             System.out.println("Clicked world number: " + worldIndex);
-            //TODO: Fix worlds
-            if (Integer.valueOf(worldIndex) > 2) {
-                if (!Gdx.app.getType().equals(Application.ApplicationType.Desktop)) {
-                    if (game.actionResolver.getSignedInGPGS()) {
-                        game.actionResolver.getLeaderboardGPGS("CgkIj7LCjKMNEAIQAQ");
-                    }
-                    else {
-                        game.actionResolver.loginGPGS();
-                    }
-                }
-                return;
-            }
+            //TODO: Fix worlds, HAVE LOCAL HIGHSCORE FOR NOW.
+
+//            if (Integer.valueOf(worldIndex) > 2) {
+//                if (!Gdx.app.getType().equals(Application.ApplicationType.Desktop)) {
+//                    if (game.actionResolver.getSignedInGPGS()) {
+//                        game.actionResolver.getLeaderboardGPGS("CgkIj7LCjKMNEAIQAQ");
+//                    }
+//                    else {
+//                        game.actionResolver.loginGPGS();
+//                    }
+//                }
+//                return;
+//            }
 
             LevelScreen levelSelect = new LevelScreen(game, Integer.valueOf(worldIndex));
             game.setLevelScreen(levelSelect);
