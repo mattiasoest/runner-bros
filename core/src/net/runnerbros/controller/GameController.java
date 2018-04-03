@@ -254,7 +254,6 @@ public class GameController implements InputProcessor {
                 updateBenny(delta);
                 break;
             case READY:
-                System.out.println("READY");
                 SoundManager.INSTANCE.manageGameMusic(delta);
                 // -- IMPORTANT --  HACK
                 addDelay(delta);
@@ -876,6 +875,7 @@ public class GameController implements InputProcessor {
             if (movEnt instanceof Player) {
                 this.jumpPressed = false;
                 player.getVelocity().y = 0;
+                player.getBounds().y = oldY;
                 if (!player.getCanJump()) {
                     jumpYCollision = true;
                     player.getVelocity().x = tempVel;
