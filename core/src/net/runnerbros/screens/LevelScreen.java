@@ -60,9 +60,23 @@ public class LevelScreen extends BackgroundScreen {
         scroll.setFlingTime(0.5f);
         scroll.setPageSpacing(pageSpacing);
 
+        final int  amountOfLevels;
+        switch (worldIndex) {
+            case 1:
+                amountOfLevels = 8;
+                break;
+            case 2:
+                amountOfLevels = 5;
+                break;
+            case 3:
+                amountOfLevels = 5;
+                break;
+                default:
+                    throw  new RuntimeException("Unknown world: " + worldIndex);
 
+        }
         // TODO: ADJUST WHEN WE KNOW THE NUMBER OF LEVELS FOR EACH WORLD
-        for (int levelIndex = 1; levelIndex <= 10; levelIndex++) {
+        for (int levelIndex = 1; levelIndex <= amountOfLevels; levelIndex++) {
             Table levels = new Table();
             Table levelTable = new Table();
 //                    levelTable.setBackground(worldBg.getDrawable());
