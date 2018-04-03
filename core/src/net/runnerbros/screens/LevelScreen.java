@@ -80,7 +80,6 @@ public class LevelScreen extends BackgroundScreen {
         for (int levelIndex = 1; levelIndex <= amountOfLevels; levelIndex++) {
             Table levels = new Table();
             Table levelTable = new Table();
-                    levelTable.setColor(Color.RED);
             Button levelButton = getLevelButton(levelIndex);
 
             Label localHighScore;
@@ -94,7 +93,11 @@ public class LevelScreen extends BackgroundScreen {
                 localHighScore = new Label("Time: N/A", ls);
             }
 //                    levelButton.setSize(50, 50);
-            levelTable.add(levelButton).pad(50);
+            Label label = new Label(getLevelName(Integer.toString(levelIndex)), ls);
+            label.setAlignment(Align.center);
+            levelTable.add(label);
+            levelTable.row();
+            levelTable.add(levelButton).pad(10);
             levelTable.row();
             //DEBUG DATA
             if (debug) {
@@ -144,23 +147,15 @@ public class LevelScreen extends BackgroundScreen {
         ImageButton.ImageButtonStyle buttonStyle = new ImageButton.ImageButtonStyle();
         Skin buttonSkin = new Skin(Assets.manager.get(Assets.BUTTON_ATLAS, TextureAtlas.class));
 
-        buttonStyle.up = buttonSkin.getDrawable("btn_right");
-        buttonStyle.down = buttonSkin.getDrawable("btn_right_pressed");
+        buttonStyle.up = buttonSkin.getDrawable("btn_play_biggreen");
+        buttonStyle.down = buttonSkin.getDrawable("btn_play_bigblue_pressed");
 
         Button button = new ImageButton(buttonStyle);
 
         String worldKey = getLevelKey(levelIndex);
 
-        //TODO: Use the key to get the name?
-        Label label = new Label("LEVEL NAME HERE " + Integer.toString(levelIndex), ls);
-        label.setAlignment(Align.center);
-
-        button.stack(label);
-
-        button.row();
         button.setName(worldKey);
 
-        //TODO: Only have 7 (7 test)? levels atm.
         if (levelIndex <= 8) {
             button.addListener(levelClickListener);
         }
@@ -224,11 +219,17 @@ public class LevelScreen extends BackgroundScreen {
         @Override
         public void clicked(InputEvent event, float x, float y) {
             SoundManager.INSTANCE.playButtonClick();
-            String levelName = event.getListenerActor().getName();
-            System.out.println("Selected: " + levelName);
 
-            //TODO: LEVEL NAME
-            game.getGameController().loadLevel(event.getListenerActor().getName(), "FUNNY STUFF");
+            String levelKey = event.getListenerActor().getName();
+            System.out.println("Selected: " + levelKey);
+            // Example world_1-1
+
+            String levelNumber = levelKey.split("-")[1];
+            String levelName = getLevelName(levelKey);
+
+
+
+            game.getGameController().loadLevel(event.getListenerActor().getName(), levelName);
             // May remove this.
             game.getGameController().resetCurrentGame();
             game.getRenderer().initRenderer();
@@ -237,4 +238,24 @@ public class LevelScreen extends BackgroundScreen {
 //            game.switchScreen(stage, game.getPlayscreen());
         }
     };
+
+    private String getLevelName(String levelNumber) {
+
+        String levelName = "";
+        switch (worldIndex) {
+            case 1:
+                levelName = "The City " + levelNumber;
+                break;
+            case 2:
+                levelName = "Snow City " + levelNumber;
+                break;
+            case 3:
+                levelName = "City Park" + levelNumber;
+                break;
+            default:
+                throw new RuntimeException("Unknown world: " + worldIndex);
+
+        }
+        return levelName;
+    }
 }
