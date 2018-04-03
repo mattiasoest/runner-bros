@@ -1113,8 +1113,6 @@ public class GameController implements InputProcessor {
 
         resumeStyle.up = buttonSkin.getDrawable("btn_play_bigblue");
         resumeStyle.down = buttonSkin.getDrawable("btn_play_bigblue_pressed");
-//        resumeStyle.up = buttonSkin.getDrawable("btn_right");
-//        resumeStyle.down = buttonSkin.getDrawable("btn_right_pressed");
         retryButtonStyle.up = buttonSkin.getDrawable("btn_replay");
         retryButtonStyle.down = buttonSkin.getDrawable("btn_replay_pressed");
         backStyle.up = buttonSkin.getDrawable("btn_menu");
@@ -1180,24 +1178,23 @@ public class GameController implements InputProcessor {
         Label.LabelStyle lStyle = new Label.LabelStyle(Assets.getRockwellFont(), Color.WHITE);
         Label label = new Label("Finish", lStyle);
 
-        ImageButton.ImageButtonStyle highScoreStyle = new ImageButton.ImageButtonStyle();
+        ImageButton.ImageButtonStyle nextMapStyle = new ImageButton.ImageButtonStyle();
         ImageButton.ImageButtonStyle retryButtonStyle = new ImageButton.ImageButtonStyle();
         ImageButton.ImageButtonStyle backStyle = new ImageButton.ImageButtonStyle();
 
-
-        highScoreStyle.up = buttonSkin.getDrawable("btn_highschore");
-        highScoreStyle.down = buttonSkin.getDrawable("btn_highschore_pressed");
+        nextMapStyle.up = buttonSkin.getDrawable("btn_play_bigblue");
+        nextMapStyle.down = buttonSkin.getDrawable("btn_play_bigblue_pressed");
         retryButtonStyle.up = buttonSkin.getDrawable("btn_replay");
         retryButtonStyle.down = buttonSkin.getDrawable("btn_replay_pressed");
         backStyle.up = buttonSkin.getDrawable("btn_menu");
         backStyle.down = buttonSkin.getDrawable("btn_menu_pressed");
 
-        ImageButton highScoreButton = new ImageButton(highScoreStyle);
+        ImageButton nextMapButton = new ImageButton(nextMapStyle);
         ImageButton retryButton = new ImageButton(retryButtonStyle);
         ImageButton backButton = new ImageButton(backStyle);
 
 
-        highScoreButton.addListener(new ClickListener() {
+        nextMapButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 SoundManager.INSTANCE.playButtonClick();
@@ -1222,9 +1219,8 @@ public class GameController implements InputProcessor {
         });
 
         label.setWidth(label.getPrefWidth());
-//        label.setPosition(VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2);
         Table miniTable = new Table();
-        miniTable.add(highScoreButton).padRight(30);
+        miniTable.add(nextMapButton).width(retryButton.getWidth()).height(retryButton.getHeight()).padRight(30);
         miniTable.add(retryButton).padLeft(30).padRight(30);
         miniTable.add(backButton).padLeft(30);
 
@@ -1431,6 +1427,6 @@ public class GameController implements InputProcessor {
         SoundManager.INSTANCE.playButtonClick();
         Gdx.input.setInputProcessor(null);
         SoundManager.INSTANCE.swtichToMenuMusic();
-        game.switchScreen(stagePause, game.getLevelScreen());
+        game.setScreen(game.getLevelScreen());
     }
 }
