@@ -208,6 +208,10 @@ public class GameController implements InputProcessor {
         parseMapObjects();
         player.randomizeBrother();
         player.setPos(spawnPoint.x, spawnPoint.y);
+
+        resetCurrentGame();
+        game.getRenderer().initRenderer();
+        initMap();
     }
 
     public String getLevelName(int world, String levelNumber) {
@@ -240,10 +244,6 @@ public class GameController implements InputProcessor {
 
     public Stage getFinishStage() {
         return stageFinishMenu;
-    }
-
-    public Stage getgameStartStage() {
-        return stageGameStart;
     }
 
     private void clearEnemies() {
@@ -1065,7 +1065,6 @@ public class GameController implements InputProcessor {
             SoundManager.INSTANCE.switchToGameMusic();
             currentGameState = GameState.RUNNING;
             startTimer();
-            finishGame();
         }
         // Touch or keypress duriong the hovering, just go to the ready state and wait for another keypress/click
         else if (currentGameState == GameState.CAM_INITIALIZATION && (Gdx.input.isKeyJustPressed(Keys.ENTER) || Gdx.input.isTouched())) {
@@ -1211,7 +1210,10 @@ public class GameController implements InputProcessor {
         nextMapButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                SoundManager.INSTANCE.playButtonClick();
+                // Not the last level of the game, play the sound.
+                if (currentLevel.getWorldNo() != CITY_PARK && currentLevel.getLevelNo() != CITY_PARK_NO_LVLS) {
+                    SoundManager.INSTANCE.playButtonClick();
+                }
                 int currentLevelNumber = currentLevel.getLevelNo();
                 // Ex. world_1-1
                 String nextLevel;
@@ -1223,7 +1225,6 @@ public class GameController implements InputProcessor {
                                     getLevelName(THE_CITY, nextLevel));
                         }
                         else {
-                            nextLevel = String.valueOf(currentLevelNumber + 1);
                             // Load 1st level of the 2nd world
                             loadLevel("world_" + SNOW_CITY + "-1",
                                     getLevelName(SNOW_CITY, "1"));
@@ -1236,13 +1237,17 @@ public class GameController implements InputProcessor {
                                     getLevelName(SNOW_CITY, nextLevel));
                         }
                         else {
-                            nextLevel = String.valueOf(currentLevelNumber + 1);
                             // Load 1st level of the 3rd world
                             loadLevel("world_" + CITY_PARK + "-1",
                                     getLevelName(CITY_PARK, "1"));
                         }
                         break;
                     case CITY_PARK:
+                        // Change the style since its the 2nd last level and the menu will
+                        // grey out the button next time.
+                        if (currentLevelNumber == CITY_PARK_NO_LVLS - 1) {
+                            nextMapStyle.up = buttonSkin.getDrawable("btn_play_bigblue_pressed");
+                        }
                         if (currentLevelNumber < CITY_PARK_NO_LVLS) {
                             nextLevel = String.valueOf(currentLevelNumber + 1);
                             loadLevel(currentLevel.getKey().split("-")[0] + "-" + nextLevel,
@@ -1251,11 +1256,7 @@ public class GameController implements InputProcessor {
                         break;
                         default:
                             throw new RuntimeException("Unknown world:" + currentLevel.getWorldNo());
-
                 }
-                resetCurrentGame();
-                game.getRenderer().initRenderer();
-                initMap();
             }
         });
 
@@ -1271,6 +1272,8 @@ public class GameController implements InputProcessor {
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                // reset the map style to default.
+                nextMapStyle.up = buttonSkin.getDrawable("btn_play_bigblue");
                 goToLevelScreen();
             }
         });

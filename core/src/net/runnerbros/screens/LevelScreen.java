@@ -225,11 +225,7 @@ public class LevelScreen extends BackgroundScreen {
             String levelNumber = levelKey.split("-")[1];
             String levelName = game.getGameController().getLevelName(worldIndex, levelNumber);
 
-
             game.getGameController().loadLevel(event.getListenerActor().getName(), levelName);
-            game.getGameController().resetCurrentGame();
-            game.getRenderer().initRenderer();
-            game.getGameController().initMap();
             game.setScreen(game.getPlayscreen());
 //            game.switchScreen(stage, game.getPlayscreen());
         }
