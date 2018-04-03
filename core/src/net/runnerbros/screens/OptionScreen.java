@@ -85,12 +85,12 @@ public class OptionScreen extends BackgroundScreen {
                 if (SoundManager.INSTANCE.isMusicEnabled()) {
                     SoundManager.INSTANCE.setMusicEnabled(false);
                     musicToggleButton.setStyle(musicStyleOff);
-                    SoundManager.INSTANCE.pauseMusic();
+                    SoundManager.INSTANCE.pauseMenuMusic();
                 }
                 else {
                     SoundManager.INSTANCE.setMusicEnabled(true);
                     musicToggleButton.setStyle(musicStyleOn);
-                    SoundManager.INSTANCE.playMenuMusic();
+                    SoundManager.INSTANCE.swtichToMenuMusic();
                 }
             }
         });

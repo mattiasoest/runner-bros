@@ -9,9 +9,14 @@ import com.badlogic.gdx.audio.Sound;
 public class SoundManager {
 
     private Music menuMusc;
+    private Music gameMusic;
     private Sound click;
     private boolean isSoundEnabled = true;
     private boolean isMusicEnabled = true;
+
+    private static final float GAME_MUSIC_PAUSE = 5f;
+    private static final float GAME_MUSIC_VOLUME = 0.2f;
+    private float gameMusicPauseTimer = 0f;
 
     public static final SoundManager INSTANCE = getInstance();
     private Sound jumpSound;
@@ -30,11 +35,19 @@ public class SoundManager {
     }
 
     private SoundManager() {
+        loadMusic();
+        loadAudio();
+
+    }
+
+    private void loadMusic() {
         menuMusc = Assets.manager.get(Assets.MUSIC_MENU, Music.class);
         menuMusc.setLooping(true);
-        menuMusc.setVolume(0.2f);
+        menuMusc.setVolume(0.15f);
 
-        loadAudio();
+        gameMusic = Assets.manager.get(Assets.MUSIC_CITY_WORLD, Music.class);
+        gameMusic.setLooping(false);
+        gameMusic.setVolume(GAME_MUSIC_VOLUME);
 
     }
 
@@ -58,6 +71,34 @@ public class SoundManager {
         this.click = Assets.manager.get(Assets.SOUND_CLICK_BUTTON, Sound.class);
     }
 
+    public void manageGameMusic(float delta) {
+
+        // We're in the ready state for the first time, let it play until the user
+        // goes into RUNNING state.
+        if (menuMusc.isPlaying()) {
+            return;
+        }
+        if (gameMusic.isPlaying()) {
+            //Just return since we want to fade after 21.5f seconds.
+            if (gameMusic.getPosition() < 21.5f) {
+                // Do nothing
+                return;
+            }
+            else {
+                float volume = gameMusic.getVolume() - 0.105f * delta;
+                gameMusic.setVolume(volume);
+            }
+        }
+        else {
+            if (gameMusicPauseTimer < GAME_MUSIC_PAUSE) {
+                gameMusicPauseTimer += delta;
+            }
+            else {
+                switchToGameMusic();
+            }
+        }
+    }
+
 
     public boolean isSoundEnabled() {
         return isSoundEnabled;
@@ -75,9 +116,37 @@ public class SoundManager {
         this.isMusicEnabled = isMusicEnabled;
     }
 
-    public void playMenuMusic() {
+    public void swtichToMenuMusic() {
         if (isMusicEnabled) {
+            gameMusic.stop();
             menuMusc.play();
+        }
+    }
+
+    public void playMenuMusic() {
+        menuMusc.play();
+    }
+
+    public void playGameMusic() {
+        if (isMusicEnabled) {
+            if (menuMusc.isPlaying()) {
+                menuMusc.pause();
+            }
+            gameMusic.play();
+        }
+    }
+
+    public void switchToGameMusic() {
+        if (isMusicEnabled) {
+            if (menuMusc.isPlaying()) {
+                menuMusc.pause();
+            }
+            if (!gameMusic.isPlaying()) {
+                //Reset timer and volume
+                gameMusicPauseTimer = 0;
+                gameMusic.setVolume(GAME_MUSIC_VOLUME);
+                gameMusic.play();
+            }
         }
     }
 
@@ -135,7 +204,11 @@ public class SoundManager {
         }
     }
 
-    public void pauseMusic() {
+    public void pauseMenuMusic() {
         menuMusc.pause();
+
+    }
+    public void pauseGameMusic() {
+        gameMusic.pause();
     }
 }

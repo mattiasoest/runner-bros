@@ -2,6 +2,7 @@ package net.runnerbros.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -75,11 +76,11 @@ public class LevelScreen extends BackgroundScreen {
                     throw  new RuntimeException("Unknown world: " + worldIndex);
 
         }
-        // TODO: ADJUST WHEN WE KNOW THE NUMBER OF LEVELS FOR EACH WORLD
+
         for (int levelIndex = 1; levelIndex <= amountOfLevels; levelIndex++) {
             Table levels = new Table();
             Table levelTable = new Table();
-//                    levelTable.setBackground(worldBg.getDrawable());
+                    levelTable.setColor(Color.RED);
             Button levelButton = getLevelButton(levelIndex);
 
             Label localHighScore;

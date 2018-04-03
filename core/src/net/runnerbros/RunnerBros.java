@@ -75,10 +75,6 @@ public class RunnerBros extends Game {
         optionScreen = new OptionScreen(this);
 
 
-        //TODO:
-        //TODO:
-        //TODO:
-        //TODO: Fix separate music for the map.
         SoundManager.INSTANCE.playMenuMusic();
 
 		setScreen(mainMenuScreen);

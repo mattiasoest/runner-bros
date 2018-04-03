@@ -71,7 +71,7 @@ public class Assets {
 
         //MUSIC
         manager.load(MUSIC_MENU, Music.class);
-//        manager.load(MUSIC_CITY_WORLD, Music.class);
+        manager.load(MUSIC_CITY_WORLD, Music.class);
 
         //Audio
         manager.load(SOUND_COPTER_CAP, Sound.class);

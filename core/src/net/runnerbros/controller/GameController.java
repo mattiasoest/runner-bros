@@ -221,8 +221,10 @@ public class GameController implements InputProcessor {
 
     public void update(float delta) {
 
+
         switch (currentGameState) {
             case RUNNING:
+                SoundManager.INSTANCE.manageGameMusic(delta);
                 if (player.isAlive()) {
                     processInput();
                 }
@@ -244,6 +246,7 @@ public class GameController implements InputProcessor {
                 // Upadate the cam for finish table if
                 // we finished while jumping to make the stage
                 // follow us while falling down again.
+                SoundManager.INSTANCE.manageGameMusic(delta);
                 Camera cam = stageFinishMenu.getCamera();
                 finishTable.setPosition(cam.position.x - cam.viewportWidth / 2f, cam.position.y - cam.viewportHeight / 2f);
                 updateKenny(delta);
@@ -251,6 +254,8 @@ public class GameController implements InputProcessor {
                 updateBenny(delta);
                 break;
             case READY:
+                System.out.println("READY");
+                SoundManager.INSTANCE.manageGameMusic(delta);
                 // -- IMPORTANT --  HACK
                 addDelay(delta);
                 // RETURN so it keeps track of the delay NOT reseting it.
@@ -396,6 +401,7 @@ public class GameController implements InputProcessor {
         }
         if (isPaused) {
             System.out.println("PAUSED");
+            SoundManager.INSTANCE.pauseGameMusic();
             currentGameState = GameState.PAUSED;
             stagePause.addAction(Actions.alpha(1));
             Gdx.input.setInputProcessor(stagePause);
@@ -403,6 +409,7 @@ public class GameController implements InputProcessor {
             pauseTable.setPosition(cam.position.x - cam.viewportWidth / 2f, cam.position.y - cam.viewportHeight / 2f);
         }
         else {
+            SoundManager.INSTANCE.playGameMusic();
             currentGameState = GameState.RUNNING;
             Gdx.input.setInputProcessor(this);
         }
@@ -1033,6 +1040,7 @@ public class GameController implements InputProcessor {
 
     private void processStartInput() {
         if (currentGameState == GameState.READY && (Gdx.input.isKeyJustPressed(Keys.ENTER) || Gdx.input.isTouched())) {
+            SoundManager.INSTANCE.switchToGameMusic();
             currentGameState = GameState.RUNNING;
             startTimer();
         }
@@ -1133,9 +1141,7 @@ public class GameController implements InputProcessor {
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                SoundManager.INSTANCE.playButtonClick();
-                Gdx.input.setInputProcessor(null);
-                game.switchScreen(stagePause, game.getLevelScreen());
+                goToLevelScreen();
 //                game.setScreen(game.getLevelScreen());
             }
         });
@@ -1202,9 +1208,7 @@ public class GameController implements InputProcessor {
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                SoundManager.INSTANCE.playButtonClick();
-                Gdx.input.setInputProcessor(null);
-                game.switchScreen(stageFinishMenu, game.getLevelScreen());
+                goToLevelScreen();
             }
         });
 
@@ -1412,5 +1416,12 @@ public class GameController implements InputProcessor {
 
     private Vector2 getStageLocation(Actor actor) {
         return actor.localToStageCoordinates(new Vector2(0, 0));
+    }
+
+    private void goToLevelScreen() {
+        SoundManager.INSTANCE.playButtonClick();
+        Gdx.input.setInputProcessor(null);
+        SoundManager.INSTANCE.swtichToMenuMusic();
+        game.switchScreen(stagePause, game.getLevelScreen());
     }
 }
