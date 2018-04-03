@@ -13,6 +13,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
@@ -31,6 +32,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Base64Coder;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -1109,8 +1111,10 @@ public class GameController implements InputProcessor {
         ImageButton.ImageButtonStyle backStyle = new ImageButton.ImageButtonStyle();
 
 
-        resumeStyle.up = buttonSkin.getDrawable("btn_right");
-        resumeStyle.down = buttonSkin.getDrawable("btn_right_pressed");
+        resumeStyle.up = buttonSkin.getDrawable("btn_play_bigblue");
+        resumeStyle.down = buttonSkin.getDrawable("btn_play_bigblue_pressed");
+//        resumeStyle.up = buttonSkin.getDrawable("btn_right");
+//        resumeStyle.down = buttonSkin.getDrawable("btn_right_pressed");
         retryButtonStyle.up = buttonSkin.getDrawable("btn_replay");
         retryButtonStyle.down = buttonSkin.getDrawable("btn_replay_pressed");
         backStyle.up = buttonSkin.getDrawable("btn_menu");
@@ -1120,6 +1124,8 @@ public class GameController implements InputProcessor {
         ImageButton retryButton = new ImageButton(retryButtonStyle);
         ImageButton backButton = new ImageButton(backStyle);
 
+        resumeButton.setTransform(true);
+//        resumeButton.setScale(0.5f);
 
         resumeButton.addListener(new ClickListener() {
             @Override
@@ -1149,7 +1155,10 @@ public class GameController implements InputProcessor {
         label.setWidth(label.getPrefWidth());
 //        label.setPosition(VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2);
         Table miniTable = new Table();
-        miniTable.add(resumeButton).padRight(30);
+//        miniTable.add(resumeButton).padRight(30);
+
+
+        miniTable.add(resumeButton).width(retryButton.getWidth()).height(retryButton.getHeight()).padRight(30);
         miniTable.add(retryButton).padLeft(30).padRight(30);
         miniTable.add(backButton).padLeft(30);
 
