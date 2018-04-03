@@ -645,7 +645,7 @@ public class GameController implements InputProcessor {
         }
 
         if (player.isAlive()) {
-            //Save if we get a jumpcollision on the head and use these values to not slow down the velocity
+            //Save if we get a jump collision on the head and use these values to not slow down the velocity
             tempVel = player.getVelocity().x;
             tempAcc = player.getAcceleration().x;
 
@@ -920,7 +920,6 @@ public class GameController implements InputProcessor {
         player.getVelocity().x = 0;
         player.getAcceleration().x = 0;
         player.resetHp();
-        //    	player.setImmune(true);
     }
 
     private boolean isCellBlocked(Cell cell) {
@@ -975,7 +974,6 @@ public class GameController implements InputProcessor {
                 buttonJumpPressed = true;
                 flyButtonPressed = i;
                 if (player.getCanJump()) {
-//                    GRAVITY = ORG_GRAVITY;
                     MAX_FALL_SPEED = MAX_FALL_SPEED_ORG;
                     SoundManager.INSTANCE.playJump();
                     player.getVelocity().y = JUMP_FORCE;
@@ -1007,7 +1005,6 @@ public class GameController implements InputProcessor {
                 SoundManager.INSTANCE.playPaused();
                 pauseGame(true);
             }
-            //TODO FIXA BRA LÖSNING
             if (Gdx.input.isKeyPressed(Keys.LEFT) || Gdx.input.isTouched(i) && xPoint < Gdx.graphics.getWidth() / 5.8f &&
                                                      yPoint > Gdx.graphics.getHeight() * 0.77f) {
                 buttonLeftPressed = true;
@@ -1069,7 +1066,6 @@ public class GameController implements InputProcessor {
         // Touch or keypress duriong the hovering, just go to the ready state and wait for another keypress/click
         else if (currentGameState == GameState.CAM_INITIALIZATION && (Gdx.input.isKeyJustPressed(Keys.ENTER) || Gdx.input.isTouched())) {
             currentGameState = GameState.READY;
-
         }
     }
 
@@ -1081,7 +1077,6 @@ public class GameController implements InputProcessor {
         else {
             this.MAX_VEL = MAX_VEL_ORG;
             player.setSpeedRunning(false);
-
         }
     }
 
