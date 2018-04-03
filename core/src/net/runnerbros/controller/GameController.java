@@ -1100,7 +1100,6 @@ public class GameController implements InputProcessor {
         this.stagePause = new Stage(view, batch);
         this.pauseTable = new Table();
         this.pauseTable.setSize(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
-//        stage.stageToScreenCoordinates(getStageLocation(pauseTable));
         Label.LabelStyle lStyle = new Label.LabelStyle(Assets.getRockwellFont(), Color.WHITE);
         Label label = new Label("Paused", lStyle);
 
@@ -1146,15 +1145,11 @@ public class GameController implements InputProcessor {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 goToLevelScreen();
-//                game.setScreen(game.getLevelScreen());
             }
         });
 
         label.setWidth(label.getPrefWidth());
-//        label.setPosition(VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2);
         Table miniTable = new Table();
-//        miniTable.add(resumeButton).padRight(30);
-
 
         miniTable.add(resumeButton).width(retryButton.getWidth()).height(retryButton.getHeight()).padRight(30);
         miniTable.add(retryButton).padLeft(30).padRight(30);
@@ -1227,23 +1222,6 @@ public class GameController implements InputProcessor {
         finishTable.add(label).padBottom(60).row();
         finishTable.add(miniTable);
         stageFinishMenu.addActor(finishTable);
-    }
-
-    // Not a real screen, just an overlay.
-    public void setupStartGameOverlay(FitViewport view, Batch batch) {
-
-        this.stageGameStart = new Stage(view, batch);
-        this.gameStartTable = new Table();
-        this.gameStartTable.setSize(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
-        Label.LabelStyle lStyle = new Label.LabelStyle(Assets.getRockwellFont(), Color.WHITE);
-        Label label = new Label("Touch to start", lStyle);
-
-
-        label.setWidth(label.getPrefWidth());
-        label.setPosition(VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2);
-        Table miniTable = new Table();
-        gameStartTable.add(miniTable);
-        stageGameStart.addActor(gameStartTable);
     }
 
     //Only for not be able to spamming jump and fire so we cant use polling

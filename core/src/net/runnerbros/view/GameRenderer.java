@@ -87,7 +87,6 @@ public class GameRenderer {
     private Texture        buildingsGround;
     private Texture        skystaticFog;
     private Texture        skystatic;
-    private Texture        coin;
 
     private TextureRegion smokeHaltFrame;
     private TextureRegion smokeTurnFrame;
@@ -131,8 +130,6 @@ public class GameRenderer {
     private TextureRegion buttonJump;
     private TextureRegion buttonSpeed;
     private TextureRegion buttonToggle;
-    private TextureRegion buttonPause;
-
 
     private BitmapFont font;
 
@@ -173,7 +170,6 @@ public class GameRenderer {
         view = new FitViewport(GameController.VIRTUAL_WIDTH, GameController.VIRTUAL_HEIGHT, cameraManager.getGameCamera());
         gc.setupFinishMenu(view, batch);
         gc.setupPauseMenu(view, batch);
-//        gc.setupStartGameOverlay(view, batch);
     }
 
     public void initRenderer() {
@@ -215,7 +211,6 @@ public class GameRenderer {
                 drawTimer();
                 drawButtons();
                 batch.end();
-
                 break;
             case PAUSED:
                 //Special case for when the app gets interrupted and its goes into auto pause while
@@ -242,7 +237,6 @@ public class GameRenderer {
                 batch.end();
                 break;
         }
-        //        drawGameStats();
         // Update if we're not showing the map for the first time.
         if (!gc.getCurrentState().equals(GameController.GameState.CAM_INITIALIZATION)) {
             updateCameraPosition();
@@ -265,10 +259,7 @@ public class GameRenderer {
         batch.dispose();
         gc.getPausedStage().dispose();
         gc.getFinishStage().dispose();
-//        gc.getgameStartStage().dispose();
         sr.dispose();
-        //Assets dispoe this
-//        font.dispose();
     }
 
 
@@ -335,8 +326,6 @@ public class GameRenderer {
             }
             hoverDifferenceX += cameraHoverSpeed * Gdx.graphics.getDeltaTime();
         }
-//        posY = gc.getBenny().getBounds().y - cameraManager.getHoverCamera().viewportHeight * 0.1f;
-
         // USE STATIC Y FOR NOW.
         posX = currentLevel.getTileWidth() * (currentLevel.getCollisionLayer().getWidth() - 1) - cameraManager.getHoverCamera().viewportWidth / 2 - hoverDifferenceX;
         posY = currentLevel.getTileHeight() * 14.4f * CameraManager.HOVER_CAMERA_SIZE_MULTIPLIER - cameraManager.getHoverCamera().viewportHeight / 2;
@@ -368,7 +357,6 @@ public class GameRenderer {
 //        if (cameraManager.getHoverCamera().position.y + cameraManager.getHoverCamera().viewportHeight / 2 < currentLevel.getTileHeight() * 14.4f * CameraManager.HOVER_CAMERA_SIZE_MULTIPLIER) {
 //            posY = currentLevel.getTileHeight() * 14.4f * CameraManager.HOVER_CAMERA_SIZE_MULTIPLIER - cameraManager.getHoverCamera().viewportHeight / 2;
 //        }
-
 
     }
 
@@ -591,7 +579,6 @@ public class GameRenderer {
                 }
             }
             else {
-                //TODO: FIXA SÅ DET BLIR BRA
                 if (player.getCanJump()) {
                     beforeJumpXpositionHaltSmokeAnimation = player.getBounds().x - 10;
                 }
@@ -606,7 +593,6 @@ public class GameRenderer {
                 }
             }
             else {
-                //TODO: FIXA SÅ DET BLIR BRA
                 if (player.getCanJump()) {
                     beforeJumpXpositionTurnSmokeAnimation = player.getBounds().x - 10f;
                 }
