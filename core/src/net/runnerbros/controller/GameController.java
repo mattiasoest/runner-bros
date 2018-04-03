@@ -875,11 +875,11 @@ public class GameController implements InputProcessor {
             if (movEnt instanceof Player) {
                 this.jumpPressed = false;
                 player.getVelocity().y = 0;
-                player.getBounds().y = oldY;
                 if (!player.getCanJump()) {
                     jumpYCollision = true;
                     player.getVelocity().x = tempVel;
                     player.getAcceleration().x = tempAcc;
+                    player.getBounds().y = oldY;
                 }
             }
             if (movEnt instanceof Player && killedEnemy) {
