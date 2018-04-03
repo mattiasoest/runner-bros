@@ -58,9 +58,13 @@ public class GameController implements InputProcessor {
     public static final float PINK_VELOCITY_MULTIPLIER = 1f;
 
 
-    public static final int THE_CITY_NO_LVLS    = 8;
-    public  static final int SNOW_CITY_NO_LVLS  = 5;
-    public  static final int CITY_PARK_NO_LVLS  = 5;
+    public static final int THE_CITY  = 1;
+    public static final int SNOW_CITY = 2;
+    public static final int CITY_PARK = 3;
+
+    public static final int THE_CITY_NO_LVLS   = 8;
+    public static final int SNOW_CITY_NO_LVLS  = 5;
+    public static final int CITY_PARK_NO_LVLS  = 5;
 
 
     public static final float VIRTUAL_WIDTH  = 800f;
@@ -204,6 +208,26 @@ public class GameController implements InputProcessor {
         parseMapObjects();
         player.randomizeBrother();
         player.setPos(spawnPoint.x, spawnPoint.y);
+    }
+
+    public String getLevelName(int world, String levelNumber) {
+
+        String levelName = "";
+        switch (world) {
+            case THE_CITY:
+                levelName = "The City " + levelNumber;
+                break;
+            case SNOW_CITY:
+                levelName = "Snow City " + levelNumber;
+                break;
+            case CITY_PARK:
+                levelName = "City Park " + levelNumber;
+                break;
+            default:
+                throw new RuntimeException("Unknown world: " + world);
+
+        }
+        return levelName;
     }
 
     public Preferences getMapScores() {
@@ -1041,6 +1065,7 @@ public class GameController implements InputProcessor {
             SoundManager.INSTANCE.switchToGameMusic();
             currentGameState = GameState.RUNNING;
             startTimer();
+            finishGame();
         }
         // Touch or keypress duriong the hovering, just go to the ready state and wait for another keypress/click
         else if (currentGameState == GameState.CAM_INITIALIZATION && (Gdx.input.isKeyJustPressed(Keys.ENTER) || Gdx.input.isTouched())) {
@@ -1187,13 +1212,50 @@ public class GameController implements InputProcessor {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 SoundManager.INSTANCE.playButtonClick();
+                int currentLevelNumber = currentLevel.getLevelNo();
+                // Ex. world_1-1
+                String nextLevel;
+                switch (currentLevel.getWorldNo()) {
+                    case THE_CITY:
+                        if (currentLevelNumber < THE_CITY_NO_LVLS) {
+                            nextLevel = String.valueOf(currentLevelNumber + 1);
+                            loadLevel(currentLevel.getKey().split("-")[0] + "-" + nextLevel,
+                                    getLevelName(THE_CITY, nextLevel));
+                        }
+                        else {
+                            nextLevel = String.valueOf(currentLevelNumber + 1);
+                            // Load 1st level of the 2nd world
+                            loadLevel("world_" + SNOW_CITY + "-1",
+                                    getLevelName(SNOW_CITY, "1"));
+                        }
+                        break;
+                    case SNOW_CITY:
+                        if (currentLevelNumber < SNOW_CITY_NO_LVLS) {
+                            nextLevel = String.valueOf(currentLevelNumber + 1);
+                            loadLevel(currentLevel.getKey().split("-")[0] + "-" + nextLevel,
+                                    getLevelName(SNOW_CITY, nextLevel));
+                        }
+                        else {
+                            nextLevel = String.valueOf(currentLevelNumber + 1);
+                            // Load 1st level of the 3rd world
+                            loadLevel("world_" + CITY_PARK + "-1",
+                                    getLevelName(CITY_PARK, "1"));
+                        }
+                        break;
+                    case CITY_PARK:
+                        if (currentLevelNumber < CITY_PARK_NO_LVLS) {
+                            nextLevel = String.valueOf(currentLevelNumber + 1);
+                            loadLevel(currentLevel.getKey().split("-")[0] + "-" + nextLevel,
+                                    getLevelName(CITY_PARK, nextLevel));
+                        }
+                        break;
+                        default:
+                            throw new RuntimeException("Unknown world:" + currentLevel.getWorldNo());
 
-
-
-
-
-
-
+                }
+                resetCurrentGame();
+                game.getRenderer().initRenderer();
+                initMap();
             }
         });
 

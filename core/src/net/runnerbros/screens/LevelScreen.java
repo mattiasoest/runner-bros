@@ -2,7 +2,6 @@ package net.runnerbros.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -16,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Base64Coder;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -31,10 +29,6 @@ import net.runnerbros.controller.SoundManager;
  * Created by mattiasosth on 19/07/2014.
  */
 public class LevelScreen extends BackgroundScreen {
-
-    private static final int THE_CITY  = 1;
-    private static final int SNOW_CITY = 2;
-    private static final int CITY_PARK = 3;
 
     //This is good after some testing
     private static final float LEVEL_WIDTH = 583f;
@@ -67,14 +61,14 @@ public class LevelScreen extends BackgroundScreen {
 
         final int  amountOfLevels;
         switch (worldIndex) {
-            case THE_CITY:
-                amountOfLevels = game.getGameController().THE_CITY_NO_LVLS;
+            case GameController.THE_CITY:
+                amountOfLevels = GameController.THE_CITY_NO_LVLS;
                 break;
-            case SNOW_CITY:
-                amountOfLevels = game.getGameController().SNOW_CITY_NO_LVLS;
+            case GameController.SNOW_CITY:
+                amountOfLevels = GameController.SNOW_CITY_NO_LVLS;
                 break;
-            case CITY_PARK:
-                amountOfLevels = game.getGameController().CITY_PARK_NO_LVLS;
+            case GameController.CITY_PARK:
+                amountOfLevels = GameController.CITY_PARK_NO_LVLS;
                 break;
             default:
                     throw  new RuntimeException("Unknown world: " + worldIndex);
@@ -105,7 +99,7 @@ public class LevelScreen extends BackgroundScreen {
                     new TextureRegion(Assets.manager.get(Assets.BG_CITY_FOG, Texture.class))));
 
 //            levelTable.setColor(0,0,0, 0.5f);
-            Label label = new Label(getLevelName(Integer.toString(levelIndex)), ls);
+            Label label = new Label(game.getGameController().getLevelName(worldIndex, Integer.toString(levelIndex)), ls);
             label.setAlignment(Align.center);
             levelTable.add(label);
             levelTable.row();
@@ -228,9 +222,8 @@ public class LevelScreen extends BackgroundScreen {
             String levelKey = event.getListenerActor().getName();
             System.out.println("Selected: " + levelKey);
             // Example world_1-1
-
             String levelNumber = levelKey.split("-")[1];
-            String levelName = getLevelName(levelNumber);
+            String levelName = game.getGameController().getLevelName(worldIndex, levelNumber);
 
 
             game.getGameController().loadLevel(event.getListenerActor().getName(), levelName);
@@ -241,24 +234,4 @@ public class LevelScreen extends BackgroundScreen {
 //            game.switchScreen(stage, game.getPlayscreen());
         }
     };
-
-    private String getLevelName(String levelNumber) {
-
-        String levelName = "";
-        switch (worldIndex) {
-            case THE_CITY:
-                levelName = "The City " + levelNumber;
-                break;
-            case SNOW_CITY:
-                levelName = "Snow City " + levelNumber;
-                break;
-            case CITY_PARK:
-                levelName = "City Park" + levelNumber;
-                break;
-            default:
-                throw new RuntimeException("Unknown world: " + worldIndex);
-
-        }
-        return levelName;
-    }
 }

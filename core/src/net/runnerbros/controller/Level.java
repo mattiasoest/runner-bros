@@ -18,17 +18,31 @@ public class Level {
     private final float  TILEHEIGHT;
     private final String key;
 
+    private static int worldNo;
+    private static int levelNo;
+
     private final String levelName;
 
     private TiledMap map;
 
-    //Key like, world_1-1
     public Level(final String key, final String name) {
         levelName = name;
+        //Key like, world_1-1
         this.key = key;
+        String worldInfo = key.split("_")[1];
+        worldNo = Integer.parseInt(worldInfo.split("-")[0]);
+        levelNo = Integer.parseInt(worldInfo.split("-")[1]);
         loadMap(key);
         TILEWIDTH = getCollisionLayer().getTileWidth();
         TILEHEIGHT = getCollisionLayer().getTileHeight();
+    }
+
+    public int getWorldNo() {
+        return worldNo;
+    }
+
+    public int getLevelNo() {
+        return levelNo;
     }
 
     public TiledMap getMap() {
