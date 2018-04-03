@@ -341,7 +341,6 @@ public class GameRenderer {
                 cameraStaticTimer += Gdx.graphics.getDeltaTime();
             }
             else {
-                System.out.println("ONCE");
                 // Zoom in on the player...
 //                hoverCamera.viewportHeight -= hoverCamera.viewportHeight * Gdx.graphics.getDeltaTime();
 //                hoverCamera.viewportWidth -= hoverCamera.viewportWidth * Gdx.graphics.getDeltaTime();

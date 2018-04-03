@@ -58,6 +58,11 @@ public class GameController implements InputProcessor {
     public static final float PINK_VELOCITY_MULTIPLIER = 1f;
 
 
+    public static final int THE_CITY_NO_LVLS    = 8;
+    public  static final int SNOW_CITY_NO_LVLS  = 5;
+    public  static final int CITY_PARK_NO_LVLS  = 5;
+
+
     public static final float VIRTUAL_WIDTH  = 800f;
     public static final float VIRTUAL_HEIGHT = 460f;
 
@@ -78,7 +83,7 @@ public class GameController implements InputProcessor {
     private static final float MAX_ACCELERATION      = 40f;
     private static final float AIR_ACCELERATION      = 24f;
     private static       float MAX_FALL_SPEED        = 12.5f;
-    private static       float MAX_VEL               = 4.6f;
+    private              float MAX_VEL               = 4.6f;
     private final static float MAX_VEL_ORG           = 4.6f;
     private final static float MAX_VEL_SPEEDRUN      = 6.2f;
 
@@ -428,7 +433,6 @@ public class GameController implements InputProcessor {
     private void parseMapObjects() {
         MapLayer objectLayer = currentLevel.getObjectLayer();
         Rectangle rectSpawn = ((RectangleMapObject) objectLayer.getObjects().get("spawnpoint")).getRectangle();
-        //TODO Set attribute for the goal
         this.levelGoal = ((RectangleMapObject) objectLayer.getObjects().get("goal")).getRectangle();
         spawnPoint = new Vector2(rectSpawn.x, rectSpawn.y);
 
@@ -561,16 +565,8 @@ public class GameController implements InputProcessor {
         float oldY = player.getBounds().y;
 
         player.getVelocity().x += player.getAcceleration().x * delta;
-        //        player.getVelocity().x *= 1.1f;
-        //        player.getVelocity().y -= GRAVITY * delta;
-
-        //TODO: TA BORT SEN
-        //        player.getVelocity().y += player.getAcceleration().y * delta;
         player.getVelocity().y -= GRAVITY * delta;
 
-        //        if (player.getVelocity().x > MAX_VEL) {
-        //            player.getVelocity().x = MAX_VEL;
-        //        }
         boolean isSpeedAdjusted = false;
 
         //Cap the flying speed...
@@ -1071,14 +1067,12 @@ public class GameController implements InputProcessor {
         respawnPlayer();
         resetTimer();
         currentGameState = GameState.READY;
-        // TODO ADD TIMER TO 1 LOL
     }
 
     private void resetStartPositions() {
         clearEnemies();
         for (MoveableEntity mov :  enemyStartpositions) {
             if (mov instanceof Slime) {
-                System.out.println("slime start pos added.");
                 slimes.add(((Slime) mov).copy());
             }
 //            else if (mov instanceof Snowman) {
@@ -1193,7 +1187,13 @@ public class GameController implements InputProcessor {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 SoundManager.INSTANCE.playButtonClick();
-                // TODO: Show highscore from google play
+
+
+
+
+
+
+
             }
         });
 

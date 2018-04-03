@@ -32,9 +32,9 @@ import net.runnerbros.controller.SoundManager;
  */
 public class LevelScreen extends BackgroundScreen {
 
-    private static final int THE_CITY    = 1;
-    private static final int SNOW_LANDS  = 2;
-    private static final int LOST_GARDEN = 3;
+    private static final int THE_CITY  = 1;
+    private static final int SNOW_CITY = 2;
+    private static final int CITY_PARK = 3;
 
     //This is good after some testing
     private static final float LEVEL_WIDTH = 583f;
@@ -67,16 +67,16 @@ public class LevelScreen extends BackgroundScreen {
 
         final int  amountOfLevels;
         switch (worldIndex) {
-            case 1:
-                amountOfLevels = 8;
+            case THE_CITY:
+                amountOfLevels = game.getGameController().THE_CITY_NO_LVLS;
                 break;
-            case 2:
-                amountOfLevels = 5;
+            case SNOW_CITY:
+                amountOfLevels = game.getGameController().SNOW_CITY_NO_LVLS;
                 break;
-            case 3:
-                amountOfLevels = 5;
+            case CITY_PARK:
+                amountOfLevels = game.getGameController().CITY_PARK_NO_LVLS;
                 break;
-                default:
+            default:
                     throw  new RuntimeException("Unknown world: " + worldIndex);
 
         }
@@ -180,8 +180,6 @@ public class LevelScreen extends BackgroundScreen {
 
         stage.act(delta);
         stage.draw();
-//        Table.drawDebug(stage);
-
     }
 
     @Override
@@ -232,12 +230,10 @@ public class LevelScreen extends BackgroundScreen {
             // Example world_1-1
 
             String levelNumber = levelKey.split("-")[1];
-            String levelName = getLevelName(levelKey);
-
+            String levelName = getLevelName(levelNumber);
 
 
             game.getGameController().loadLevel(event.getListenerActor().getName(), levelName);
-            // May remove this.
             game.getGameController().resetCurrentGame();
             game.getRenderer().initRenderer();
             game.getGameController().initMap();
@@ -250,13 +246,13 @@ public class LevelScreen extends BackgroundScreen {
 
         String levelName = "";
         switch (worldIndex) {
-            case 1:
+            case THE_CITY:
                 levelName = "The City " + levelNumber;
                 break;
-            case 2:
+            case SNOW_CITY:
                 levelName = "Snow City " + levelNumber;
                 break;
-            case 3:
+            case CITY_PARK:
                 levelName = "City Park" + levelNumber;
                 break;
             default:
