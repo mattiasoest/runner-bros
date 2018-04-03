@@ -3,7 +3,9 @@ package net.runnerbros.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -14,6 +16,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Base64Coder;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -92,18 +96,21 @@ public class LevelScreen extends BackgroundScreen {
             else {
                 localHighScore = new Label("Time: N/A", ls);
             }
-//                    levelButton.setSize(50, 50);
+            //DEBUG DATA
+            if (debug) {
+                levelTable.debug();
+            }
+
+            levelTable.setBackground(new TextureRegionDrawable(
+                    new TextureRegion(Assets.manager.get(Assets.BG_CITY_FOG, Texture.class))));
+
+//            levelTable.setColor(0,0,0, 0.5f);
             Label label = new Label(getLevelName(Integer.toString(levelIndex)), ls);
             label.setAlignment(Align.center);
             levelTable.add(label);
             levelTable.row();
             levelTable.add(levelButton).pad(10);
             levelTable.row();
-            //DEBUG DATA
-            if (debug) {
-                levelTable.debug();
-            }
-
             levelTable.add(localHighScore);
             levels.add(levelTable).height(GameController.VIRTUAL_HEIGHT * 0.8f).width(LEVEL_WIDTH);
             final float standardPad = 110;

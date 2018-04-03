@@ -80,6 +80,9 @@ public class WorldScreen extends BackgroundScreen {
         for (int levelIndex = 1; levelIndex <= WORLD_NUMBER; levelIndex++) {
             Table levels = new Table();
             Table levelTable = new Table();
+            levelTable.setBackground(new TextureRegionDrawable(
+                    new TextureRegion(Assets.manager.get(Assets.BG_CITY_FOG, Texture.class))));
+
             Button levelButton = getLevelButton(levelIndex);
             levelTable.add(levelButton);
             levelTable.row();
