@@ -110,12 +110,8 @@ public class GameRenderer {
     private Animation slimeBlueLeftAnimation;
     private Animation slimePinkLeftAnimation;
     private Animation slimePinkRightAnimation;
-    private Animation slimeGreyLeftAnimation;
-    private Animation slimeGreyRightAnimation;
     private Animation slimeRedLeftAnimation;
     private Animation slimeRedRightAnimation;
-    private Animation slimeYellowLeftAnimation;
-    private Animation slimeYellowRightAnimation;
     private Animation slimeGreenLeftAnimation;
     private Animation slimeGreenRightAnimation;
 

@@ -43,7 +43,7 @@ public class LevelScreen extends BackgroundScreen {
         super(game);
         this.worldIndex = worldIndex;
         ls = new Label.LabelStyle();
-        ls.font = Assets.getNewRockwellFont();
+        ls.font = Assets.getRockwellFont();
 
         view = new FitViewport(GameController.VIRTUAL_WIDTH, GameController.VIRTUAL_HEIGHT);
         this.stage = new Stage(view, game.getSpriteBatch());
@@ -210,7 +210,8 @@ public class LevelScreen extends BackgroundScreen {
 
     @Override
     public void dispose() {
-        ls.font.dispose();
+        stage.dispose();
+//        ls.font.dispose();
     }
 
     private ClickListener levelClickListener = new ClickListener() {

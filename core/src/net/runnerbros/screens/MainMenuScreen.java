@@ -183,6 +183,7 @@ public class MainMenuScreen extends BackgroundScreen {
 
     @Override
     public void dispose() {
+        stage.dispose();
 
     }
 }

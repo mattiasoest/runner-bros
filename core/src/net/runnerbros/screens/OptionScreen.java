@@ -177,6 +177,7 @@ public class OptionScreen extends BackgroundScreen {
 
     @Override
     public void dispose() {
+        stage.dispose();
 
     }
 }

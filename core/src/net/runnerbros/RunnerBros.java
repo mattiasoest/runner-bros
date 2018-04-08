@@ -82,9 +82,10 @@ public class RunnerBros extends Game {
 
 	@Override
 	public void dispose() {
-		//These screens uses own instance of font.
+		playscreen.dispose();
+		mainMenuScreen.dispose();
 		worldScreen.dispose();
-
+		optionScreen.dispose();
 		Assets.dispose();
 		renderer.dispose();
 		System.exit(0);

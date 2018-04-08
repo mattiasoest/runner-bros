@@ -60,7 +60,7 @@ public class WorldScreen extends BackgroundScreen {
         world_3 = new TextureRegion(Assets.manager.get(Assets.WORLD_3, Texture.class));
         worldImages = new TextureRegion[]{world_1, world_2, world_3};
         ls = new Label.LabelStyle();
-        ls.font = Assets.getNewRockwellFont();
+        ls.font = Assets.getRockwellFont();
 
         view = new FitViewport(GameController.VIRTUAL_WIDTH, GameController.VIRTUAL_HEIGHT);
         this.stage = new Stage(view, game.getSpriteBatch());
@@ -127,11 +127,6 @@ public class WorldScreen extends BackgroundScreen {
 
     private Button getLevelButton(int i) {
 
-//        ImageButton.ImageButtonStyle buttonStyle = new ImageButton.ImageButtonStyle();
-//        Skin buttonSkin = new Skin(Assets.manager.get(Assets.BUTTON_ATLAS, TextureAtlas.class));
-//
-//        buttonStyle.up = buttonSkin.getDrawable("btn_right");
-//        buttonStyle.down = buttonSkin.getDrawable("btn_right_pressed");
         TextureRegion world = new Sprite(worldImages[i-1]);
         Button button = new ImageButton(new TextureRegionDrawable(world));
         String worldText = "";
@@ -176,7 +171,6 @@ public class WorldScreen extends BackgroundScreen {
 
     @Override
     public void show() {
-        System.out.println("SHOW WORLD");
         Gdx.input.setInputProcessor(null);
         stage.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(game.FADE_TIME), Actions.run(new Runnable() {
             @Override
@@ -203,7 +197,8 @@ public class WorldScreen extends BackgroundScreen {
 
     @Override
     public void dispose() {
-        ls.font.dispose();
+//        ls.font.dispose();
+        stage.dispose();
     }
 
     public ClickListener levelClickListener = new ClickListener() {
@@ -212,20 +207,6 @@ public class WorldScreen extends BackgroundScreen {
             SoundManager.INSTANCE.playButtonClick();
             String worldIndex = event.getListenerActor().getName();
             System.out.println("Clicked world number: " + worldIndex);
-            //TODO: Fix worlds, HAVE LOCAL HIGHSCORE FOR NOW.
-
-//            if (Integer.valueOf(worldIndex) > 2) {
-//                if (!Gdx.app.getType().equals(Application.ApplicationType.Desktop)) {
-//                    if (game.actionResolver.getSignedInGPGS()) {
-//                        game.actionResolver.getLeaderboardGPGS("CgkIj7LCjKMNEAIQAQ");
-//                    }
-//                    else {
-//                        game.actionResolver.loginGPGS();
-//                    }
-//                }
-//                return;
-//            }
-
             LevelScreen levelSelect = new LevelScreen(game, Integer.valueOf(worldIndex));
             game.setLevelScreen(levelSelect);
             game.switchScreen(stage, levelSelect);
