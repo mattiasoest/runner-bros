@@ -27,20 +27,20 @@ public class AndroidLauncher extends AndroidApplication implements GameHelper.Ga
 	@Override
 	public void onStart() {
 		super.onStart();
-		gameHelper.onStart(this);
+//		gameHelper.onStart(this);
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
-		gameHelper.onStop();
+//		gameHelper.onStop();
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
-		gameHelper.onActivityResult(requestCode, resultCode, data);
+//		gameHelper.onActivityResult(requestCode, resultCode, data);
 	}
 
 	@Override
@@ -71,8 +71,7 @@ public class AndroidLauncher extends AndroidApplication implements GameHelper.Ga
 
 
 		AdRequest adRequest = new AdRequest.Builder()
-				.addTestDevice("929B4564ECB2BCC4A493B917C3608A26") // Asus Nexus 7
-				.addTestDevice("10C3DD299C813C57B852FAFAFB91EC80") // Samsung galaxy s
+				.addTestDevice("36662575C1CD369A") // Mate 10
 				.build();
 
 		// Start loading the ad in the background.
@@ -88,14 +87,14 @@ public class AndroidLauncher extends AndroidApplication implements GameHelper.Ga
 		layout.addView(adView, adParams);
 
 		setContentView(layout);
-		gameHelper = new GameHelper(this, GameHelper.CLIENT_GAMES);
-		gameHelper.enableDebugLog(true);
-		gameHelper.setup(this);
-
-		if (!gameHelper.isSignedIn()) {
-			System.out.println("TRYING TO LOGIN!!!!!!");
-			loginGPGS();
-		}
+//		gameHelper = new GameHelper(this, GameHelper.CLIENT_GAMES);
+//		gameHelper.enableDebugLog(true);
+//		gameHelper.setup(this);
+//
+//		if (!gameHelper.isSignedIn()) {
+//			System.out.println("TRYING TO LOGIN!!!!!!");
+//			loginGPGS();
+//		}
 	}
 
 	@Override
