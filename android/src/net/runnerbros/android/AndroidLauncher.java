@@ -7,7 +7,6 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.games.Games;
-import com.google.example.games.basegameutils.GameHelper;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -20,9 +19,9 @@ import net.runnerbros.RunnerBros;
 import net.runnerbros.controller.ActionResolver;
 
 
-public class AndroidLauncher extends AndroidApplication implements GameHelper.GameHelperListener, ActionResolver {
+public class AndroidLauncher extends AndroidApplication implements ActionResolver {
 
-	public GameHelper gameHelper;
+//	public GameHelper gameHelper;
 
 	@Override
 	public void onStart() {
@@ -109,7 +108,7 @@ public class AndroidLauncher extends AndroidApplication implements GameHelper.Ga
 
 	@Override
 	public boolean getSignedInGPGS() {
-		return gameHelper.isSignedIn();
+//		return gameHelper.isSignedIn();
 	}
 
 	@Override
@@ -117,7 +116,7 @@ public class AndroidLauncher extends AndroidApplication implements GameHelper.Ga
 		try {
 			runOnUiThread(new Runnable() {
 				public void run() {
-					gameHelper.beginUserInitiatedSignIn();
+//					gameHelper.beginUserInitiatedSignIn();
 				}
 			});
 		}
@@ -127,12 +126,12 @@ public class AndroidLauncher extends AndroidApplication implements GameHelper.Ga
 
 	@Override
 	public void logoutGPGS() {
-		gameHelper.signOut();
+//		gameHelper.signOut();
 	}
 
 	@Override
 	public void submitScoreGPGS(long score, String leaderBoardId) {
-		Games.Leaderboards.submitScore(gameHelper.getApiClient(), leaderBoardId, score);
+//		Games.Leaderboards.submitScore(gameHelper.getApiClient(), leaderBoardId, score);
 	}
 
 	@Override
@@ -142,15 +141,15 @@ public class AndroidLauncher extends AndroidApplication implements GameHelper.Ga
 
 	@Override
 	public void getLeaderboardGPGS(String leaderBoardId) {
-		if (gameHelper.isSignedIn()) {
-			startActivityForResult(
-					Games.Leaderboards.getLeaderboardIntent(
-							gameHelper.getApiClient(),
-							leaderBoardId), 100);
-		}
-		else if (!gameHelper.isConnecting()) {
-			loginGPGS();
-		}
+//		if (gameHelper.isSignedIn()) {
+//			startActivityForResult(
+//					Games.Leaderboards.getLeaderboardIntent(
+//							gameHelper.getApiClient(),
+//							leaderBoardId), 100);
+//		}
+//		else if (!gameHelper.isConnecting()) {
+//			loginGPGS();
+//		}
 	}
 
 
