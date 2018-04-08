@@ -7,7 +7,7 @@ import net.runnerbros.RunnerBros;
 public class DesktopLauncher {
 	public static void main(String[] args) {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-		cfg.title = "Runner bros";
+		cfg.title = "Runner Bros";
 		cfg.width = 1024;
 		cfg.height = 512;
 		new LwjglApplication(new RunnerBros(), cfg);

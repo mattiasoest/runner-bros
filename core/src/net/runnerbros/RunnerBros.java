@@ -43,9 +43,9 @@ public class RunnerBros extends Game {
     public RunnerBros() {
     }
 
-    public RunnerBros(ActionResolver actionResolver) {
-        this.actionResolver = actionResolver;
-    }
+//    public RunnerBros(ActionResolver actionResolver) {
+//        this.actionResolver = actionResolver;
+//    }
 
 
     @Override

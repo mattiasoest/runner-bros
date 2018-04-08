@@ -6,7 +6,6 @@ import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.games.Games;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -16,10 +15,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import net.runnerbros.RunnerBros;
-import net.runnerbros.controller.ActionResolver;
 
 
-public class AndroidLauncher extends AndroidApplication implements ActionResolver {
+public class AndroidLauncher extends AndroidApplication {
 
 //	public GameHelper gameHelper;
 
@@ -58,7 +56,7 @@ public class AndroidLauncher extends AndroidApplication implements ActionResolve
 
 
 		//create the libgdx view
-		View gameView = initializeForView(new RunnerBros(this), cfg);
+		View gameView = initializeForView(new RunnerBros(), cfg);
 
 
 		//create the ad view
@@ -96,51 +94,51 @@ public class AndroidLauncher extends AndroidApplication implements ActionResolve
 //		}
 	}
 
-	@Override
-	public void onSignInFailed() {
-		System.out.println("Sign in failed.");
-	}
+//	@Override
+//	public void onSignInFailed() {
+//		System.out.println("Sign in failed.");
+//	}
 
-	@Override
-	public void onSignInSucceeded() {
-		System.out.println("Sign in succeeded.");
-	}
+//	@Override
+//	public void onSignInSucceeded() {
+//		System.out.println("Sign in succeeded.");
+//	}
 
-	@Override
-	public boolean getSignedInGPGS() {
+//	@Override
+//	public boolean getSignedInGPGS() {
 //		return gameHelper.isSignedIn();
-	}
+//	}
 
-	@Override
-	public void loginGPGS() {
-		try {
-			runOnUiThread(new Runnable() {
-				public void run() {
+//	@Override
+//	public void loginGPGS() {
+//		try {
+//			runOnUiThread(new Runnable() {
+//				public void run() {
 //					gameHelper.beginUserInitiatedSignIn();
-				}
-			});
-		}
-		catch (final Exception ex) {
-		}
-	}
+//				}
+//			});
+//		}
+//		catch (final Exception ex) {
+//		}
+//	}
 
-	@Override
-	public void logoutGPGS() {
+//	@Override
+//	public void logoutGPGS() {
 //		gameHelper.signOut();
-	}
+//	}
 
-	@Override
-	public void submitScoreGPGS(long score, String leaderBoardId) {
+//	@Override
+//	public void submitScoreGPGS(long score, String leaderBoardId) {
 //		Games.Leaderboards.submitScore(gameHelper.getApiClient(), leaderBoardId, score);
-	}
+//	}
 
-	@Override
-	public void unlockAchievementGPGS(String achievementId) {
+//	@Override
+//	public void unlockAchievementGPGS(String achievementId) {
+//
+//	}
 
-	}
-
-	@Override
-	public void getLeaderboardGPGS(String leaderBoardId) {
+//	@Override
+//	public void getLeaderboardGPGS(String leaderBoardId) {
 //		if (gameHelper.isSignedIn()) {
 //			startActivityForResult(
 //					Games.Leaderboards.getLeaderboardIntent(
@@ -150,13 +148,11 @@ public class AndroidLauncher extends AndroidApplication implements ActionResolve
 //		else if (!gameHelper.isConnecting()) {
 //			loginGPGS();
 //		}
-	}
+//	}
 
 
-
-
-	@Override
-	public void getAchievementsGPGS() {
-
-	}
+//	@Override
+//	public void getAchievementsGPGS() {
+//
+//	}
 }
