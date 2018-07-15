@@ -255,12 +255,12 @@ public class GameController implements InputProcessor {
 
         switch (currentGameState) {
             case RUNNING:
+                resetPlayerStatesAndButtons();
                 SoundManager.INSTANCE.manageGameMusic(delta);
                 if (player.isAlive()) {
                     processInput();
                 }
                 else {
-                    resetPlayerStatesAndButtons();
                     player.setState(State.FALLING);
                 }
                 updateTimer(delta);
@@ -446,7 +446,13 @@ public class GameController implements InputProcessor {
     }
 
     private void finishGame() {
-            player.setState(State.IDLE);
+            if (player.isFlying()) {
+                flyModeOff();
+                player.setState(State.FALLING);
+            }
+            else {
+                player.setState(State.IDLE);
+            }
             currentGameState = GameState.FINISHED;
             stageFinishMenu.addAction(Actions.alpha(1));
             Gdx.input.setInputProcessor(stageFinishMenu);
@@ -690,8 +696,12 @@ public class GameController implements InputProcessor {
     }
 
     private void levelFinishedCheck() {
+        // Keep updating kenny animation etc, but dont keep file I/O in a loop.
         if (currentGameState == GameState.FINISHED) {
-            // Keep updating kenny animation etc, but dont keep file I/O in a loop.
+            // Stopped falling
+            if (player.getVelocity().y == 0) {
+                resetPlayerStatesAndButtons();
+            }
             return;
         }
         if (player.getBounds().overlaps(levelGoal)) {
@@ -955,8 +965,6 @@ public class GameController implements InputProcessor {
     private void processInput() {
         Gdx.input.setInputProcessor(this);
 
-        resetPlayerStatesAndButtons();
-
         int togglePressed = -1;
 
         int flyButtonPressed = -1;
@@ -1085,6 +1093,7 @@ public class GameController implements InputProcessor {
         resetPlayerStatesAndButtons();
         respawnPlayer();
         resetTimer();
+        benny.resetBenny();
         currentGameState = GameState.READY;
     }
 
@@ -1442,7 +1451,6 @@ public class GameController implements InputProcessor {
     }
 
     private void resetPlayerStatesAndButtons() {
-        benny.resetBenny();
         player.setState(State.IDLE);
         buttonRightPressed = false;
         buttonLeftPressed = false;
