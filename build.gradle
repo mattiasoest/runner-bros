@@ -4,7 +4,8 @@ buildscript {
     }
     dependencies {
         classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.5'
-        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.google.gms:google-services:3.0.0'
         classpath 'org.robovm:robovm-gradle-plugin:1.9.0'
     }
 }
@@ -24,6 +25,7 @@ allprojects {
     }
 
     repositories {
+        maven {url "https://maven.google.com"}
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
@@ -49,7 +51,7 @@ project(":android") {
     dependencies {
         compile project(":core")
 //        compile project(":BaseGameUtils")
-        compile 'com.google.android.gms:play-services:8.4.0'
+        compile "com.google.android.gms:play-services-ads:16.0.0"
         compile "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"

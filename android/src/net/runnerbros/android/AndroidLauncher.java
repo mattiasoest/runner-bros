@@ -58,17 +58,21 @@ public class AndroidLauncher extends AndroidApplication {
 		//create the libgdx view
 		View gameView = initializeForView(new RunnerBros(), cfg);
 
-
 		//create the ad view
 		AdView adView = new AdView(this);
-		adView.setAdSize(AdSize.BANNER);
-		adView.setAdUnitId("ca-app-pub-9102826422054679/3269846946");
+		AdSize adSize = new AdSize(220, 45);
+		adView.setAdSize(adSize);
+//		adView.setAdSize(AdSize.SMART_BANNER);
+//		adView.setAdSize(AdSize.BANNER);
+//		adView.setAdUnitId("ca-app-pub-3145347328709117/6667398900");
+		adView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
 		adView.setBackgroundColor(Color.TRANSPARENT);
 		layout.addView(gameView);
 
 
 		AdRequest adRequest = new AdRequest.Builder()
-				.addTestDevice("36662575C1CD369A") // Mate 10
+//				.addTestDevice("36662575C1CD369A") // Mate 10
+				.addTestDevice("5A9920B5F538DA86DFE22373C5FD30CF") // Mate 10 new
 				.build();
 
 		// Start loading the ad in the background.
@@ -78,8 +82,8 @@ public class AndroidLauncher extends AndroidApplication {
 		RelativeLayout.LayoutParams adParams =
 				new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
 												RelativeLayout.LayoutParams.WRAP_CONTENT);
-		adParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-		adParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+		adParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+		adParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
 
 		layout.addView(adView, adParams);
 
