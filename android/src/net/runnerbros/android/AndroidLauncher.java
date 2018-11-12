@@ -50,8 +50,7 @@ public class AndroidLauncher extends AndroidApplication {
 
 		//What initalize would have done instead...
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-							 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 
 
@@ -64,15 +63,14 @@ public class AndroidLauncher extends AndroidApplication {
 		adView.setAdSize(adSize);
 //		adView.setAdSize(AdSize.SMART_BANNER);
 //		adView.setAdSize(AdSize.BANNER);
-//		adView.setAdUnitId("ca-app-pub-3145347328709117/6667398900");
-		adView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
+		adView.setAdUnitId("ca-app-pub-3940256099942544/6300978111"); /// GOOGLE TEST BANNER
+//		adView.setAdUnitId("");
 		adView.setBackgroundColor(Color.TRANSPARENT);
 		layout.addView(gameView);
 
 
 		AdRequest adRequest = new AdRequest.Builder()
-//				.addTestDevice("36662575C1CD369A") // Mate 10
-				.addTestDevice("5A9920B5F538DA86DFE22373C5FD30CF") // Mate 10 new
+//				.addTestDevice("xx") // Mate 10 new
 				.build();
 
 		// Start loading the ad in the background.
