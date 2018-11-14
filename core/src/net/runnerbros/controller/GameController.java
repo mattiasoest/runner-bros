@@ -175,8 +175,8 @@ public class GameController implements InputProcessor {
         otherSymbols.setDecimalSeparator('.');
         otherSymbols.setGroupingSeparator(' ');
 
-        decimalFormat = new DecimalFormat("#.###", otherSymbols);
-        decimalFormat.setMinimumFractionDigits(3);
+        decimalFormat = new DecimalFormat("#.##", otherSymbols);
+        decimalFormat.setMinimumFractionDigits(2);
 
 
         this.mapScores = Gdx.app.getPreferences("runner_bros_12FG93F5GAJB529");

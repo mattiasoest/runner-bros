@@ -59,8 +59,7 @@ public class AndroidLauncher extends AndroidApplication {
 
 		//create the ad view
 		AdView adView = new AdView(this);
-		AdSize adSize = new AdSize(220, 45);
-		adView.setAdSize(adSize);
+		adView.setAdSize(AdSize.BANNER);
 //		adView.setAdUnitId("ca-app-pub-3940256099942544/6300978111"); /// GOOGLE TEST BANNER
         adView.setAdUnitId(BuildConfig.ApiKey);
 		adView.setBackgroundColor(Color.TRANSPARENT);
@@ -68,7 +67,7 @@ public class AndroidLauncher extends AndroidApplication {
 
 
 		AdRequest adRequest = new AdRequest.Builder()
-//				.addTestDevice("xx") // Mate 10 new
+//				.addTestDevice("xx")
 				.build();
 
 		// Start loading the ad in the background.
@@ -78,8 +77,8 @@ public class AndroidLauncher extends AndroidApplication {
 		RelativeLayout.LayoutParams adParams =
 				new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
 												RelativeLayout.LayoutParams.WRAP_CONTENT);
-		adParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-		adParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+		adParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+		adParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 
 		layout.addView(adView, adParams);
 

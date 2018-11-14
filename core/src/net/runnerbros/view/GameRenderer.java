@@ -278,7 +278,7 @@ public class GameRenderer {
 
     private void drawTimer() {
         float time = gc.getTimer();
-        font.draw(batch, gc.getDecimalFormat().format(time), cameraManager.getGameCamera().position.x - cameraManager.getGameCamera().viewportWidth / 2.25f, cameraManager.getGameCamera().position.y + cameraManager.getGameCamera().viewportHeight * 0.475f);
+        font.draw(batch, gc.getDecimalFormat().format(time), cameraManager.getGameCamera().position.x + cameraManager.getGameCamera().viewportWidth / 3.35f, cameraManager.getGameCamera().position.y + cameraManager.getGameCamera().viewportHeight * 0.475f);
     }
 
     private void drawButtons() {
