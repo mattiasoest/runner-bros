@@ -61,10 +61,8 @@ public class AndroidLauncher extends AndroidApplication {
 		AdView adView = new AdView(this);
 		AdSize adSize = new AdSize(220, 45);
 		adView.setAdSize(adSize);
-//		adView.setAdSize(AdSize.SMART_BANNER);
-//		adView.setAdSize(AdSize.BANNER);
-		adView.setAdUnitId("ca-app-pub-3940256099942544/6300978111"); /// GOOGLE TEST BANNER
-//		adView.setAdUnitId("");
+//		adView.setAdUnitId("ca-app-pub-3940256099942544/6300978111"); /// GOOGLE TEST BANNER
+        adView.setAdUnitId(BuildConfig.ApiKey);
 		adView.setBackgroundColor(Color.TRANSPARENT);
 		layout.addView(gameView);
 

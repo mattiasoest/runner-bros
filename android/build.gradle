@@ -13,6 +13,18 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    buildTypes {
+        debug {
+            buildConfigField 'String', "ApiKey", runner_bros_ad_key
+            resValue 'string', "api_key", runner_bros_ad_key
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', "ApiKey", runner_bros_ad_key
+            resValue 'string', "api_key", runner_bros_ad_key
+        }
+    }
     dependencies {
         compile 'com.android.support:multidex:1.0.0'
     }
