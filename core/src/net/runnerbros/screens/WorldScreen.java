@@ -41,7 +41,7 @@ public class WorldScreen extends BackgroundScreen {
     private final FitViewport      view;
     private final Table            scrollContainer;
     private final Label.LabelStyle ls;
-
+    private int worldIndex = 0;
     private final boolean debug = false;
 
 

@@ -54,7 +54,6 @@ public class LevelScreen extends BackgroundScreen {
         Table scrollContainer = new Table();
         PagedScrollPane scroll = new PagedScrollPane();
 
-        Preferences pref = game.getGameController().getMapScores();
         float pageSpacing = 0f;
         scroll.setFlingTime(0.5f);
         scroll.setPageSpacing(pageSpacing);
@@ -82,14 +81,8 @@ public class LevelScreen extends BackgroundScreen {
 
             Label localHighScore;
             String currentLevel = getLevelKey(levelIndex);
-            if (pref.contains(Base64Coder.encodeString(currentLevel))) {
-                float time = Float.valueOf(Base64Coder.decodeString(pref.getString(Base64Coder.encodeString(currentLevel))));
-                String formattedTime = game.getGameController().getDecimalFormat().format(time);
-                localHighScore = new Label("Time: " + formattedTime, ls);
-            }
-            else {
-                localHighScore = new Label("Time: N/A", ls);
-            }
+            String formattedTime = getHighScore(currentLevel);
+            localHighScore = new Label(formattedTime, ls);
             //DEBUG DATA
             if (debug) {
                 levelTable.debug();
@@ -98,7 +91,6 @@ public class LevelScreen extends BackgroundScreen {
             levelTable.setBackground(new TextureRegionDrawable(
                     new TextureRegion(Assets.manager.get(Assets.BG_CITY_FOG, Texture.class))));
 
-//            levelTable.setColor(0,0,0, 0.5f);
             Label label = new Label(game.getGameController().getLevelName(worldIndex, Integer.toString(levelIndex)), ls);
             label.setAlignment(Align.center);
             levelTable.add(label);
@@ -141,6 +133,18 @@ public class LevelScreen extends BackgroundScreen {
 
         stage.addActor(container);
 
+    }
+
+    private String getHighScore(String currentLevel) {
+        Preferences pref = game.getGameController().getMapScores();
+        if (pref.contains(Base64Coder.encodeString(currentLevel))) {
+            float time = Float.valueOf(Base64Coder.decodeString(pref.getString(Base64Coder.encodeString(currentLevel))));
+            String formattedTime = game.getGameController().getDecimalFormat().format(time);
+            return "Time: " + formattedTime;
+        }
+        else {
+            return "Time: N/A";
+        }
     }
 
     private Button getLevelButton(int levelIndex) {
