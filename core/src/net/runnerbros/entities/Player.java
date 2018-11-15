@@ -12,7 +12,6 @@ public class Player extends MoveableEntity {
     private boolean jumpBootsOn    = false;
     private boolean canJump        = false;
     private boolean canDoubleJump  = false;
-    private boolean immune         = false;
     private boolean isFlying       = false;
     private boolean isSpeedRunning = false;
     private boolean isKenny        = true;
@@ -23,7 +22,7 @@ public class Player extends MoveableEntity {
     private float   jumpSmokeState = 0f;
 
     public enum State {
-        IDLE, WALKING, JUMPING, FALLING, HALT, FLYING, DYING
+        IDLE, WALKING, JUMPING, FALLING, HALT, FLYING
     }
 
     public Player(float x, float y, float width, float height) {
@@ -65,10 +64,6 @@ public class Player extends MoveableEntity {
     public boolean isKenny() {
         return isKenny;
     }
-
-	public int getHp(){
-		return healthPoints;
-	}
 
 	public void resetHp(){
 		this.healthPoints = 100;
@@ -151,21 +146,6 @@ public class Player extends MoveableEntity {
 	 */
 	public Vector2 getAcceleration() {
 		return acceleration;
-	}
-
-	/**
-	 * @param acceleration the acceleration to set
-	 */
-	public void setAcceleration(Vector2 acceleration) {
-		this.acceleration = acceleration;
-	}
-
-	public boolean isImmune() {
-		return immune;
-	}
-
-	public void setImmune(boolean immune) {
-		this.immune = immune;
 	}
 
     public boolean isFlying() {

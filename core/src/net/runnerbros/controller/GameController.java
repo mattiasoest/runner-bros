@@ -9,7 +9,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -73,11 +72,9 @@ public class GameController implements InputProcessor {
     private static final float MAX_FALL_SPEED_FLYING = 1.5f;
     private static final float MAX_FALL_SPEED_ORG    = 12.5f;
     private static final float JUMP_FORCE            = 5f;
-    private static final float JUMP_FORCE_CONTINOUS  = 31f;
     private static final float BOUNCE_FORCE          = 5f;
     private static final float DEAD_BOUNCE_FORCE     = 6f;
     private static final float TRAMPOLINE_FORCE      = 14f;
-    private static final float ENEMY_COLLISION_FORCE = 18f;
     private static final float DAMP                  = 0.85f;
     private static final float TURN_DAMP             = 0.79f;
     private static final float SLIME_MAX_VEL         = 18f;
@@ -122,8 +119,6 @@ public class GameController implements InputProcessor {
     private long    jumpPressedTime;
     private boolean jumpPressed;
 
-    private boolean isPlayingCopterSound = false;
-
     private boolean isTimerOn          = false;
     private boolean buttonLeftPressed  = false;
     private boolean buttonRightPressed = false;
@@ -133,8 +128,6 @@ public class GameController implements InputProcessor {
     private boolean toggleButtonPressed;
 
     private boolean jumpYCollision;
-
-    private Random rand;
 
     private Array<Coin>       coins;
     private Array<Slime>      slimes;
@@ -149,19 +142,15 @@ public class GameController implements InputProcessor {
     private float   TILEHEIGHT;
     private Vector2 triggerJumpSmokePosition = new Vector2();
     private boolean isSmokeJumpTrigged;
-    private boolean isGamePaused;
     private Stage   stagePause;
     private Stage   stageFinishMenu;
-    private Stage   stageGameStart;
     private Table   pauseTable;
     private Table   finishTable;
-    private Table   gameStartTable;
 
     private long startCopterTime = 0l;
 
     private Level     currentLevel;
     private Rectangle levelGoal;
-    private Music     cityWorldMusic;
     private Benny     benny;
 
     public GameController(RunnerBros game) {
@@ -178,13 +167,9 @@ public class GameController implements InputProcessor {
 
 
         this.preferences = Gdx.app.getPreferences("runner_bros_12FG93F5GAJB529");
-        this.coins = new Array<Coin>();
         this.slimes = new Array<Slime>();
         this.snowmen = new Array<Snowman>();
-        this.trampolines = new Array<Trampoline>();
         this.enemyStartpositions = new Array<MoveableEntity>();
-        this.boxes = new Array<ItemBox>();
-        this.rand = new Random();
 
         this.player = new Player(0, 0, 12f, 58f);
     }
@@ -304,7 +289,6 @@ public class GameController implements InputProcessor {
         // Reset level objects
         enemyStartpositions.clear();
         snowmen.clear();
-        trampolines.clear();
         clearEnemies();
     }
 
@@ -658,7 +642,7 @@ public class GameController implements InputProcessor {
             player.getBounds().y += player.getVelocity().y;
             checkCollisionsY(player, oldY);
 
-            checkStaticObjectCollisions(delta);
+//            checkStaticObjectCollisions(delta);
 
             if (!buttonLeftPressed && !buttonRightPressed) {
                 player.getAcceleration().x *= DAMP;
@@ -743,19 +727,8 @@ public class GameController implements InputProcessor {
     private void checkCollisionsX(MoveableEntity movEnt, float oldX) {
         boolean collisionX = false;
 
-        currentItemBox = null;
-        for (ItemBox ib : boxes) {
-            if (movEnt.getBounds().overlaps(ib.getBounds())) {
-                currentItemBox = ib;
-                break;
-            }
-        }
-
         boolean top = false;
         if (movEnt.getVelocity().x > 0) { // going right
-            if (currentItemBox != null) {
-                collisionX = true;
-            }
 
             // right top
             if (!collisionX) {
@@ -774,10 +747,6 @@ public class GameController implements InputProcessor {
         }
 
         if (movEnt.getVelocity().x < 0) { // going left
-            if (currentItemBox != null) {
-                collisionX = true;
-            }
-
 
             // left top
             if (!collisionX) {
@@ -831,19 +800,10 @@ public class GameController implements InputProcessor {
             ((Player) movEnt).setCanJump(false);
         }
 
-        currentItemBox = null;
-        for (ItemBox ib : boxes) {
-            if (movEnt.getBounds().overlaps(ib.getBounds())) {
-                currentItemBox = ib;
-                break;
-            }
-        }
 
         if (movEnt.getVelocity().y < 0) { // going down
-            if (currentItemBox != null) {
-                collisionY = true;
-            }
-            else if (movEnt instanceof Player) {
+
+            if (movEnt instanceof Player) {
                 for (Slime s : slimes) {
                     if (movEnt.getBounds().overlaps(s.getBounds()) && s.isAlive() && movEnt.getBounds().y > s.getBounds().y + s.getHeight() * 0.15f) {
                         s.setHeight(s.getHeight() / 2f);
@@ -1101,10 +1061,6 @@ public class GameController implements InputProcessor {
             if (mov instanceof Slime) {
                 slimes.add(((Slime) mov).copy());
             }
-//            else if (mov instanceof Snowman) {
-//                System.out.println("snoman new addd.");
-//                snowmen.add((Snowman) mov);
-//            }
             // TODO: Other enemies.
         }
     }
@@ -1381,10 +1337,6 @@ public class GameController implements InputProcessor {
         if (!player.isAlive()) {
             return false;
         }
-//        if ((screenX > Gdx.graphics.getWidth() * 0.55f)
-//            && screenX < Gdx.graphics.getWidth() * 0.72f && screenY > Gdx.graphics.getHeight() * 0.7f) {
-//            buttonSpeedPressed = false;
-//        }
 
         if ((screenX > Gdx.graphics.getWidth() * 0.78f) && screenY > Gdx.graphics.getHeight() * 0.55f && screenY < Gdx.graphics.getHeight() * 0.77f) {
             toggleButtonPressed = false;
@@ -1440,7 +1392,6 @@ public class GameController implements InputProcessor {
         }
         // In air
         else if (player.isJumpBootsOn() && !player.getCanJump() && player.getCanDoubleJump()) {
-            //                    jumpPressedTime = System.currentTimeMillis();
             SoundManager.INSTANCE.playDoubleJumpp();
             initriggerJumpSmoke(player.getBounds().x, player.getBounds().y);
             player.setCanDoubleJump(false);
@@ -1461,10 +1412,6 @@ public class GameController implements InputProcessor {
         SoundManager.INSTANCE.playToggleAbility();
         player.setJumpBootsOn(!player.isJumpBootsOn());
         toggleButtonPressed = true;
-    }
-
-    private Vector2 getStageLocation(Actor actor) {
-        return actor.localToStageCoordinates(new Vector2(0, 0));
     }
 
     private void goToLevelScreen() {

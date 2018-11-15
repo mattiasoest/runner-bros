@@ -191,7 +191,6 @@ public class GameRenderer {
         }
         renderer.render();
         batch.begin();
-        drawTampolines(delta);
         drawPlayer();
         drawBenny();
         drawSnowmen();
@@ -293,7 +292,6 @@ public class GameRenderer {
         batch.draw(buttonSpeed, cameraManager.getGameCamera().position.x + cameraManager.getGameCamera().viewportWidth * 0.31f - buttonSpeed.getRegionWidth(), cameraManager.getGameCamera().position.y - cameraManager.getGameCamera().viewportHeight * 0.485f);
         batch.draw(buttonJump, cameraManager.getGameCamera().position.x + cameraManager.getGameCamera().viewportWidth * 0.47f - buttonJump.getRegionWidth(), cameraManager.getGameCamera().position.y - cameraManager.getGameCamera().viewportHeight * 0.485f);
         batch.draw(buttonToggle, cameraManager.getGameCamera().position.x + cameraManager.getGameCamera().viewportWidth * 0.47f - buttonToggle.getRegionWidth(), cameraManager.getGameCamera().position.y - cameraManager.getGameCamera().viewportHeight * 0.26f);
-//        batch.draw(buttonPauseSp, camera.position.x + camera.viewportWidth * 0.47f - buttonToggle.getRegionWidth(), camera.position.y + camera.viewportHeight * 0.26f);
         buttonPauseSp.setPosition(cameraManager.getGameCamera().position.x + cameraManager.getGameCamera().viewportWidth * 0.47f - buttonToggle.getRegionWidth(), cameraManager.getGameCamera().position.y + cameraManager.getGameCamera().viewportHeight * 0.22f);
         buttonPauseSp.draw(batch);
 

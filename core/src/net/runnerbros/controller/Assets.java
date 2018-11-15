@@ -8,7 +8,6 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Assets {
 
@@ -96,8 +95,4 @@ public class Assets {
         return rockwellFont;
     }
 
-    //If this is used, DISPOSE MANUALLY!!
-    public static BitmapFont getNewRockwellFont() {
-        return new BitmapFont(Gdx.files.internal("fonts/rockwell.fnt"), false);
-    }
 }
