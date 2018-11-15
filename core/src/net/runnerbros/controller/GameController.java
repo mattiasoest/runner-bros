@@ -3,7 +3,6 @@ package net.runnerbros.controller;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
-import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -20,7 +19,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -36,14 +34,11 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import net.runnerbros.RunnerBros;
 import net.runnerbros.entities.Benny;
-import net.runnerbros.entities.Coin;
-import net.runnerbros.entities.ItemBox;
 import net.runnerbros.entities.MoveableEntity;
 import net.runnerbros.entities.Player;
 import net.runnerbros.entities.Player.State;
 import net.runnerbros.entities.Slime;
 import net.runnerbros.entities.Snowman;
-import net.runnerbros.entities.Trampoline;
 
 public class GameController implements InputProcessor {
 
@@ -74,17 +69,14 @@ public class GameController implements InputProcessor {
     private static final float JUMP_FORCE            = 5f;
     private static final float BOUNCE_FORCE          = 5f;
     private static final float DEAD_BOUNCE_FORCE     = 6f;
-    private static final float TRAMPOLINE_FORCE      = 14f;
     private static final float DAMP                  = 0.85f;
     private static final float TURN_DAMP             = 0.79f;
     private static final float SLIME_MAX_VEL         = 18f;
     private static final float ACCELERATION          = 7.5f;
-    private static final float MAX_ACCELERATION      = 40f;
-    private static final float AIR_ACCELERATION      = 24f;
     private static       float MAX_FALL_SPEED        = 12.5f;
-    private              float MAX_VEL               = 4.6f;
     private final static float MAX_VEL_ORG           = 4.6f;
     private final static float MAX_VEL_SPEEDRUN      = 6.2f;
+    private              float MAX_VEL;
 
     private final Preferences preferences;
     private final RunnerBros  game;
@@ -129,14 +121,10 @@ public class GameController implements InputProcessor {
 
     private boolean jumpYCollision;
 
-    private Array<Coin>       coins;
     private Array<Slime>      slimes;
     private Array<MoveableEntity> enemyStartpositions;
     private Array<Snowman>    snowmen;
-    private Array<Trampoline> trampolines;
-    private Array<ItemBox>    boxes;
 
-    private ItemBox currentItemBox;
     private Vector2 spawnPoint;
     private float   TILEWIDTH;
     private float   TILEHEIGHT;
@@ -167,9 +155,9 @@ public class GameController implements InputProcessor {
 
 
         this.preferences = Gdx.app.getPreferences("runner_bros_12FG93F5GAJB529");
-        this.slimes = new Array<Slime>();
-        this.snowmen = new Array<Snowman>();
-        this.enemyStartpositions = new Array<MoveableEntity>();
+        this.slimes = new Array<>();
+        this.snowmen = new Array<>();
+        this.enemyStartpositions = new Array<>();
 
         this.player = new Player(0, 0, 12f, 58f);
     }
@@ -199,7 +187,7 @@ public class GameController implements InputProcessor {
 
     public String getLevelName(int world, String levelNumber) {
 
-        String levelName = "";
+        String levelName;
         switch (world) {
             case THE_CITY:
                 levelName = "The City " + levelNumber;
@@ -257,7 +245,7 @@ public class GameController implements InputProcessor {
                 // Dont update anything since its paused.
                 break;
             case FINISHED:
-                // Upadate the cam for finish table if
+                // Update the cam for finish table if
                 // we finished while jumping to make the stage
                 // follow us while falling down again.
                 SoundManager.INSTANCE.manageGameMusic(delta);
@@ -271,7 +259,7 @@ public class GameController implements InputProcessor {
                 SoundManager.INSTANCE.manageGameMusic(delta);
                 // -- IMPORTANT --  HACK
                 addDelay(delta);
-                // RETURN so it keeps track of the delay NOT reseting it.
+                // RETURN so it keeps track of the delay NOT resetting it.
                 return;
             case CAM_INITIALIZATION:
                 updateKenny(delta);
@@ -381,10 +369,6 @@ public class GameController implements InputProcessor {
         return snowmen;
     }
 
-    public Array<Trampoline> getTrampolines() {
-        return trampolines;
-    }
-
     public Vector2 getTriggerJumpSmokePosition() {
         return this.triggerJumpSmokePosition;
     }
@@ -451,17 +435,9 @@ public class GameController implements InputProcessor {
         Rectangle bennyPos = ((RectangleMapObject) objectLayer.getObjects().get("benny")).getRectangle();
         this.benny = new Benny(bennyPos.x, bennyPos.y, 32f, 48f, true);
 
-
-        boolean up = false;
-
         for (MapObject ob : objectLayer.getObjects()) {
             if (ob instanceof RectangleMapObject) {
-                if (ob.getName().equals("coin")) {
-                    Rectangle coinPos = ((RectangleMapObject) ob).getRectangle();
-                    coins.add(new Coin(coinPos.x, coinPos.y, 10f, 10f, up));
-                    up = !up;
-                }
-                else if (ob.getName().equals("slime")) {
+                if (ob.getName().equals("slime")) {
                     if (ob.getProperties().containsKey("pink")) {
                         Rectangle slimePos = ((RectangleMapObject) ob).getRectangle();
                         final Slime slime = new Slime(slimePos.x, slimePos.y, 36f, 24f, PINK_VELOCITY_MULTIPLIER, Slime.Type.PINK);
@@ -492,31 +468,8 @@ public class GameController implements InputProcessor {
                     Rectangle snowmanPos = ((RectangleMapObject) ob).getRectangle();
                     snowmen.add(new Snowman(snowmanPos.x, snowmanPos.y, 32f, 64f));
                 }
-
-
-//                else if (ob.getName().equals("Trampoline")) {
-//                    Rectangle trampPos = ((RectangleMapObject) ob).getRectangle();
-//                    trampolines.add(new Trampoline(trampPos.x, trampPos.y, 15f, 6f, TRAMPOLINE_FORCE));
-//                }
-
-                //Using tiles and creating boxes during runtime..
-                //				 else if(ob.getName().equals("ItemBox")){
-                //					 if(ob.getProperties().get("type").equals("yellow")){
-                //						 Rectangle boxPos = ((RectangleMapObject) ob).getRectangle();
-                //						 boxes.add(new ItemBox(boxPos.x, boxPos.y+7, 16f, 16f, ItemBox.Type.YELLOW));
-                //					 }else if(ob.getProperties().get("type").equals("grey")){
-                //						 Rectangle boxPos = ((RectangleMapObject) ob).getRectangle();
-                //						 boxes.add(new ItemBox(boxPos.x, boxPos.y, 16f, 16f, ItemBox.Type.GREY));
-                //					 }
-//                				 }
             }
         }
-
-        // TODO: Other enemies!
-        // Get the start positions of the enemies.
-//        for (Slime slime : slimes) {
-//            enemyStartpositions.add(new Slime(slime.getBounds().x, slime.getBounds().y, slime.getWidth(), slime.getHeight(), slime.getType()));
-//        }
     }
 
     private void updateSnowmen(float delta) {
@@ -552,8 +505,6 @@ public class GameController implements InputProcessor {
                 checkCollisionsY(s, oldY);
             }
             else {
-                //Dubbelkod, genom att konstiga buggar uppst�r om man inte k�r collisiondetection
-                //innan man updatear men l�r trycka ner fienden om han �r d�d.
                 s.getBounds().y += s.getVelocity().y;
             }
             s.updateState(delta);
@@ -713,14 +664,14 @@ public class GameController implements InputProcessor {
     private void checkStaticObjectCollisions(float delta) {
 
         //Trampolines
-        for (Trampoline t : trampolines) {
-            if (player.getBounds().overlaps(t.getBounds())) {
-                t.hit();
-                player.getVelocity().y = t.getForce();
-                player.getBounds().y = t.getBounds().y + t.getHeight();
-                SoundManager.INSTANCE.playTrampoline();
-            }
-        }
+//        for (Trampoline t : trampolines) {
+//            if (player.getBounds().overlaps(t.getBounds())) {
+//                t.hit();
+//                player.getVelocity().y = t.getForce();
+//                player.getBounds().y = t.getBounds().y + t.getHeight();
+//                SoundManager.INSTANCE.playTrampoline();
+//            }
+//        }
     }
 
 
@@ -1029,7 +980,7 @@ public class GameController implements InputProcessor {
             currentGameState = GameState.RUNNING;
             startTimer();
         }
-        // Touch or keypress duriong the hovering, just go to the ready state and wait for another keypress/click
+        // Touch or keypress during the hovering, just go to the ready state and wait for another keypress/click
         else if (currentGameState == GameState.CAM_INITIALIZATION && (Gdx.input.isKeyJustPressed(Keys.ENTER) || Gdx.input.isTouched())) {
             currentGameState = GameState.READY;
         }
@@ -1142,7 +1093,6 @@ public class GameController implements InputProcessor {
         TextureAtlas menuAtlas = Assets.manager.get(Assets.BUTTON_ATLAS, TextureAtlas.class);
         Skin buttonSkin = new Skin(menuAtlas);
 
-//        this.stage = new Stage();
         this.stageFinishMenu = new Stage(view, batch);
         this.finishTable = new Table();
         this.finishTable.setSize(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);

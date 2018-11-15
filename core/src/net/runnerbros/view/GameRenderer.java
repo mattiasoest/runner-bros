@@ -372,23 +372,23 @@ public class GameRenderer {
         cameraManager.getGameCamera().update();
     }
 
-    private void drawTampolines(float delta) {
-        for (Trampoline t : gc.getTrampolines()) {
-            if (!t.isHit()) {
-                trampFrame = objectAtlas.findRegion("trampoline1");
-            }
-            else {
-                trampolineAnimation.setPlayMode(Animation.PlayMode.NORMAL);
-                trampFrame = trampolineAnimation.getKeyFrame(t.getStateTime(), false);
-                if (trampolineAnimation.isAnimationFinished(t.getStateTime())) {
-                    t.resetHit();
-                    t.resetState();
-                }
-                t.updateState(delta);
-            }
-            batch.draw(trampFrame, t.getBounds().x, t.getBounds().y, trampFrame.getRegionWidth(), trampFrame.getRegionHeight());
-        }
-    }
+//    private void drawTampolines(float delta) {
+//        for (Trampoline t : gc.getTrampolines()) {
+//            if (!t.isHit()) {
+//                trampFrame = objectAtlas.findRegion("trampoline1");
+//            }
+//            else {
+//                trampolineAnimation.setPlayMode(Animation.PlayMode.NORMAL);
+//                trampFrame = trampolineAnimation.getKeyFrame(t.getStateTime(), false);
+//                if (trampolineAnimation.isAnimationFinished(t.getStateTime())) {
+//                    t.resetHit();
+//                    t.resetState();
+//                }
+//                t.updateState(delta);
+//            }
+//            batch.draw(trampFrame, t.getBounds().x, t.getBounds().y, trampFrame.getRegionWidth(), trampFrame.getRegionHeight());
+//        }
+//    }
 
     private void drawSnowmen() {
         for (Snowman man : gc.getSnowmen()) {
