@@ -52,33 +52,17 @@ public class RunnerBros extends Game {
 
     @Override
     public void create() {
-
-        //TODO: FIX LEADERBOARD CODE
-        //        if (game.actionResolver.getSignedInGPGS()) {
-        //            game.actionResolver.getLeaderboardGPGS("CgkIj7LCjKMNEAIQAQ");
-        //        }
-        //        else {
-        //            game.actionResolver.loginGPGS();
-        //        }
-
-
         Assets.load();
-
-        //		while (!Assets.manager.update()) {
-        //			System.out.println(Assets.manager.getProgress() * 100 + "%");
-        //		}
-
         Assets.manager.finishLoading();
+
         gameController = new GameController(this);
         renderer = new GameRenderer(gameController);
-
         doSoundAdjustment();
 
         playscreen = new PlayScreen(this);
         mainMenuScreen = new MainMenuScreen(this);
         worldScreen = new WorldScreen(this);
         optionScreen = new OptionScreen(this);
-
 
 		setScreen(mainMenuScreen);
 	}
@@ -98,7 +82,6 @@ public class RunnerBros extends Game {
                     pref.getString(Base64Coder.encodeString(SoundManager.INSTANCE.SOUND_KEY))));
             SoundManager.INSTANCE.setSoundEnabled(soundValue == 1);
         }
-
 
         if (SoundManager.INSTANCE.isMusicEnabled()) {
             SoundManager.INSTANCE.playMenuMusic();

@@ -215,7 +215,6 @@ public class LevelScreen extends BackgroundScreen {
     @Override
     public void dispose() {
         stage.dispose();
-//        ls.font.dispose();
     }
 
     private ClickListener levelClickListener = new ClickListener() {

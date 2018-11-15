@@ -57,6 +57,7 @@ public class PlayerAnimation {
         }
         idleLeftAnimation = new Animation(IDLE_FRAME_DURATION, idleLeftFrames);
 
+
         //WALK
         TextureRegion[] walkRightFrames = new TextureRegion[8];
         for (int i = 0; i < 8; i++) {

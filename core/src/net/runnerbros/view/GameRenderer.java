@@ -25,7 +25,6 @@ import net.runnerbros.entities.Benny;
 import net.runnerbros.entities.Player;
 import net.runnerbros.entities.Slime;
 import net.runnerbros.entities.Snowman;
-import net.runnerbros.entities.Trampoline;
 
 public class GameRenderer {
 

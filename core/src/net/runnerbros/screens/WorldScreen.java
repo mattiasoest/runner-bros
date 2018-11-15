@@ -1,6 +1,5 @@
 package net.runnerbros.screens;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -10,9 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -129,7 +126,7 @@ public class WorldScreen extends BackgroundScreen {
 
         TextureRegion world = new Sprite(worldImages[i-1]);
         Button button = new ImageButton(new TextureRegionDrawable(world));
-        String worldText = "";
+        String worldText;
         switch (i) {
             case 1:
                 worldText = "The City";
@@ -197,7 +194,6 @@ public class WorldScreen extends BackgroundScreen {
 
     @Override
     public void dispose() {
-//        ls.font.dispose();
         stage.dispose();
     }
 

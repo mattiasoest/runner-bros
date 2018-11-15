@@ -105,12 +105,7 @@ public class MainMenuScreen extends BackgroundScreen {
         Gdx.input.setInputProcessor(null);
         SequenceAction sequenceAction = new SequenceAction();
         sequenceAction.addAction(Actions.fadeOut(0.4f));
-        sequenceAction.addAction(Actions.run(new Runnable() {
-            @Override
-            public void run() {
-                Gdx.app.exit();
-            }
-        }));
+        sequenceAction.addAction(Actions.run(() -> Gdx.app.exit()));
         stage.addAction(sequenceAction);
     }
 
@@ -129,7 +124,6 @@ public class MainMenuScreen extends BackgroundScreen {
         scaleToActionDecrease.setDuration(1.1f);
         scaleToActionDecrease.setScale(0.97f);
 
-//        Actions.forever(Actions.sequence(scaleToActionIncrease, scaleToActionDecrease));
         titleImage.addAction(Actions.forever(Actions.sequence(scaleToActionIncrease, scaleToActionDecrease)));
         return titleImage;
     }
@@ -149,8 +143,6 @@ public class MainMenuScreen extends BackgroundScreen {
 
     @Override
     public void show() {
-
-//        stage.getRoot().getColor().a = 0;
         Gdx.input.setInputProcessor(null);
         stage.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(game.FADE_TIME), Actions.run(new Runnable() {
             @Override
@@ -184,6 +176,5 @@ public class MainMenuScreen extends BackgroundScreen {
     @Override
     public void dispose() {
         stage.dispose();
-
     }
 }

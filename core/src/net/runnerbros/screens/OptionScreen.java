@@ -148,7 +148,6 @@ public class OptionScreen extends BackgroundScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
-
         stage.act(delta);
         stage.draw();
 
@@ -162,7 +161,6 @@ public class OptionScreen extends BackgroundScreen {
     @Override
     public void show() {
 
-        //        stage.getRoot().getColor().a = 0;
         Gdx.input.setInputProcessor(null);
         stage.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(game.FADE_TIME), Actions.run(new Runnable() {
             @Override
@@ -180,7 +178,6 @@ public class OptionScreen extends BackgroundScreen {
     @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
-
     }
 
     @Override
@@ -196,6 +193,5 @@ public class OptionScreen extends BackgroundScreen {
     @Override
     public void dispose() {
         stage.dispose();
-
     }
 }
