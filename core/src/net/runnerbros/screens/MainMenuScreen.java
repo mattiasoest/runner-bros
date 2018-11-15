@@ -105,7 +105,13 @@ public class MainMenuScreen extends BackgroundScreen {
         Gdx.input.setInputProcessor(null);
         SequenceAction sequenceAction = new SequenceAction();
         sequenceAction.addAction(Actions.fadeOut(0.4f));
-        sequenceAction.addAction(Actions.run(() -> Gdx.app.exit()));
+        sequenceAction.addAction(
+                Actions.run(new Runnable() {
+                     @Override
+                     public void run() {
+                         Gdx.app.exit();
+                     }
+                 }));
         stage.addAction(sequenceAction);
     }
 

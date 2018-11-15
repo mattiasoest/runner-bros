@@ -168,7 +168,12 @@ public class WorldScreen extends BackgroundScreen {
     public void show() {
         Gdx.input.setInputProcessor(null);
         stage.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(game.FADE_TIME),
-                Actions.run(() -> Gdx.input.setInputProcessor(stage))));
+                Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        Gdx.input.setInputProcessor(stage);
+                    }
+                })));
     }
 
     @Override
