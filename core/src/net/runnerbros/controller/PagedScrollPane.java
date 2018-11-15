@@ -14,8 +14,6 @@ public class PagedScrollPane extends ScrollPane {
 
     private boolean wasPanDragFling = false;
 
-    private float pageSpacing;
-
     private Table content;
 
 

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Base64Coder;
 
 import net.runnerbros.controller.ActionResolver;
@@ -25,6 +26,7 @@ public class RunnerBros extends Game {
 
     public static final float FADE_TIME_FROM = 0.4f;
     public static final float FADE_TIME      = 0.4f;
+    public static final int   WORLD_AMOUNT   = 3;
 
     //Access the google GPS
     public ActionResolver actionResolver;
@@ -32,15 +34,14 @@ public class RunnerBros extends Game {
     private GameRenderer   renderer;
     private GameController gameController;
 
-    //Create all screens except the level screen.
     private PlayScreen     playscreen;
     private MainMenuScreen mainMenuScreen;
     private WorldScreen    worldScreen;
 
-    //Creates during runtime
     private LevelScreen  levelScreen;
     private OptionScreen optionScreen;
 
+    private Array<LevelScreen> levelScreens = new Array<>();
 
     public RunnerBros() {
     }
@@ -63,6 +64,10 @@ public class RunnerBros extends Game {
         mainMenuScreen = new MainMenuScreen(this);
         worldScreen = new WorldScreen(this);
         optionScreen = new OptionScreen(this);
+
+        for (int i = 1; i<= WORLD_AMOUNT; i++) {
+			levelScreens.add(new LevelScreen(this, i));
+		}
 
 		setScreen(mainMenuScreen);
 	}
@@ -145,6 +150,10 @@ public class RunnerBros extends Game {
     public Screen getOptionScreen() {
         return optionScreen;
 
+    }
+
+    public Array<LevelScreen> getLevelScreens() {
+        return levelScreens;
     }
 
 	//Used when navigates from world screen to levelscreen

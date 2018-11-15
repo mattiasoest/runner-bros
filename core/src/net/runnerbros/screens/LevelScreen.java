@@ -71,7 +71,6 @@ public class LevelScreen extends BackgroundScreen {
                 break;
             default:
                     throw  new RuntimeException("Unknown world: " + worldIndex);
-
         }
 
         for (int levelIndex = 1; levelIndex <= amountOfLevels; levelIndex++) {
@@ -114,14 +113,10 @@ public class LevelScreen extends BackgroundScreen {
 
         ImageButton backButton = new ImageButton(backStyle);
 
-
-
-
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 SoundManager.INSTANCE.playButtonClick();
-                dispose();
                 game.switchScreen(stage, game.getWorldScreen());
 //                game.setScreen(game.getWorldScreen());
             }

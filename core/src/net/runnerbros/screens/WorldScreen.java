@@ -32,8 +32,6 @@ public class WorldScreen extends BackgroundScreen {
 
     //This is good after some testing
     private static final float LEVEL_WIDTH  = 583f;
-    private static final int   WORLD_NUMBER = 3;
-
     private final Stage            stage;
     private final FitViewport      view;
     private final Table            scrollContainer;
@@ -74,7 +72,7 @@ public class WorldScreen extends BackgroundScreen {
         scroll.setFlingTime(0.5f);
         scroll.setPageSpacing(pageSpacing);
 
-        for (int levelIndex = 1; levelIndex <= WORLD_NUMBER; levelIndex++) {
+        for (int levelIndex = 1; levelIndex <= game.WORLD_AMOUNT; levelIndex++) {
             Table levels = new Table();
             Table levelTable = new Table();
             levelTable.setBackground(new TextureRegionDrawable(
@@ -145,7 +143,7 @@ public class WorldScreen extends BackgroundScreen {
         button.stack(label);
         //World index
         button.setName(Integer.toString(i));
-        if (i <= WORLD_NUMBER) {
+        if (i <= game.WORLD_AMOUNT) {
             button.addListener(levelClickListener);
         }
         return button;
@@ -169,12 +167,8 @@ public class WorldScreen extends BackgroundScreen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(null);
-        stage.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(game.FADE_TIME), Actions.run(new Runnable() {
-            @Override
-            public void run() {
-                Gdx.input.setInputProcessor(stage);
-            }
-        })));
+        stage.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(game.FADE_TIME),
+                Actions.run(() -> Gdx.input.setInputProcessor(stage))));
     }
 
     @Override
@@ -203,7 +197,10 @@ public class WorldScreen extends BackgroundScreen {
             SoundManager.INSTANCE.playButtonClick();
             String worldIndex = event.getListenerActor().getName();
             System.out.println("Clicked world number: " + worldIndex);
-            LevelScreen levelSelect = new LevelScreen(game, Integer.valueOf(worldIndex));
+
+            int parsedWorldIndex = Integer.valueOf(worldIndex);
+            LevelScreen levelSelect = game.getLevelScreens().get(parsedWorldIndex-1);
+            // -1 since we're getting using arrays
             game.setLevelScreen(levelSelect);
             game.switchScreen(stage, levelSelect);
         }
