@@ -159,6 +159,10 @@ public class SoundManager {
         }
     }
 
+    public void playButtonClick(boolean forcePlay) {
+            click.play(0.3f);
+    }
+
     public void playSlimeSmash() {
         if (isSoundEnabled) {
             slimeSmash.play(0.45f);

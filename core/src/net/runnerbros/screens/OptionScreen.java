@@ -112,7 +112,10 @@ public class OptionScreen extends BackgroundScreen {
         soundToggleButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                SoundManager.INSTANCE.playButtonClick();
+                // We want to play the click sound of this button no
+                // matter what, because it felt weird to not hear the sound when
+                // toggling back to sound mode.
+                SoundManager.INSTANCE.playButtonClick(true);
                 if (SoundManager.INSTANCE.isSoundEnabled()) {
                     SoundManager.INSTANCE.setSoundEnabled(false);
                     soundToggleButton.setStyle(soundOffStyle);
