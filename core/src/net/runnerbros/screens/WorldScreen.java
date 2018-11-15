@@ -202,6 +202,7 @@ public class WorldScreen extends BackgroundScreen {
             LevelScreen levelSelect = game.getLevelScreens().get(parsedWorldIndex-1);
             // -1 since we're getting using arrays
             game.setLevelScreen(levelSelect);
+            levelSelect.updateHighScores();
             game.switchScreen(stage, levelSelect);
         }
     };

@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Base64Coder;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -36,9 +37,12 @@ public class LevelScreen extends BackgroundScreen {
     private final Stage            stage;
     private final FitViewport      view;
     private final Label.LabelStyle ls;
-    private       int              worldIndex;
+    private final int              worldIndex;
 
     private final boolean          debug = false;
+
+    private Array<Label> localHighScores = new Array<>();
+
     public LevelScreen(final RunnerBros game, final int worldIndex) {
         super(game);
         this.worldIndex = worldIndex;
@@ -58,30 +62,15 @@ public class LevelScreen extends BackgroundScreen {
         scroll.setFlingTime(0.5f);
         scroll.setPageSpacing(pageSpacing);
 
-        final int  amountOfLevels;
-        switch (worldIndex) {
-            case GameController.THE_CITY:
-                amountOfLevels = GameController.THE_CITY_NO_LVLS;
-                break;
-            case GameController.SNOW_CITY:
-                amountOfLevels = GameController.SNOW_CITY_NO_LVLS;
-                break;
-            case GameController.CITY_PARK:
-                amountOfLevels = GameController.CITY_PARK_NO_LVLS;
-                break;
-            default:
-                    throw  new RuntimeException("Unknown world: " + worldIndex);
-        }
-
+        int amountOfLevels = getLevelAmount();
         for (int levelIndex = 1; levelIndex <= amountOfLevels; levelIndex++) {
             Table levels = new Table();
             Table levelTable = new Table();
             Button levelButton = getLevelButton(levelIndex);
 
-            Label localHighScore;
             String currentLevel = getLevelKey(levelIndex);
             String formattedTime = getHighScore(currentLevel);
-            localHighScore = new Label(formattedTime, ls);
+            localHighScores.add(new Label(formattedTime, ls));
             //DEBUG DATA
             if (debug) {
                 levelTable.debug();
@@ -96,7 +85,7 @@ public class LevelScreen extends BackgroundScreen {
             levelTable.row();
             levelTable.add(levelButton).pad(10);
             levelTable.row();
-            levelTable.add(localHighScore);
+            levelTable.add(localHighScores.get(levelIndex-1));
             levels.add(levelTable).height(GameController.VIRTUAL_HEIGHT * 0.8f).width(LEVEL_WIDTH);
             final float standardPad = 110;
             levels.padLeft(standardPad);
@@ -127,6 +116,25 @@ public class LevelScreen extends BackgroundScreen {
         container.add(backButton).bottom().left().padLeft(25).padBottom(25);
 
         stage.addActor(container);
+
+    }
+
+    private int getLevelAmount() {
+        final int  amountOfLevels;
+        switch (worldIndex) {
+            case GameController.THE_CITY:
+                amountOfLevels = GameController.THE_CITY_NO_LVLS;
+                break;
+            case GameController.SNOW_CITY:
+                amountOfLevels = GameController.SNOW_CITY_NO_LVLS;
+                break;
+            case GameController.CITY_PARK:
+                amountOfLevels = GameController.CITY_PARK_NO_LVLS;
+                break;
+            default:
+                throw  new RuntimeException("Unknown world: " + worldIndex);
+        }
+        return amountOfLevels;
 
     }
 
@@ -210,6 +218,18 @@ public class LevelScreen extends BackgroundScreen {
     @Override
     public void dispose() {
         stage.dispose();
+    }
+
+    public void updateHighScores() {
+
+        int amountOfLevels = getLevelAmount();
+        for (int levelIndex = 1; levelIndex <= amountOfLevels; levelIndex++) {
+
+            String currentLevel = getLevelKey(levelIndex);
+            String formattedTime = getHighScore(currentLevel);
+            localHighScores.get(levelIndex - 1).setText(formattedTime);
+        }
+
     }
 
     private ClickListener levelClickListener = new ClickListener() {

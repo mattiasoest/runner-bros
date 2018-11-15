@@ -1365,6 +1365,7 @@ public class GameController implements InputProcessor {
     }
 
     private void goToLevelScreen() {
+        game.getLevelScreen().updateHighScores();
         SoundManager.INSTANCE.playButtonClick();
         Gdx.input.setInputProcessor(null);
         SoundManager.INSTANCE.swtichToMenuMusic();
