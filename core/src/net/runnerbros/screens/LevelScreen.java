@@ -136,7 +136,7 @@ public class LevelScreen extends BackgroundScreen {
     }
 
     private String getHighScore(String currentLevel) {
-        Preferences pref = game.getGameController().getMapScores();
+        Preferences pref = game.getGameController().getPreferences();
         if (pref.contains(Base64Coder.encodeString(currentLevel))) {
             float time = Float.valueOf(Base64Coder.decodeString(pref.getString(Base64Coder.encodeString(currentLevel))));
             String formattedTime = game.getGameController().getDecimalFormat().format(time);

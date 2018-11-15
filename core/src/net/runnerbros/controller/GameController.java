@@ -13,7 +13,6 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
@@ -32,7 +31,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Base64Coder;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -91,7 +89,7 @@ public class GameController implements InputProcessor {
     private final static float MAX_VEL_ORG           = 4.6f;
     private final static float MAX_VEL_SPEEDRUN      = 6.2f;
 
-    private final Preferences mapScores;
+    private final Preferences preferences;
     private final RunnerBros  game;
 
     public DecimalFormat getDecimalFormat() {
@@ -179,7 +177,7 @@ public class GameController implements InputProcessor {
         decimalFormat.setMinimumFractionDigits(2);
 
 
-        this.mapScores = Gdx.app.getPreferences("runner_bros_12FG93F5GAJB529");
+        this.preferences = Gdx.app.getPreferences("runner_bros_12FG93F5GAJB529");
         this.coins = new Array<Coin>();
         this.slimes = new Array<Slime>();
         this.snowmen = new Array<Snowman>();
@@ -234,8 +232,8 @@ public class GameController implements InputProcessor {
         return levelName;
     }
 
-    public Preferences getMapScores() {
-        return mapScores;
+    public Preferences getPreferences() {
+        return preferences;
     }
 
     public Stage getPausedStage() {
@@ -708,13 +706,13 @@ public class GameController implements InputProcessor {
             benny.setHappy();
             stopTimer();
             finishGame();
-            if (mapScores.contains(Base64Coder.encodeString(currentLevel.getKey()))) {
-                float mapValue = Float.valueOf(Base64Coder.decodeString(mapScores.getString(Base64Coder.encodeString(currentLevel.getKey()))));
+            if (preferences.contains(Base64Coder.encodeString(currentLevel.getKey()))) {
+                float mapValue = Float.valueOf(Base64Coder.decodeString(preferences.getString(Base64Coder.encodeString(currentLevel.getKey()))));
                 System.out.println("comparing " + timer + " < " + mapValue);
                 if (timer < mapValue) {
                     System.out.println("New highscore on existing map, saving: " + mapValue);
-                    mapScores.putString(Base64Coder.encodeString(currentLevel.getKey()), Base64Coder.encodeString(Float.toString(timer)));
-                    mapScores.flush();
+                    preferences.putString(Base64Coder.encodeString(currentLevel.getKey()), Base64Coder.encodeString(Float.toString(timer)));
+                    preferences.flush();
                 }
                 else {
                     System.out.println("Too bad time, not saving..");
@@ -722,8 +720,8 @@ public class GameController implements InputProcessor {
             }
             else {
                 System.out.println("First highscore on current map, storing: " + timer);
-                mapScores.putString(Base64Coder.encodeString(currentLevel.getKey()), Base64Coder.encodeString(Float.toString(timer)));
-                mapScores.flush();
+                preferences.putString(Base64Coder.encodeString(currentLevel.getKey()), Base64Coder.encodeString(Float.toString(timer)));
+                preferences.flush();
             }
         }
     }

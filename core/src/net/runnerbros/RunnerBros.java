@@ -2,11 +2,13 @@ package net.runnerbros;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.utils.Base64Coder;
 
 import net.runnerbros.controller.ActionResolver;
 import net.runnerbros.controller.Assets;
@@ -69,18 +71,41 @@ public class RunnerBros extends Game {
         Assets.manager.finishLoading();
         gameController = new GameController(this);
         renderer = new GameRenderer(gameController);
+
+        doSoundAdjustment();
+
         playscreen = new PlayScreen(this);
         mainMenuScreen = new MainMenuScreen(this);
         worldScreen = new WorldScreen(this);
         optionScreen = new OptionScreen(this);
 
 
-        SoundManager.INSTANCE.playMenuMusic();
-
 		setScreen(mainMenuScreen);
 	}
 
-	@Override
+    private void doSoundAdjustment() {
+        Preferences pref = gameController.getPreferences();
+        if (pref.contains(Base64Coder.encodeString(SoundManager.INSTANCE.MUSIC_KEY))) {
+
+            Integer musicValue = Integer.valueOf(Base64Coder.decodeString(
+                    pref.getString(Base64Coder.encodeString(SoundManager.INSTANCE.MUSIC_KEY))));
+            SoundManager.INSTANCE.setMusicEnabled(musicValue == 1);
+        }
+
+        if (pref.contains(Base64Coder.encodeString(SoundManager.INSTANCE.SOUND_KEY))) {
+
+            Integer soundValue = Integer.valueOf(Base64Coder.decodeString(
+                    pref.getString(Base64Coder.encodeString(SoundManager.INSTANCE.SOUND_KEY))));
+            SoundManager.INSTANCE.setSoundEnabled(soundValue == 1);
+        }
+
+
+        if (SoundManager.INSTANCE.isMusicEnabled()) {
+            SoundManager.INSTANCE.playMenuMusic();
+        }
+    }
+
+    @Override
 	public void dispose() {
 		playscreen.dispose();
 		mainMenuScreen.dispose();

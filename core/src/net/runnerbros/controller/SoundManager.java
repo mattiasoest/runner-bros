@@ -14,6 +14,9 @@ public class SoundManager {
     private boolean isSoundEnabled = true;
     private boolean isMusicEnabled = true;
 
+    public static final String MUSIC_KEY = "music";
+    public static final String SOUND_KEY = "sound";
+
     private static final float GAME_MUSIC_PAUSE = 5f;
     private static final float GAME_MUSIC_VOLUME = 0.2f;
     private float gameMusicPauseTimer = 0f;

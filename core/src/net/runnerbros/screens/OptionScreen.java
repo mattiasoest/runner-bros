@@ -1,6 +1,7 @@
 package net.runnerbros.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Base64Coder;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import net.runnerbros.RunnerBros;
@@ -28,6 +30,10 @@ public class OptionScreen extends BackgroundScreen {
 
     private final FitViewport view;
 
+    private final ImageButton musicToggleButton;
+    private final ImageButton soundToggleButton;
+    private final ImageButton backButton;
+
     public OptionScreen(final RunnerBros game) {
         super(game);
 
@@ -38,13 +44,9 @@ public class OptionScreen extends BackgroundScreen {
         final ImageButton.ImageButtonStyle musicStyleOff = new ImageButton.ImageButtonStyle();
         final ImageButton.ImageButtonStyle soundOnStyle = new ImageButton.ImageButtonStyle();
         final ImageButton.ImageButtonStyle soundOffStyle = new ImageButton.ImageButtonStyle();
-
-
-
-        ImageButton.ImageButtonStyle backStyle = new ImageButton.ImageButtonStyle();
+        final ImageButton.ImageButtonStyle backStyle = new ImageButton.ImageButtonStyle();
 
         TextureAtlas generalAtlas = Assets.manager.get(Assets.BUTTON_ATLAS, TextureAtlas.class);
-
         Skin generalSkin = new Skin(generalAtlas);
 
         TextureRegion title = generalAtlas.findRegion("settings_title");
@@ -65,9 +67,13 @@ public class OptionScreen extends BackgroundScreen {
         backStyle.up = generalSkin.getDrawable("btn_left");
         backStyle.down = generalSkin.getDrawable("btn_left_pressed");
 
-        final ImageButton musicToggleButton = new ImageButton(musicStyleOn);
-        final ImageButton soundToggleButton = new ImageButton(soundOnStyle);
-        ImageButton backButton = new ImageButton(backStyle);
+        ImageButton.ImageButtonStyle musicStyle = SoundManager.INSTANCE.isMusicEnabled() ? musicStyleOn : musicStyleOff;
+        ImageButton.ImageButtonStyle soundStyle = SoundManager.INSTANCE.isSoundEnabled() ? soundOnStyle : soundOffStyle;
+        musicToggleButton = new ImageButton(musicStyle);
+        soundToggleButton = new ImageButton(soundStyle);
+        backButton = new ImageButton(backStyle);
+
+        addButtonListeners(musicStyleOn, musicStyleOff, soundOnStyle, soundOffStyle);
 
         Table container = new Table();
         container.setPosition(0, 0);
@@ -78,6 +84,14 @@ public class OptionScreen extends BackgroundScreen {
         buttonTable.add(soundToggleButton).pad(25);
         buttonTable.add(musicToggleButton).pad(25);
 
+        container.add(settingsHeader).pad(25).row().expand();
+        container.add(buttonTable).pad(25).row();
+        container.add(backButton).align(Align.bottomLeft).pad(25);
+
+        stage.addActor(container);
+    }
+
+    private void addButtonListeners(ImageButton.ImageButtonStyle musicStyleOn, ImageButton.ImageButtonStyle musicStyleOff, ImageButton.ImageButtonStyle soundOnStyle, ImageButton.ImageButtonStyle soundOffStyle) {
         musicToggleButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -115,16 +129,17 @@ public class OptionScreen extends BackgroundScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 SoundManager.INSTANCE.playButtonClick();
-                //                game.setScreen(game.getMainMenuScreen());
+                Preferences pref = game.getGameController().getPreferences();
+                pref.putString(Base64Coder.encodeString(SoundManager.INSTANCE.SOUND_KEY),
+                        Base64Coder.encodeString(SoundManager.INSTANCE.isSoundEnabled() ? "1" : "0"));
+                pref.putString(Base64Coder.encodeString(SoundManager.INSTANCE.MUSIC_KEY),
+                        Base64Coder.encodeString(SoundManager.INSTANCE.isMusicEnabled() ? "1" : "0"));
+                pref.flush();
+
                 game.switchScreen(stage, game.getMainMenuScreen());
             }
         });
 
-        container.add(settingsHeader).pad(25).row().expand();
-        container.add(buttonTable).pad(25).row();
-        container.add(backButton).align(Align.bottomLeft).pad(25);
-
-        stage.addActor(container);
     }
 
     @Override
