@@ -319,11 +319,11 @@ public class GameRenderer {
             }
             hoverDifferenceX += cameraHoverSpeed * Gdx.graphics.getDeltaTime();
         }
-        // USE STATIC Y FOR NOW.
+        // USE STATIC Y
         posX = currentLevel.getTileWidth() * (currentLevel.getCollisionLayer().getWidth() - 1) - cameraManager.getHoverCamera().viewportWidth / 2 - hoverDifferenceX;
         posY = currentLevel.getTileHeight() * 14.4f * CameraManager.HOVER_CAMERA_SIZE_MULTIPLIER - cameraManager.getHoverCamera().viewportHeight / 2;
         cameraManager.getHoverCamera().position.set(posX, posY, 0);
-        // The beggining of the map, pause the camera for 2 sec and then maybe zoom in or somehting
+        // The beginning of the map
         if (cameraManager.getHoverCamera().position.x - cameraManager.getHoverCamera().viewportWidth / 2 < currentLevel.getTileWidth() * 1) {
 
             posX = currentLevel.getTileWidth() + cameraManager.getHoverCamera().viewportWidth / 2;
@@ -334,22 +334,13 @@ public class GameRenderer {
                 cameraStaticTimer += Gdx.graphics.getDeltaTime();
             }
             else {
-                // Zoom in on the player...
-//                hoverCamera.viewportHeight -= hoverCamera.viewportHeight * Gdx.graphics.getDeltaTime();
-//                hoverCamera.viewportWidth -= hoverCamera.viewportWidth * Gdx.graphics.getDeltaTime();
-//                if (hoverCamera.viewportHeight + 1 < GameController.VIRTUAL_HEIGHT) {
                     gc.setGameState(GameController.GameState.READY);
                     // Reset the pos for next time
                     resetHoverProperties();
-//                }
             }
         }
 
         cameraManager.getHoverCamera().update();
-//        if (cameraManager.getHoverCamera().position.y + cameraManager.getHoverCamera().viewportHeight / 2 < currentLevel.getTileHeight() * 14.4f * CameraManager.HOVER_CAMERA_SIZE_MULTIPLIER) {
-//            posY = currentLevel.getTileHeight() * 14.4f * CameraManager.HOVER_CAMERA_SIZE_MULTIPLIER - cameraManager.getHoverCamera().viewportHeight / 2;
-//        }
-
     }
 
 
@@ -478,7 +469,7 @@ public class GameRenderer {
 
         float height = player.getHeight() + 6;
         float yPos = player.getBounds().y;
-        //Some adjustements since the flying frames are 80p in height instead of 64p
+        //Small hack since the flying frames are 80p in height instead of 64p
         if (player.getState().equals(Player.State.FLYING)) {
             height = 80f;
             yPos -= 3f;
